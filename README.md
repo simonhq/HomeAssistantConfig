@@ -4,7 +4,22 @@ Software: [Home Assistant](https://home-assistant.io)
 Version: 0.90.1
 
 *special note: If user gets completely locked out
-Remove both .storage/auth* and .storage/onboarding to restart the onboarding process and create a new user.
+Remove both .storage/auth and .storage/onboarding to restart the onboarding process and create a new user.*
+
+## Overview Screens
+
+![Status](images/mobile.png)
+
+* As most of the modded cards for lovelace don't allow you to realign on the fly, the following pages don't view well on my mobile. 
+This page is specifically to allow easy vision of the most likely options wanted.
+
+![Status](images/switches.png)
+
+* This page is for toggling states and getting an overview of the switchable components.
+
+![Status](images/devices.png)
+
+* This page provides vision for the devices on the network, and adjust alert thresholds etc.
 
 ## Hardware
 
@@ -14,152 +29,162 @@ I run headless, and use Samba to update the configuration.
 
 ## Add-ons
 
-[HassIO](https://github.com/home-assistant/hassio) Add-ons in use;
+* [HassIO](https://github.com/home-assistant/hassio) Add-ons in use;
 
-To update the configuration over the network
+* To update the configuration over the network - 
 [Samba Share](https://home-assistant.io/addons/samba/)
 
-To keep the appropriate IP address for the dynamic DNS
+* To keep the appropriate IP address for the dynamic DNS - 
 [Duck DNS](https://www.home-assistant.io/addons/duckdns/)
 
-Occasionally I need to SSH into the Pi, this isn't always turned on
+* Occasionally I need to SSH into the Pi, this isn't always turned on - 
 [SSH & Web Terminal](https://github.com/hassio-addons/addon-ssh)
 
-Some of the more complicated automation is done here
+* Some of the more complicated automation is done here - 
 [Appdaemon](https://github.com/hassio-addons/addon-appdaemon3)
 
-To do network wide ad-blocking
+* To do network wide ad-blocking - 
 [Pi-hole](https://github.com/hassio-addons/addon-pi-hole)
 
-Before updating to the new version, run this to make sure you won't get odd results
+* Before updating to the new version, run this to make sure you won't get odd results -
 [Check Home Assistant configuration](https://home-assistant.io/addons/check_config)
 
 ## Custom Components
 
-To keep up to date with the lovelace cards and supported custom components
+* To keep up to date with the lovelace cards and supported custom components - 
 [Custom_Updater](https://github.com/custom-components/custom_updater) and/or [HACS](https://github.com/custom-components/hacs)
 
-To get a better view of the Buses in Canberra I use the updated code and the recommendations on adjusting the size of the database
+* To get a better view of the Buses in Canberra I use the updated code and the recommendations on adjusting the size of the database - 
 [GTFS](https://github.com/renemarc/home-assistant-config/tree/master/gtfs)
 
-To get access to the Hue remote controls, I use
+* To get access to the Hue remote controls, I use - 
 [HueSensor](https://github.com/robmarkcole/Hue-sensors-HASS)
 
 ## Main Configuration
 
   
-Statements with additional information
+* Statements with additional information - 
 homeassistant: / frontend: / lovelace: / recorder: / http: / logger: / tts:
   
-Statements with no additional information
+* Statements with no additional information - 
 introduction: / config: / updater: / discovery: / conversation: / history: / logbook: / map: / system_health: / sun: / person: 
 
-I don't use the cloud: component.
+* Statements I don't use - cloud:
 
 ## Devices 
 
-[Samsung Smartthings](https://www.smartthings.com/) Wifi Hub, motion sensors, multifunction sensors, washing machine & dryer
-[Phillips Hue](https://www2.meethue.com/en-au) Lights, motion sensors, remote controls
-[Logitech Harmony Hub](https://www.logitech.com/en-au/harmony-universal-remotes) Remote control
-[Kevo Locks](https://www.kwikset.com/kevo/plus) Locks (through custom python code in appdaemon)
-[Nest Protect](https://nest.com/au/) Fire Alarms
-[Netgear Orbi](https://www.netgear.com.au/orbi/) Orbi Mesh Router
-[Chamberlain Myq](https://www.myq.com/) Myq Garage Door Opener
-[Bond.io](https://bondhome.io/) IR Fan controller (through IFTTT Webhooks)
-[Google Home & Chromecast](https://www.google.com.au/chromecast/setup/) Media controls, alarms and timers
+* [Samsung Smartthings](https://www.smartthings.com/) Wifi Hub, motion sensors, multifunction sensors, washing machine & dryer
+* [Phillips Hue](https://www2.meethue.com/en-au) Lights, motion sensors, remote controls
+* [Logitech Harmony Hub](https://www.logitech.com/en-au/harmony-universal-remotes) Remote control
+* [Kevo Locks](https://www.kwikset.com/kevo/plus) Locks (through custom python code in appdaemon)
+* [Nest Protect](https://nest.com/au/) Fire Alarms
+* [Netgear Orbi](https://www.netgear.com.au/orbi/) Orbi Mesh Router
+* [Chamberlain Myq](https://www.myq.com/) Myq Garage Door Opener
+* [Bond.io](https://bondhome.io/) IR Fan controller (through IFTTT Webhooks)
+* [Google Home & Chromecast](https://www.google.com.au/chromecast/setup/) Media controls, alarms and timers
+* [TP-Link Switches](https://www.tp-link.com/au/) Switches
 
 ## Integrations/Components
 
 ### Device Tracking, zones & proximity
 
-[GPSLogger](https://www.home-assistant.io/components/gpslogger/) - integration
-[Nmap](https://www.home-assistant.io/components/device_tracker.nmap_tracker/) - configuration.yaml
-[Netgear](https://www.home-assistant.io/components/device_tracker.netgear/) - configuration.yaml
-[trackr](https://www.home-assistant.io/components/device_tracker.trackr/) - configuration.yaml
-[huesensor](https://github.com/robmarkcole/Hue-sensors-HASS) - configuration.yaml
-[Zone](https://www.home-assistant.io/components/zone/) - zone.yaml
-[Proximity](https://www.home-assistant.io/components/proximity/) - proximity.yaml
+* [GPSLogger](https://www.home-assistant.io/components/gpslogger/) - integration
+* [Nmap](https://www.home-assistant.io/components/device_tracker.nmap_tracker/) - configuration.yaml
+* [Netgear](https://www.home-assistant.io/components/device_tracker.netgear/) - configuration.yaml
+* [trackr](https://www.home-assistant.io/components/device_tracker.trackr/) - configuration.yaml
+* [huesensor](https://github.com/robmarkcole/Hue-sensors-HASS) - configuration.yaml
+* [Zone](https://www.home-assistant.io/components/zone/) - zone.yaml
+* [Proximity](https://www.home-assistant.io/components/proximity/) - proximity.yaml
 
 ### Weather Tracking
 
-[BOM Sensor](https://www.home-assistant.io/components/sensor.bom/) - sensor.yaml
-[Dark Sky Weather](https://www.home-assistant.io/components/weather.darksky/) - configuration.yaml
-[Dark Sky Sensor](https://www.home-assistant.io/components/sensor.darksky/) - sensor.yaml
-[Season](https://www.home-assistant.io/components/sensor.season/) - sensor.yaml
+* [BOM Sensor](https://www.home-assistant.io/components/sensor.bom/) - sensor.yaml
+* [Dark Sky Weather](https://www.home-assistant.io/components/weather.darksky/) - configuration.yaml
+* [Dark Sky Sensor](https://www.home-assistant.io/components/sensor.darksky/) - sensor.yaml
+* [Season](https://www.home-assistant.io/components/sensor.season/) - sensor.yaml
 
 ### Devices (Fire alarms, garage door, lights, motion & multifunction sensors, switches, remote controls, streaming, locks, printer)
 
-[Appdaemon](https://www.home-assistant.io/docs/ecosystem/appdaemon/) - appdaemon/apps.yaml AND appdaemon/apps/kevo/locks.py
+* [Appdaemon](https://www.home-assistant.io/docs/ecosystem/appdaemon/) - appdaemon/apps.yaml AND appdaemon/apps/kevo/locks.py
 This also requires pykevoplus & bs4 python libaries to work
 
-[Nest](https://www.home-assistant.io/components/nest/) - integration via configuration.yaml 
-[Myq](https://www.home-assistant.io/components/cover.myq/) - configuration.yaml
-[Phillips Hue](https://www.home-assistant.io/components/hue/) - configuration.yaml AND integration
-[Huesensor](https://github.com/robmarkcole/Hue-sensors-HASS) - custom component
-[Smartthings](https://www.home-assistant.io/components/smartthings/) - integration
-[TP-Link](https://www.home-assistant.io/components/tplink/) - integration
-[Google Cast](https://www.home-assistant.io/components/cast/) - integration
-[Harmony Hub](https://www.home-assistant.io/components/harmony/) - 
-[Epson Printer](https://www.home-assistant.io/components/sensor.command_line/) - sensor.yaml (command line)
-[Batteries](https://www.home-assistant.io/components/sensor.template/) - sensor.yaml (template)
-[GPS last updated](https://www.home-assistant.io/components/sensor.template/) - sensor.yaml (template)
-[TP-Link Switch Energy Usage](https://www.home-assistant.io/components/sensor.template/) - sensor.yaml (template)
-[Torque](https://www.home-assistant.io/components/sensor.torque/) - sensor.yaml (DOES NOT WORK through HTTPS, not being used)
-[Hue Motion Sensors](https://www.home-assistant.io/components/sensor.rest/) - sensor.yaml
+* [Nest](https://www.home-assistant.io/components/nest/) - integration via configuration.yaml 
+* [Myq](https://www.home-assistant.io/components/cover.myq/) - configuration.yaml
+* [Phillips Hue](https://www.home-assistant.io/components/hue/) - configuration.yaml AND integration
+* [Huesensor](https://github.com/robmarkcole/Hue-sensors-HASS) - custom component
+* [Smartthings](https://www.home-assistant.io/components/smartthings/) - integration
+* [TP-Link](https://www.home-assistant.io/components/tplink/) - integration
+* [Google Cast](https://www.home-assistant.io/components/cast/) - integration
+* [Harmony Hub](https://www.home-assistant.io/components/harmony/) - 
+* [Epson Printer](https://www.home-assistant.io/components/sensor.command_line/) - sensor.yaml (command line)
+* [Batteries](https://www.home-assistant.io/components/sensor.template/) - sensor.yaml (template)
+* [GPS last updated](https://www.home-assistant.io/components/sensor.template/) - sensor.yaml (template)
+* [TP-Link Switch Energy Usage](https://www.home-assistant.io/components/sensor.template/) - sensor.yaml (template)
+* [Torque](https://www.home-assistant.io/components/sensor.torque/) - sensor.yaml (DOES NOT WORK through HTTPS, not being used)
+* [Hue Motion Sensors](https://www.home-assistant.io/components/sensor.rest/) - sensor.yaml
 
 ### System monitoring
 
-[System Monitor](https://www.home-assistant.io/components/sensor.systemmonitor/) - sensor.yaml
-[Pi-hole](https://www.home-assistant.io/components/sensor.pi_hole/) - sensor.yaml
-[Check External IP](https://www.home-assistant.io/components/sensor.rest/) - sensor.yaml
-This is used to check, and if the ip has changed, it reconnects hangouts
+* [System Monitor](https://www.home-assistant.io/components/sensor.systemmonitor/) - sensor.yaml
+* [Pi-hole](https://www.home-assistant.io/components/sensor.pi_hole/) - sensor.yaml
+* [Check External IP](https://www.home-assistant.io/components/sensor.rest/) - sensor.yaml
+(This is used to check, and if the ip has changed, it reconnects hangouts)
 
 ### Transport, Car and Bus
 
-[Waze Travel Time](https://www.home-assistant.io/components/sensor.waze_travel_time/) - sensor.yaml
-[GTFS](https://github.com/renemarc/home-assistant-config/tree/master/gtfs) - custom_component AND sensory.yaml
+* [Waze Travel Time](https://www.home-assistant.io/components/sensor.waze_travel_time/) - sensor.yaml
+* [GTFS](https://github.com/renemarc/home-assistant-config/tree/master/gtfs) - custom_component AND sensor.yaml
 
 ### Timers and Alarms
 
-[Google Home](https://www.home-assistant.io/components/googlehome/) - configuration.yaml
-[Timers](https://www.home-assistant.io/components/timer/) - timer.yaml
+* [Google Home](https://www.home-assistant.io/components/googlehome/) - configuration.yaml
+* [Timers](https://www.home-assistant.io/components/timer/) - timer.yaml
 
 ### Automation and state control
 
-[IFTTT](https://www.home-assistant.io/components/ifttt/) - configuration.yaml for sending webhooks
-[IFTTT](https://www.home-assistant.io/components/ifttt/) - integration for receiving webhooks
-[Appdaemon](https://www.home-assistant.io/docs/ecosystem/appdaemon/) - appdaemon/apps.yaml AND appdaemon/apps
-[Automation](https://www.home-assistant.io/components/automation/) - automation yaml files in /automations
-[Script](https://www.home-assistant.io/components/script/) - scripts.yaml
+* [IFTTT](https://www.home-assistant.io/components/ifttt/) - configuration.yaml for sending webhooks
+* [IFTTT](https://www.home-assistant.io/components/ifttt/) - integration for receiving webhooks
+* [Appdaemon](https://www.home-assistant.io/docs/ecosystem/appdaemon/) - appdaemon/apps.yaml AND appdaemon/apps
+* [Automation](https://www.home-assistant.io/components/automation/) - automation yaml files in /automations
+* [Script](https://www.home-assistant.io/components/script/) - scripts.yaml
 
-[Input Select](https://www.home-assistant.io/components/input_select/) - input_select.yaml
-[Input Boolean](https://www.home-assistant.io/components/input_boolean/) - input_boolean.yaml
-[Input Number](https://www.home-assistant.io/components/input_number/) - input_number.yaml
-[Binary Sensor](https://www.home-assistant.io/components/binary_sensor.template/) - binary_sensor.yaml
+* [Input Select](https://www.home-assistant.io/components/input_select/) - input_select.yaml
+* [Input Boolean](https://www.home-assistant.io/components/input_boolean/) - input_boolean.yaml
+* [Input Number](https://www.home-assistant.io/components/input_number/) - input_number.yaml
+* [Binary Sensor](https://www.home-assistant.io/components/binary_sensor.template/) - binary_sensor.yaml
 
 ### Conversations & Notifications
 
-[Google Hangout Intents](https://www.home-assistant.io/components/hangouts/) - integration AND hangouts.yaml AND hangout_intent_scripts.yaml
-[Google Assistant](https://www.home-assistant.io/components/google_assistant/) - ga.yaml ***this is recorded as google_assistant: in configuration.yaml
-[Google Hangouts](https://www.home-assistant.io/components/hangouts/) - integration
-[Pushbullet](https://www.home-assistant.io/components/notify.pushbullet/) - notify.yaml
-[SMTP](https://www.home-assistant.io/components/notify.smtp/) - notify.yaml
+* [Google Hangout Intents](https://www.home-assistant.io/components/hangouts/) - integration AND hangouts.yaml AND hangout_intent_scripts.yaml
+* [Google Assistant](https://www.home-assistant.io/components/google_assistant/) - ga.yaml ***this is recorded as google_assistant: in configuration.yaml
+* [Google Hangouts](https://www.home-assistant.io/components/hangouts/) - integration
+* [Pushbullet](https://www.home-assistant.io/components/notify.pushbullet/) - notify.yaml
+* [SMTP](https://www.home-assistant.io/components/notify.smtp/) - notify.yaml
 
 ### Calendars
 
-[Google Calendar](https://www.home-assistant.io/components/calendar.google/) - calendar.yaml ***this is recorded as google: in configuration.yaml
-Calendars - sensor.yaml
-[Time & Date](https://www.home-assistant.io/components/sensor.time_date/) - sensor.yaml
+* [Google Calendar](https://www.home-assistant.io/components/calendar.google/) - calendar.yaml ***this is recorded as google: in configuration.yaml
+* Calendars - sensor.yaml
+* [Time & Date](https://www.home-assistant.io/components/sensor.time_date/) - sensor.yaml
 
 ### User Interface
 
-[Group](https://www.home-assistant.io/components/group/) - groups.yaml
-[Lovelace](https://www.home-assistant.io/lovelace/) - configuration.yaml AND ui-lovelace.yaml
-[Tracker Card](https://github.com/custom-cards/tracker-card) - ui-lovelace.yaml
-[Waze Card](https://github.com/ljmerza/waze-card) - ui-lovelace.yaml
-[HA Dashboard](https://www.home-assistant.io/docs/ecosystem/hadashboard/) - appdaemon/dashboards
+* [Group](https://www.home-assistant.io/components/group/) - groups.yaml
+* [Lovelace](https://www.home-assistant.io/lovelace/) - configuration.yaml AND ui-lovelace.yaml
+* [Tracker Card](https://github.com/custom-cards/tracker-card) - ui-lovelace.yaml
+* [Waze Card](https://github.com/ljmerza/waze-card) - ui-lovelace.yaml
+* [Card Tools](https://github.com/thomasloven/lovelace-card-tools) - ui-lovelace.yaml
+* [Card Modder](https://github.com/thomasloven/lovelace-card-modder) - ui-lovelace.yaml
+* [Fold Entity Row](https://github.com/thomasloven/lovelace-fold-entity-row) - ui-lovelace.yaml
+* [Layout Card](https://github.com/thomasloven/lovelace-layout-card) - ui-lovelace.yaml
+* [Vertical Stack in Card](https://github.com/custom-cards/vertical-stack-in-card) - ui-lovelace.yaml
+* [HA Dashboard](https://www.home-assistant.io/docs/ecosystem/hadashboard/) - appdaemon/dashboards
 
-## Modes
+### FloorPlan
+
+* [Picture Elements](https://www.home-assistant.io/lovelace/picture-elements/) - ui-lovelace.yaml
+
+## Modes & Functions
 
 These different concepts spawn alerts, automations or just update the UI
 

@@ -165,6 +165,14 @@ views:
         card:
           type: glance
           title: Climate Control
+
+      - type: glance
+        title: Next Bus
+        entities:
+          - sensor.home_to_tugg_hour
+          - sensor.grove_to_tugg_hour
+          - sensor.home_to_city_hour
+          
       - type: entity-filter
         entities:
           #hubs
@@ -280,7 +288,11 @@ views:
             title: Car Flags
             entities:
               - input_boolean.simon_outback
+              - input_boolean.simon_outback_home
               - input_boolean.megan_outback
+              - input_boolean.megan_outback_home
+              - input_boolean.outback_just
+              - timer.outback_just
 
       - id: dbe1f7227c1e43f1a9781ae7466016b6  # Automatically created id
         type: vertical-stack
@@ -1318,10 +1330,14 @@ views:
           - type: history-graph
             title: 'Locks'
             entities:
-              - entity: input_boolean.fdoor
+              - entity: binary_sensor.front_door_state_contact
                 name: Front Door
+              - entity: input_boolean.fdoor
+                name: Front Lock
+              - entity: binary_sensor.back_door_state_contact
+                name: Back Door
               - entity: input_boolean.gdoor
-                name: Garage Entry
+                name: Garage Lock
               - entity: cover.near_garage_door
                 name: Near Roller
           - type: history-graph
@@ -1346,6 +1362,8 @@ views:
                 name: Laundry
               - entity: light.garage
                 name: Garage
+              - entity: light.toilet
+                name: Toilet
           
       - type: custom:layout-card
         layout: horizontal
@@ -1800,7 +1818,7 @@ views:
           - automation.motion_toilet_on_motion
           - automation.motion_toilet_on_motion_night
           - automation.motion_toilet_off_light
-          
+
       - type: entities
         title: Calendar Watchers
         entities:
@@ -1816,7 +1834,7 @@ views:
   - icon: mdi:home-circle
     path: floorplan
     title: Floorplan
-    panel: true
+    panel: false
     theme: midnight #dark_theme
     cards:
       - type: picture-elements
