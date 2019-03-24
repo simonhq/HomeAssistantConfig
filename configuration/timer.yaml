@@ -1,0 +1,29 @@
+# These fields are documented in HAAuto
+
+#timers
+bathroom_timer:
+  duration: '00:05:00'
+
+ensuite_timer:
+  duration: '00:05:00'
+
+laundry_timer:
+  duration: '00:00:20'
+
+garage_timer:
+  duration: '00:05:00'
+
+toilet_timer:
+  duration: '00:05:00'
+
+# bus flags
+cit_travel:
+  duration: '00:10:00'
+
+maybe_travel:
+  duration: '00:10:00'
+
+# car flags
+
+outback_just:
+  duration: '00:05:00'

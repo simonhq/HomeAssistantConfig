@@ -1,0 +1,125 @@
+###################################
+##
+##  fans control
+## 
+###################################
+
+#################################
+## Master
+#################################
+
+- alias: master_fan_off
+  trigger:
+    - platform: state
+      entity_id: input_select.master_fan_flag
+      to: 'Off'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_off"}
+
+- alias: master_fan_1
+  trigger:
+    - platform: state
+      entity_id: input_select.master_fan_flag
+      to: '1'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_1"}
+
+- alias: master_fan_2
+  trigger:
+    - platform: state
+      entity_id: input_select.master_fan_flag
+      to: '2'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_2"}
+
+- alias: master_fan_3
+  trigger:
+    - platform: state
+      entity_id: input_select.master_fan_flag
+      to: '3'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_3"}
+
+#################################
+## Staci
+#################################
+
+- alias: staci_fan_off
+  trigger:
+    - platform: state
+      entity_id: input_select.staci_fan_flag
+      to: 'Off'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_off"}
+
+- alias: staci_fan_1
+  trigger:
+    - platform: state
+      entity_id: input_select.staci_fan_flag
+      to: '1'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_1"}
+
+- alias: staci_fan_2
+  trigger:
+    - platform: state
+      entity_id: input_select.staci_fan_flag
+      to: '2'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"master_fan_2"}
+
+- alias: staci_fan_3
+  trigger:
+    - platform: state
+      entity_id: input_select.staci_fan_flag
+      to: '3'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"staci_fan_3"}
+
+#################################
+## Delia
+#################################
+
+- alias: delia_fan_off
+  trigger:
+    - platform: state
+      entity_id: input_select.delia_fan_flag
+      to: 'Off'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"delia_fan_off"}
+
+- alias: delia_fan_1
+  trigger:
+    - platform: state
+      entity_id: input_select.delia_fan_flag
+      to: '1'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"delia_fan_1"}
+
+- alias: delia_fan_2
+  trigger:
+    - platform: state
+      entity_id: input_select.delia_fan_flag
+      to: '2'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"delia_fan_2"}
+
+- alias: delia_fan_3
+  trigger:
+    - platform: state
+      entity_id: input_select.delia_fan_flag
+      to: '3'
+  action:
+    - service: ifttt.trigger
+      data: {"event":"delia_fan_3"}

@@ -1,0 +1,74 @@
+
+################################################################################
+# Automation
+################################################################################
+
+auto_on:
+  sequence:
+    - service: homeassistant.turn_on
+      entity_id: 
+        - group.all_automations
+        
+auto_off:
+  sequence:
+    - service: homeassistant.turn_off
+      entity_id: 
+        - group.all_automations
+
+################################################################################
+# Fans
+################################################################################  
+
+fans_off:
+  sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.master_fan_flag
+        option: '{{"Transition"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.staci_fan_flag
+        option: '{{"Transition"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.delia_fan_flag
+        option: '{{"Transition"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.master_fan_flag
+        option: '{{"Off"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.staci_fan_flag
+        option: '{{"Off"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.delia_fan_flag
+        option: '{{"Off"}}'
+    
+fans_low:
+  sequence:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.master_fan_flag
+        option: '{{"Transition"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.staci_fan_flag
+        option: '{{"Transition"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.delia_fan_flag
+        option: '{{"Transition"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.master_fan_flag
+        option: '{{"1"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.staci_fan_flag
+        option: '{{"1"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.delia_fan_flag
+        option: '{{"1"}}'

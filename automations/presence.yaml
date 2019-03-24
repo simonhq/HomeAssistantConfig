@@ -1,0 +1,318 @@
+################################################################################
+# All Away Actions
+################################################################################
+
+# turn off everything, lock the doors if it is day time and everyone is out  
+- alias: presence_all_away_day
+  trigger:
+    - platform: state
+      entity_id: input_select.presence_mode
+      to: 'All Away'
+  condition:
+    - condition: time
+      before: '18:00:00'
+  action:
+    - service: light.turn_off               # turn off all lights
+      entity_id: group.all_lights
+    - service: homeassistant.turn_on         # lock front door
+      entity_id: 
+        - input_boolean.fdoor
+    - service: homeassistant.turn_off        # turn off tv
+      entity_id: 
+        - remote.harmony_hub
+    - delay: '00:00:10'                       # delay 10 seconds
+    - service: homeassistant.turn_off         # turn off switches
+      entity_id: 
+        - switch.dining_room_iron
+        - switch.study_printer
+        - switch.lounge_tv
+        - switch.lounge_chairs
+    - service: cover.close_cover            # close garage
+      entity_id:
+        - cover.near_garage_door
+    - service: script.turn_on               # turn off fans
+      entity_id: script.fans_off
+    - service: notify.push_hassio           # turn off screens on tablets
+      data: 
+        message: 'Away'
+    - service: input_select.select_option     # set Day mode
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Day"}}'
+    - service: hangouts.send_message        # send message saying everything is off
+      data: 
+        target:
+          - id: !secret hangout_id
+        message:
+          - text: "Everyone's Away, turning everything off and locking the front door"
+    
+# switch to evening mode if it is after 6pm time and everyone is out  
+- alias: presence_all_away_evening
+  trigger:
+    - platform: state
+      entity_id: input_select.presence_mode
+      to: 'All Away'
+  condition:
+    - condition: time
+      after: '18:00:00'
+  action:
+    - service: light.turn_off               # turn off all lights
+      entity_id: group.all_lights
+    - service: light.turn_on                # turn on front light
+      entity_id: light.front_light
+    - service: homeassistant.turn_on
+      entity_id: 
+        - input_boolean.fdoor
+    - service: homeassistant.turn_off       # turn off tv
+      entity_id: 
+        - remote.harmony_hub
+    - delay: '00:00:10'                     # delay 10 seconds
+    - service: homeassistant.turn_off       # turn off switches
+      entity_id: 
+        - switch.dining_room_iron
+        - switch.study_printer
+        - switch.lounge_tv
+        - switch.lounge_chairs
+    - service: script.turn_on               # turn off fans
+      entity_id: script.fans_off
+    - service: cover.close_cover          # close garage
+      entity_id:
+        - cover.near_garage_door
+    - service: notify.push_hassio         # turn off screens
+      data: 
+        message: 'Away'
+    - service: hangouts.send_message      # send message
+      data: 
+        target:
+          - id: !secret hangout_id
+        message:
+          - text: "Everyone's Away, turning everything off, locking the front door and putting on the front lights"
+
+################################################################################
+# Someone Home/All Home Actions
+################################################################################
+
+# Someone gets home at night, push the screens to turn on, turn on then off some lights
+- alias: presence_all_someone_home_evening
+  trigger:
+    - platform: state
+      entity_id: input_select.presence_mode
+      to: 'Someone Home'
+      from: 'All Away'
+    - platform: state
+      entity_id: input_select.presence_mode
+      to: 'All Home'
+  condition:
+    - condition: time
+      after: '22:00:00'
+  action:
+    - service: light.turn_on
+      entity_id: 
+        - light.front_light
+        - light.front_hall
+        - light.Kitchen
+    - delay: '00:10:00'
+    - service: light.turn_off
+      entity_id: 
+        - light.front_light
+        - light.front_hall
+        - light.kitchen
+    - service: homeassistant.turn_on
+      entity_id: 
+        - switch.study_printer
+        - switch.lounge_tv
+        - switch.lounge_chairs
+    - service: notify.push_hassio
+      data: 
+        message: 'Home'
+
+# before night, just turn on the screens, and the tv
+- alias: presence_all_someone_home
+  trigger:
+    - platform: state
+      entity_id: input_select.presence_mode
+      to: 'Someone Home'
+      from: 'All Away'
+    - platform: state
+      entity_id: input_select.presence_mode
+      to: 'All Home'
+      from: 'All Away'
+  condition:
+    - condition: time
+      before: '22:00:00'
+  action:
+    - service: notify.push_hassio
+      data: 
+        message: 'Home'
+    - service: homeassistant.turn_on
+      entity_id: 
+        - switch.study_printer
+        - switch.lounge_tv
+        - switch.lounge_chairs
+
+################################################################################
+# Presence - Someone Home State Change - All Home
+################################################################################
+
+- alias: presence_set_all_home
+  trigger:
+    - platform: state
+      entity_id: group.simon
+      to: 'home'
+    - platform: state
+      entity_id: group.megan
+      to: 'home'
+    - platform: state
+      entity_id: group.staci
+      to: 'home'
+    - platform: state
+      entity_id: group.delia
+      to: 'home'
+    - platform: state
+      entity_id: input_boolean.presence_away
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.presence_holiday
+      to: 'on'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_boolean.presence_away
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.presence_holiday
+        state: 'on'
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: group.simon
+            state: 'home'
+          - condition: state
+            entity_id: group.megan
+            state: 'home'
+          - condition: state
+            entity_id: group.staci
+            state: 'home'
+          - condition: state
+            entity_id: group.delia
+            state: 'home'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.presence_mode
+        option: '{{"All Home"}}'
+    - service: homeassistant.turn_off
+      entity_id: 
+        - input_boolean.mode_return_home
+
+################################################################################
+# Presence - Someone Home State Change - All Away
+################################################################################
+
+- alias: presence_set_all_away
+  trigger:
+    - platform: state
+      entity_id: group.simon
+      to: 'not_home'
+    - platform: state
+      entity_id: group.megan
+      to: 'not_home'
+    - platform: state
+      entity_id: group.staci
+      to: 'not_home'
+    - platform: state
+      entity_id: group.delia
+      to: 'not_home'
+    - platform: state
+      entity_id: input_boolean.presence_guest
+      to: 'off'
+  condition:
+    condition: and
+    conditions:
+      #- condition: state
+      #  entity_id: device_tracker.sphone
+      #  state: 'not_home'
+      #- condition: state
+      #  entity_id: device_tracker.mphone
+      #  state: 'not_home'
+      #- condition: state
+      #  entity_id: device_tracker.stphone
+      #  state: 'not_home'
+      #- condition: state
+      #  entity_id: device_tracker.dphone
+      #  state: 'not_home'
+      - condition: state
+        entity_id: group.family
+        state: 'not_home'
+      - condition: state
+        entity_id: input_boolean.presence_guest
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.presence_holiday
+        state: 'off'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.presence_mode
+        option: '{{"All Away"}}'
+    
+################################################################################
+# Presence - Someone Home State Change - Someone Home
+################################################################################
+
+- alias: presence_set_someone_home
+  trigger:
+    - platform: state
+      entity_id: group.simon
+    - platform: state
+      entity_id: group.megan
+    - platform: state
+      entity_id: group.staci
+    - platform: state
+      entity_id: group.delia
+    - platform: state
+      entity_id: input_boolean.presence_guest
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: group.family
+        state: 'home'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: group.simon
+            state: 'not_home'
+          - condition: state
+            entity_id: group.megan
+            state: 'not_home'
+          - condition: state
+            entity_id: group.staci
+            state: 'not_home'
+          - condition: state
+            entity_id: group.delia
+            state: 'not_home'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.presence_mode
+        option: '{{"Someone Home"}}'
+
+
+################################################################################
+# Presence - Someone opened the garage door
+################################################################################
+
+- alias: presence_someone_opened_garage_door_night
+  trigger:
+    - platform: state
+      entity_id: cover.near_garage_door
+  condition:
+    - condition: state
+      entity_id: input_select.time_mode
+      state: 'Night'
+  action:
+    - service: light.turn_on
+      entity_id: 
+        - light.front_light

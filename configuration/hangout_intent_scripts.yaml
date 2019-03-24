@@ -1,0 +1,33 @@
+######################################################
+#
+# allows conversations with HA through hangouts
+#
+######################################################
+
+# standard
+Ping:
+  speech:
+    text: I know {{ states.hangouts.conversations.state }} conversations
+
+# turn on/off lights by name
+HassLightSet:
+  speech:
+    text: Toggling the {{ name }}
+  action:
+    service: light.toggle
+    data_template:  
+      entity_id: 
+        - "{% if name == 'Study' %} light.study {% elif name == 'Lounge' %} light.lounge_room {% endif %}"
+
+# provide where it believes someone is right now
+WhereIs:
+  speech:
+    text: HA believes {{ name }} is currently at {% if name == 'Simon' %} {{ states.person.simon.state }} {% elif name == 'Megan' %} {{ states.person.megan.state }} {% elif name == 'Staci' %} {{ states.person.staci.state }} {% elif name == 'Delia' %} {{ states.person.delia.state }} {% endif %} 
+
+GarageCheck:
+  speech:
+    text: Garage door tilt state is {{ states.cover.near_garage_door.state }}
+
+FrontCheck:
+  speech:
+    text: Front door is {{ states.binary_sensor.fdoor_lock.state }}

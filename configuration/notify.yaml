@@ -1,0 +1,47 @@
+#- name: messenger_notifications
+#  platform: facebook
+#  page_access_token: !secret facebook_token
+
+- name: push_simon
+  platform: pushbullet
+  api_key: !secret simon_pushbullet_api_key
+
+- name: push_megan
+  platform: pushbullet
+  api_key: !secret megan_pushbullet_api_key
+
+- name: push_staci
+  platform: pushbullet
+  api_key: !secret staci_pushbullet_api_key
+
+- name: push_delia
+  platform: pushbullet
+  api_key: !secret delia_pushbullet_api_key
+
+- name: push_hassio
+  platform: pushbullet
+  api_key: !secret hassio_pushbullet_api_key
+
+- name: hang_home
+  platform: hangouts
+  default_conversations:
+    - id: !secret hangout_id
+
+- name: email_dd
+  platform: smtp
+  server: smtp.gmail.com
+  port: 587
+  timeout: 15
+  sender: !secret hassio_email
+  encryption: starttls
+  username: !secret hassio_email
+  password: !secret hassio_pass
+  recipient:
+    - !secret simon
+    - !secret siobhan
+    - !secret martino
+    - !secret brian
+    - !secret wenche
+    - !secret michael
+    - !secret megan
+  sender_name: Thompson-HQ Home Assistant

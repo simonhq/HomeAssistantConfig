@@ -1,0 +1,146 @@
+# These fields are documented in HAAuto
+
+# This will override the default home zone
+- name: Home
+  latitude: -35.4310
+  longitude: 149.0958
+  radius: 100
+  icon: mdi:castle
+
+# school and work
+#- name: Calwell_HS
+#  latitude: -35.440780
+#  longitude: 149.117568
+#  radius: 250
+#  icon: mdi:book-open-page-variant
+
+#- name: DHS_LLB
+#  latitude: -35.414118
+#  longitude: 149.063801
+#  icon: mdi:briefcase
+
+- name: Tugg_College
+  latitude: -35.413548
+  longitude: 149.068264
+  radius: 150
+  icon: mdi:book-open-page-variant
+
+- name: Bruce_CIT
+  latitude: -35.249476
+  longitude: 149.095763
+  radius: 150
+  icon: mdi:stethoscope
+
+- name: SouthPort
+  latitude: -35.416359
+  longitude: 149.066924
+  radius: 200
+  icon: mdi:store
+
+- name: DJSB_Mort
+  latitude: -35.276788
+  longitude: 149.131119
+  radius: 100
+  icon: mdi:city
+
+- name: ANU
+  latitude: -35.277112 
+  longitude: 149.123496
+  radius: 100
+  icon: mdi:school
+
+#car parks
+- name: NorthQuarter
+  latitude: -35.278375 
+  longitude: 149.133718
+  radius: 150
+
+#bus stops
+
+- name: CalHospital
+  latitude: -35.253486
+  longitude: 149.090932
+  radius: 200
+
+- name: CanHospital
+  latitude: -35.345924 
+  longitude: 149.101365
+  radius: 250
+
+- name: HaydonDr
+  latitude: -35.249276
+  longitude: 149.090256
+  radius: 50
+
+- name: CityBus
+  latitude: -35.279437
+  longitude: 149.130565
+  radius: 50
+
+- name: CityWestBus
+  latitude: -35.279129
+  longitude: 149.125513
+  radius: 50
+
+- name: ANUBus
+  latitude: -35.276309
+  longitude: 149.125934
+  radius: 50
+
+- name: TuggBus
+  latitude: -35.414607
+  longitude: 149.065512
+  radius: 80
+
+- name: WodenBus
+  latitude: -35.344244 
+  longitude: 149.087836
+  radius: 80
+
+- name: IsaCalBus
+  latitude: -35.433854
+  longitude: 149.094592
+  radius: 50
+
+- name: IsaShops
+  latitude: -35.428366
+  longitude: 149.091705
+  radius: 100
+
+- name: CommBridge
+  latitude: -35.291006
+  longitude: 149.127823
+  radius: 300
+
+#driving - depreciated with travel.py
+
+- name: IsaBandulla
+  latitude: -35.429425
+  longitude: 149.099356
+  radius: 50
+
+#friends
+
+- name: SarahHouse
+  latitude: -35.426576
+  longitude: 149.099650
+  radius: 50
+
+- name: MackenzieHouse
+  latitude: -35.454362
+  longitude: 149.087526
+  radius: 50
+
+#physio
+- name: AccerlatePhysio
+  latitude: -35.342095
+  longitude: 149.108284
+  radius: 50
+  icon: mdi:hand
+
+#cricket
+- name: AISKCricket
+  latitude: -35.394864
+  longitude: 149.068013
+  radius: 150
+  icon: mdi:stadium

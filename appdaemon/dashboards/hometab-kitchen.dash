@@ -1,0 +1,204 @@
+##
+## Main arguments, all optional
+##
+title: Kitchen Panel
+widget_dimensions: [140, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 7
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+
+layout:
+    #- s_presence, m_presence, group.kitchen_lights, group.living_lights, clock (2x1), input_boolean.mode_evening
+    #- st_presence, d_presence, group.lounge_lights, group.dining_room, group.study, group.hall_lights, input_boolean.mode_day
+    #- myweather (2x2), sensor.dark_sky_daily_summary (2x1), load_status_panel, load_modes_panel, input_boolean.mode_morning
+    #- group.family_lights, lnd_select, load_study_panel, load_people_panel, input_boolean.mode_night
+
+    - time_select (2x1),                    clock (2x1),                            l_fhall,           fd_select,              l_lounge
+    - presence_select (2x1),                myweather (2x2),                        l_kitchen,         kit_cook,               kit_prep
+    - guest_bool,          away_bool,                                               l_living,          l_dining,               sw_ironing
+    - ck_select (2x1),                      lnd_select,  gnd_select,                ge_cover,          ge_select,              l_fext      
+
+
+#fd_select, ge_select
+
+sw_ironing:
+    widget_type: switch
+    entity: switch.dining_room_iron
+    title: Ironing Switch
+    icon_on: mdi-tshirt-crew
+    icon_off: mdi-tshirt-crew
+
+fam_lights:
+    widget_type: group
+    entity: group.family_lights
+    title: Shared Lights
+    icon_on: mdi-home-heart
+    icon_off: mdi-home-heart
+
+l_delias:
+    widget_type: light
+    entity: light.delias
+    title: Delia Room
+    icon_on: mdi-seat-flat
+    icon_off: mdi-seat-flat
+
+l_stacis:
+    widget_type: light
+    entity: light.stacis
+    title: Staci Room
+    icon_on: mdi-seat-individual-suite
+    icon_off: mdi-seat-individual-suite
+
+l_toilet:
+    widget_type: light
+    entity: light.toilet
+    title: Toilet
+    icon_on: mdi-emoticon-poop
+    icon_off: mdi-emoticon-poop
+
+l_bhall:
+    widget_type: light
+    entity: light.girls_hall
+    title: Girls Hall
+    icon_on: mdi-door-closed
+    icon_off: mdi-door-closed
+
+l_fhall:
+    widget_type: light
+    entity: light.front_hall
+    title: Front Hall
+    icon_on: mdi-door
+    icon_off: mdi-door
+
+l_fext:
+    widget_type: light
+    entity: light.front_light
+    title: External Lights
+    icon_on: mdi-earth
+    icon_off: mdi-earth
+
+l_study:
+    widget_type: light
+    entity: light.study
+    title: Study
+    icon_on: mdi-desktop-tower
+    icon_off: mdi-desktop-tower
+
+l_living:
+    widget_type: light
+    entity: light.living_room
+    title: Living Room
+    icon_on: mdi-gamepad-variant
+    icon_off: mdi-gamepad-variant
+
+l_kitchen:
+    widget_type: light
+    entity: light.kitchen
+    title: Kitchen
+    icon_on: mdi-fridge
+    icon_off: mdi-fridge
+
+l_lounge:
+    widget_type: light
+    entity: light.lounge_room
+    title: Lounge Room
+    icon_on: mdi-sofa
+    icon_off: mdi-sofa
+
+l_dining:
+    widget_type: light
+    entity: light.dining
+    title: Dining Room
+    icon_on: mdi-silverware
+    icon_off: mdi-silverware
+
+time_select:
+    widget_type: input_select
+    title: House Mode
+    entity: input_select.time_mode
+
+kit_cook:
+    widget_type: group
+    entity: group.kitchen_cook_lights
+    title: Cooking Lights
+    icon_on: mdi-pot
+    icon_off: mdi-pot
+
+kit_prep:
+    widget_type: group
+    entity: group.kitchen_prep_lights
+    title: Preping Lights
+    icon_on: mdi-silverware-spoon
+    icon_off: mdi-silverware-spoon
+
+clock:
+    widget_type: clock
+
+myweather:
+    widget_type: weather
+    units: "&deg;C"
+
+lnd_select:
+    widget_type: input_select
+    title: Laundry Light
+    entity: input_select.lon
+
+gnd_select:
+    widget_type: input_select
+    title: Garage Light
+    entity: input_select.gon
+
+fd_select:
+    widget_type: input_boolean
+    title: Front Door
+    entity: input_boolean.fdoor
+    
+ge_select:
+    widget_type: input_boolean
+    title: Garage Entry
+    entity: input_boolean.gdoor
+
+ge_cover:
+    widget_type: cover
+    title: Garage Roller Door
+    entity: cover.near_garage_door
+
+ck_select:
+    widget_type: input_select
+    title: Chef
+    entity: input_select.cooking
+
+guest_bool:
+    widget_type: input_boolean
+    title: Guest Visiting
+    entity: input_boolean.presence_guest
+
+away_bool:
+    widget_type: input_boolean
+    title: Someone Away
+    entity: input_boolean.presence_away
+
+presence_select:
+    widget_type: input_select
+    title: Presence
+    entity: input_select.presence_mode
+
+#panel types
+
+load_people_panel:
+    widget_type: navigate
+    title: People
+    icon_inactive: mdi-account-box
+    url: /hometab-people
+
+st_presence:
+    widget_type: device_tracker
+    title: Staci
+    device: stphone
+    icon_on: fa-female
+    icon_off: mdi-account-off
+    state_text: 1

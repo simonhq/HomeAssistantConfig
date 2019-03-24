@@ -1,0 +1,89 @@
+###################################
+##  calendar control - notifiers
+##  this turns on the flag that then triggers the appdaemon code to send the messages if they are due
+###################################
+
+- alias: calendar_check_flags
+  trigger:
+    platform: time
+    at: '07:00:00'
+  action:
+    - service: homeassistant.turn_on
+      entity_id:
+        - input_boolean.send_message
+
+###################################
+##  calendar control - morning time
+###################################
+
+# morning mode
+- alias: calendar_morning_mode_on
+  trigger:
+    - platform: state
+      entity_id: calendar.morning
+      to: 'on'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Morning"}}'
+
+###################################
+##  calendar control - tv
+###################################
+
+# tv mode
+- alias: calendar_tv_on
+  trigger:
+    - platform: state
+      entity_id: calendar.tv
+      to: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: 
+        - switch.lounge_tv
+    - delay: '00:00:10'
+    - service: remote.turn_on
+      entity_id: remote.harmony_hub
+      data_template:
+        activity: 28293269
+
+# tv mode
+- alias: calendar_tv_off
+  trigger:
+    - platform: state
+      entity_id: calendar.tv
+      to: 'off'
+  action:
+    - service: remote.turn_off
+      entity_id: remote.harmony_hub
+    - delay: '00:00:10'
+    - service: homeassistant.turn_off
+      entity_id: 
+        - switch.lounge_tv
+      
+
+###################################
+##  calendar control - guest
+###################################
+
+# guest mode
+- alias: calendar_guest_on
+  trigger:
+    - platform: state
+      entity_id: calendar.guest
+      to: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.presence_guest
+
+# guest mode
+- alias: calendar_guest_off
+  trigger:
+    - platform: state
+      entity_id: calendar.guest
+      to: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.presence_guest
+

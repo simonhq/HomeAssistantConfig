@@ -1,0 +1,73 @@
+###################################
+##  bedroom remote
+##  remote control - normal press
+## 
+###################################
+
+- alias: bed_remote_megan_lamp_toggle
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_remote
+      to: '1_click'
+  action:
+    - service: light.toggle
+      entity_id: light.master_lightstrip
+    
+- alias: bed_remote_toggle_ensuite
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_remote
+      to: '2_click'
+  action:
+    - service: light.toggle
+      entity_id: light.ensuite
+      
+- alias: bed_remote_toggle_lightstrip
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_remote
+      to: '3_click'
+  action:
+    - service: light.toggle
+      entity_id: light.master_lightstrip
+      
+- alias: bed_remote_simon_lamp_toggle
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_remote
+      to: '4_click'
+  action:
+    - service: light.toggle
+      entity_id: light.master_lightstrip
+
+###################################
+##
+##  remote control - long press
+## 
+###################################
+
+# long press night time - shut down lights & tv etc.
+- alias: bed_remote_set_night_all_off
+  trigger:
+    - platform: state
+      entity_id: sensor.bedroom_remote
+      to: '2_hold'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: 
+        - group.family_lights
+        - light.master_lightstrip
+        - light.ensuite
+        - remote.harmony_hub
+    - service: homeassistant.turn_on
+      entity_id: 
+        - input_boolean.fdoor
+    - delay: '00:00:10'
+    - service: homeassistant.turn_off
+      entity_id: 
+        - switch.dining_room_iron
+        - switch.study_printer
+        - switch.lounge_tv
+        - switch.lounge_chairs
+
+    

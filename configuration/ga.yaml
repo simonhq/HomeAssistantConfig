@@ -1,0 +1,127 @@
+# for google assistant
+project_id: !secret ga_proj_id
+api_key: !secret ga_api
+exposed_domains:
+  - switch
+  - light
+  - cover
+entity_config:
+  cover.near_garage_door:
+    name: roller_door
+    room: "Garage"
+    aliases:
+      - garage_door
+      - near_roller_door
+  light.dining:
+    room: "Dining"
+  switch.dining_room_iron:
+    room: "Dining"
+    name: iron
+  light.toilet:
+    room: "Toilet"
+  light.delias:
+    room: "Delia's"
+  light.delias_lamp:
+    room: "Delia's"
+  light.front_light:
+    room: "External Lights"
+  light.lounge_room:
+    room: "Lounge Room"
+  light.lounge_tv:
+    room: "Lounge Room"
+  light.lounge_light:
+    room: "Lounge Room"
+  light.lounge_lamp:
+    room: "Lounge Room"
+  switch.lounge_tv:
+    room: "Lounge Room"
+  switch.lounge_chairs:
+    room: "Lounge Room"
+  light.living_room:
+    room: "Living Room"
+  light.stacis:
+    room: "Staci's"
+  light.stacis_light:
+    room: "Staci's"
+  light.stacis_lamp:
+    room: "Staci's" 
+  light.bathroom:
+    room: "Bathroom"
+  light.girls_hall:
+    room: "Back Hall"
+  light.front_hall:
+    room: "Front Hall"
+  light.study:
+    room: "Study"
+  switch.study_printer:
+    room: "Study"
+  light.ensuite:
+    room: "Ensuite"
+  light.laundry:
+    room: "Laundry"
+  light.kitchen:
+    room: "Kitchen"
+  light.garage:
+    room: "Garage"
+  light.master_bedroom:
+    room: "Master Bedroom"
+  #hide all the individual lights
+  light.kitchen_1:
+    expose: false
+  light.kitchen_2:
+    expose: false
+  light.kitchen_3:
+    expose: false
+  light.kitchen_4:
+    expose: false
+  light.laundry_2:
+    expose: false
+  light.study_2:
+    expose: false
+  light.toilet_2:
+    expose: false
+  light.living_1:
+    expose: false 
+  light.living_2:
+    expose: false
+  light.living_3:
+    expose: false
+  light.living_4:
+    expose: false                 
+  light.back_hall:
+    expose: false             
+  light.garage_2:                
+    expose: false
+  light.front_door:
+    expose: false
+  light.front_garage:
+    expose: false
+  light.front_hall_2:
+    expose: false
+  light.ensuite_light:
+    expose: false
+  light.ensuite_spot:  
+    expose: false
+  light.dining_1:
+    expose: false            
+  light.dining_2:
+    expose: false            
+  light.dining_x:
+    expose: false            
+  light.dining_4:
+    expose: false            
+  light.bathroom_2:               
+    expose: false 
+  light.lounge_lightstrip:
+    expose: false 
+  light.master_lightstrip:
+    expose: false 
+  light.hgrp0000000062: #motion sensors
+    expose: false 
+  light.hgrp0000000048:
+    expose: false 
+  light.hgrp0000000510:
+    expose: false 
+  
+  
+  

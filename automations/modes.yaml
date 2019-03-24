@@ -1,0 +1,390 @@
+################################################################################
+# Automation to reconnect hangouts on external IP address change
+################################################################################
+
+- alias: mode_reconnect_hangouts
+  trigger:
+    - entity_id: sensor.external_ip
+      platform: state
+  condition:
+    - condition: template
+      value_template: '{{ trigger.from_state.state != trigger.to_state.state }}'
+    - condition: template
+      value_template: '{{ not is_state("sensor.external_ip", "unavailable") }}'
+  action:
+    - service: hangouts.reconnect
+
+################################################################################
+# Time - State Changes
+################################################################################
+
+- alias: mode_set_morning
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: '00:00:00'
+    - platform: time
+      at: '06:00:00'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Morning"}}'
+    
+- alias: mode_set_day
+  trigger:
+    - platform: time
+      at: '09:00:00'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Day"}}'
+    
+- alias: mode_set_evening
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: '-00:30:00'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Evening"}}'
+    
+- alias: mode_set_night
+  trigger:
+    - platform: time
+      at: '22:00:00'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Night"}}'
+    
+################################################################################
+# Time - Travelling Home Flag
+################################################################################
+
+# turn on the travelling flag in the afternoon/night, if not a holiday and someones not home
+
+- alias: mode_set_returning
+  trigger:
+    - platform: time
+      at: '15:00:00'
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Night'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.presence_holiday
+      state: 'off' 
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: input_select.presence_mode
+        state: 'Someone Home'
+      - condition: state
+        entity_id: input_select.presence_mode
+        state: 'All Away'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: 
+        - input_boolean.mode_return_home
+    - service: homeassistant.turn_off
+      entity_id: 
+        - input_boolean.send_message
+
+################################################################################
+# Time - Automations
+################################################################################
+
+###################################
+##  Morning Mode
+###################################
+
+# set the ensuite to on, but only leave the spot on, motion will turn on the other when seen
+- alias: mode_settings_morning
+  trigger:
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Morning'
+  action:
+    - service: light.turn_on
+      entity_id: light.ensuite_spot
+      data:
+          brightness: 100
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.eshower
+        option: '{{"Ensuite On"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.bshower
+        option: '{{"Bathroom On"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.lon
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.ton
+        option: '{{"Motion"}}'
+    - service: homeassistant.turn_off
+      entity_id: 
+        - input_boolean.mode_return_home
+        - input_boolean.send_message
+    - service: light.turn_on
+      entity_id: 
+        - group.kitchen_prep_lights
+        - light.living_room
+    - service: light.turn_off
+      entity_id: 
+        - light.ensuite_light
+        
+###################################
+##  Day Mode
+###################################
+
+- alias: mode_settings_day
+  trigger:
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Day'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.eshower
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.bshower
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.lon
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.ton
+        option: '{{"Motion"}}'
+    - service: homeassistant.turn_off
+      entity_id: 
+        - group.all_lights
+        - switch.dining_room_iron
+
+###################################
+##  Evening Mode
+###################################
+
+- alias: mode_settings_evening
+  trigger:
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Evening'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.eshower
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.bshower
+        option: '{{"Bathroom On"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.lon
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.ton
+        option: '{{"Motion"}}'
+    - service: light.turn_on
+      entity_id: 
+        - light.front_light
+        - light.kitchen
+        - light.living_room
+        - light.dining
+        - light.lounge_lightstrip
+    - service: light.turn_on
+      entity_id: light.master_lightstrip
+      data:
+          brightness: 200
+
+###################################
+##  Night Mode
+###################################
+
+- alias: mode_settings_night
+  trigger:
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Night'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.eshower
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.bshower
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.lon
+        option: '{{"Motion"}}'
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.ton
+        option: '{{"Motion"}}'
+    - service: light.turn_off
+      entity_id: 
+        - group.family_lights
+
+- alias: mode_settings_night_bedroom_dim
+  trigger:
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Night'
+  condition:
+    - condition: state
+      entity_id: light.master_lightstrip
+      state: 'on'
+  action:
+    - service: light.turn_on
+      entity_id: light.master_lightstrip
+      data:
+          brightness: 80
+
+################################################################################
+# Motion Sensors - Automations
+################################################################################
+
+###################################
+##  bathroom Mode control
+###################################
+
+- alias: mode_set_bathroom_motion_off
+  trigger:
+    - platform: state
+      entity_id: input_select.bshower
+      to: 'Motion'
+    - platform: state
+      entity_id: input_select.bshower
+      to: 'Bathroom Off'
+  action:
+    - service: light.turn_off
+      entity_id: light.bathroom
+
+- alias: mode_set_bathroom_on
+  trigger:
+    - platform: state
+      entity_id: input_select.bshower
+      to: 'Bathroom On'
+  action:
+    - service: light.turn_on
+      entity_id: light.bathroom
+
+###################################
+##  toilet Mode control
+###################################
+
+- alias: mode_set_toilet_motion_off
+  trigger:
+    - platform: state
+      entity_id: input_select.ton
+      to: 'Motion'
+    - platform: state
+      entity_id: input_select.ton
+      to: 'Toilet Off'
+  action:
+    - service: light.turn_off
+      entity_id: light.toilet
+
+- alias: mode_set_toilet_on
+  trigger:
+    - platform: state
+      entity_id: input_select.ton
+      to: 'Toilet On'
+  action:
+    - service: light.turn_on
+      entity_id: light.toilet
+
+###################################
+##  ensuite Mode control
+###################################
+
+- alias: mode_set_ensuite_motion_off
+  trigger:
+    - platform: state
+      entity_id: input_select.eshower
+      to: 'Motion'
+    - platform: state
+      entity_id: input_select.eshower
+      to: 'Ensuite Off'
+  action:
+    - service: light.turn_off
+      entity_id: group.ensuite
+
+- alias: mode_set_ensuite_on
+  trigger:
+    - platform: state
+      entity_id: input_select.eshower
+      to: 'Ensuite On'
+  action:
+    - service: light.turn_on
+      entity_id: group.ensuite
+
+###################################
+##  laundry Mode control
+###################################
+
+- alias: mode_set_laundry_motion_off
+  trigger:
+    - platform: state
+      entity_id: input_select.lon
+      to: 'Motion'
+    - platform: state
+      entity_id: input_select.lon
+      to: 'Laundry Off'
+  action:
+    - service: light.turn_off
+      entity_id: light.laundry
+
+- alias: mode_set_laundry_on
+  trigger:
+    - platform: state
+      entity_id: input_select.lon
+      to: 'Laundry On'
+  action:
+    - service: light.turn_on
+      entity_id: light.laundry
+
+###################################
+##  garage Mode control
+###################################
+
+- alias: mode_set_garage_motion_off
+  trigger:
+    - platform: state
+      entity_id: input_select.gon
+      to: 'Motion'
+    - platform: state
+      entity_id: input_select.gon
+      to: 'Garage Off'
+  action:
+    - service: light.turn_off
+      entity_id: light.garage
+
+- alias: mode_set_garage_on
+  trigger:
+    - platform: state
+      entity_id: input_select.gon
+      to: 'Garage On'
+  action:
+    - service: light.turn_on
+      entity_id: light.garage
+
+

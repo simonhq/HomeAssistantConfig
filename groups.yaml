@@ -1,0 +1,610 @@
+################################################################
+# Lights
+################################################################
+
+individual_lights:
+    - light.toilet_2
+    - light.study_2
+    - light.stacis_lamp
+    - light.stacis_light
+    - light.lounge_lamp
+    - light.lounge_light
+    - light.living_1
+    - light.living_2
+    - light.laundry
+    - light.kitchen_1
+    - light.kitchen_2
+    - light.kitchen_3
+    - light.kitchen_4
+    - light.garage_2
+    - light.front_hall_2
+    - light.front_garage
+    - light.front_door
+    - light.ensuite_spot #spot
+    - light.ensuite_light #normal
+    - light.dining_1
+    - light.dining_2
+    - light.delias_lamp
+    - light.bathroom_2
+    - light.back_hall
+    - light.master_lightstrip
+    - light.lounge_lightstrip
+
+all_lights:
+    - light.kitchen         #kitchen_1, _2, _3, _4
+    - light.laundry_2       #laundry
+    - light.stacis          #stacis_lamp, _light
+    - light.study           #study_2
+    - light.toilet          #toilet_2
+    - light.lounge_room     #lounge_lamp, _light
+    - light.living_room     #living_1, _2
+    - light.girls_hall      #back_hall
+    - light.garage          #garage_2
+    - light.front_light     #front_door, front_garage
+    - light.front_hall      #front_hall_2
+    - light.ensuite         #ensuite_spot, ensuite_light
+    - light.dining          #dining_1, _2
+    - light.delias          #delias_lamp
+    - light.bathroom        #bathroom_2
+    - light.lounge_tv       #lounge_lightstrip
+    - light.master_bedroom  #master_lightstrip
+
+ensuite:
+    - light.ensuite_spot #spot
+    - light.ensuite_light #normal
+
+kitchen_prep_lights:
+    - light.kitchen_2
+    - light.kitchen_4
+
+kitchen_cook_lights:
+    - light.kitchen_1
+    - light.kitchen_3
+
+bedroom:
+    - light.master_lightstrip
+
+family_lights:
+    - light.front_light
+    - light.dining
+    - light.kitchen
+    - light.living_room
+    - light.lounge_room
+    - light.girls_hall
+    - light.front_hall
+    - light.study
+    - light.laundry_2
+    - light.garage
+    # - light.lounge_lightstrip
+    # not toilet
+    # not delias
+    # not stacis
+    # not bathroom
+    # not ensuite
+    # not bedroom
+
+wetroom_lights:
+    - light.laundry_2       #laundry_2
+    - light.toilet          #toilet_2
+    - light.ensuite         #ensuite_spot, ensuite_2
+    - light.bathroom        #bathroom_2
+    - light.garage          #garage_2
+
+################################################################
+# Presence
+################################################################
+
+family:
+    - device_tracker.sphone
+    - device_tracker.mphone
+    - device_tracker.stphone
+    - device_tracker.dphone
+
+simon:
+    - device_tracker.sphone
+    - device_tracker.sphone_net
+megan:
+    - device_tracker.mphone
+    - device_tracker.mphone_net
+delia:
+    - device_tracker.dphone
+    - device_tracker.dphone_net
+staci:
+    - device_tracker.stphone 
+    - device_tracker.stphone_net
+outback:
+    - device_tracker.outback_white
+
+batteries:
+    - sensor.mphone_battery
+    - sensor.sphone_battery
+    - sensor.stphone_battery
+    - sensor.dphone_battery
+
+#network
+hub:
+    - device_tracker.harmonyhublan
+    - device_tracker.kevo_bridge
+    - device_tracker.hue_hub
+    - device_tracker.myq_hub
+printer:
+    - device_tracker.epson_printer
+hometab:
+    - device_tracker.hometab_study
+    - device_tracker.hometab_kitchen
+    - device_tracker.hometab_hall
+tpswitch:
+    - device_tracker.iron_switch
+    - device_tracker.chairs_switch
+    - device_tracker.printer_switch
+    - device_tracker.tv_switch
+media:
+    - device_tracker.lounge_mini_speaker
+    - device_tracker.bathroom_mini_speaker
+    - device_tracker.kitchen_home_speaker
+    - device_tracker.gaming_chromecast
+    - device_tracker.lounge_chromecast
+    - device_tracker.fetch_tv
+device:
+    - device_tracker.meg_ipad
+    - device_tracker.simon_tablet
+    - device_tracker.staci_surface
+    - device_tracker.meg_desktop
+    - device_tracker.simon_desktop
+    - device_tracker.simon_work_surface
+    - device_tracker.delia_surface
+nest:
+    - device_tracker.protect_front_hall
+    - device_tracker.protect_back_hall
+appliances:
+    - device_tracker.samsung_washer
+    - device_tracker.samsung_dryer
+wifi:
+    - device_tracker.lounge_wifi
+    - device_tracker.testwifihere
+bag:
+    - device_tracker.simon_blue
+    - device_tracker.meg_red
+wearable:
+    - device_tracker.meg_fitbit
+
+################################################################
+# on-hub (google wifi)
+################################################################
+
+onhub:
+    - sensor.onhub_bytes_received
+    - sensor.onhub_bytes_sent
+    - sensor.onhub_kbytesec_received
+    - sensor.onhub_kbytesec_sent
+    - sensor.onhub_packets_received
+    - sensor.onhub_packets_sent
+    - sensor.onhub_packetssec_received
+    - sensor.onhub_packetssec_sent
+
+################################################################
+# Pi-hole
+################################################################
+
+pihole:
+    - sensor.pihole_ads_blocked_today
+    - sensor.pihole_dns_queries_today
+    - sensor.pihole_dns_unique_clients
+
+################################################################
+# Nest
+################################################################
+
+nest_view:
+    - binary_sensor.hallway_nest_protect_online
+    - binary_sensor.rushbrook_overlook_away
+    - sensor.hallway_nest_protect_battery_health
+    - sensor.hallway_nest_protect_co_status
+    - sensor.hallway_nest_protect_color_status
+    - sensor.hallway_nest_protect_smoke_status
+    - binary_sensor.back_hall_nest_protect_online
+    - sensor.back_hall_nest_protect_battery_health
+    - sensor.back_hall_nest_protect_co_status
+    - sensor.back_hall_nest_protect_color_status
+    - sensor.back_hall_nest_protect_smoke_status
+
+################################################################
+# switches
+################################################################
+
+iron_switch:
+    - switch.dining_room_iron
+    - sensor.dri_current_w
+    - sensor.dri_current_a
+    - sensor.dri_today_kwh
+    - sensor.dri_total_kwh
+    - sensor.dri_voltage
+
+printer_switch:
+    - switch.study_printer
+    - sensor.sps_current_w
+    - sensor.sps_current_a
+    - sensor.sps_today_kwh
+    - sensor.sps_total_kwh
+    - sensor.sps_voltage
+
+tv_switch:
+    - switch.lounge_tv
+    - sensor.ltv_current_w
+    - sensor.ltv_current_a
+    - sensor.ltv_today_kwh
+    - sensor.ltv_total_kwh
+    - sensor.ltv_voltage
+
+chair_switch:
+    - switch.lounge_chairs
+    - sensor.lch_current_w
+    - sensor.lch_current_a
+    - sensor.lch_today_kwh
+    - sensor.lch_total_kwh
+    - sensor.lch_voltage
+
+
+################################################################
+# Remotes/Media Players
+################################################################
+
+remote:
+    - remote.harmony_hub
+    - media_player.lounge_room_tv
+    - media_player.lounge_room_speaker
+    - media_player.kitchen_speaker
+    - sensor.current_activity
+
+################################################################
+# Remotes/Media Players
+################################################################
+
+weather_spec:
+    - sensor.season
+    - sun.sun
+    - sensor.rushbrook_overlook_eta
+
+weather_bom:
+    - sensor.bom_tuggeranong_isabella_plains_aws_air_temp_c
+    - sensor.bom_tuggeranong_isabella_plains_aws_delta_temp_c
+    - sensor.bom_tuggeranong_isabella_plains_aws_dew_point_c
+    - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
+    - sensor.bom_tuggeranong_isabella_plains_aws_pressure_mb
+    - sensor.bom_tuggeranong_isabella_plains_aws_pressure_msl
+    - sensor.bom_tuggeranong_isabella_plains_aws_pressure_qnh
+    - sensor.bom_tuggeranong_isabella_plains_aws_rain_today
+    - sensor.bom_tuggeranong_isabella_plains_aws_relative_humidity
+    - sensor.bom_tuggeranong_isabella_plains_aws_visability_km
+    - sensor.bom_tuggeranong_isabella_plains_aws_wind_direction
+    - sensor.bom_tuggeranong_isabella_plains_aws_wind_gust_kmh
+    - sensor.bom_tuggeranong_isabella_plains_aws_wind_speed_kmh
+
+weather_darksky:
+    - sensor.dark_sky_cloud_coverage
+    - sensor.dark_sky_cloud_coverage_1
+    - sensor.dark_sky_cloud_coverage_2
+    - sensor.dark_sky_cloud_coverage_3
+    - sensor.dark_sky_cloud_coverage_4
+    - sensor.dark_sky_cloud_coverage_5
+    - sensor.dark_sky_cloud_coverage_6
+    - sensor.dark_sky_cloud_coverage_7
+    - sensor.dark_sky_daily_summary
+    - sensor.dark_sky_daytime_high_temperature
+    - sensor.dark_sky_daytime_high_temperature_1
+    - sensor.dark_sky_daytime_high_temperature_2
+    - sensor.dark_sky_daytime_high_temperature_3
+    - sensor.dark_sky_daytime_high_temperature_4
+    - sensor.dark_sky_daytime_high_temperature_5
+    - sensor.dark_sky_daytime_high_temperature_6
+    - sensor.dark_sky_daytime_high_temperature_7
+    - sensor.dark_sky_hourly_summary
+    - sensor.dark_sky_icon
+    - sensor.dark_sky_icon_1
+    - sensor.dark_sky_icon_2
+    - sensor.dark_sky_icon_3
+    - sensor.dark_sky_icon_4
+    - sensor.dark_sky_icon_5
+    - sensor.dark_sky_icon_6
+    - sensor.dark_sky_icon_7
+    - sensor.dark_sky_overnight_low_temperature
+    - sensor.dark_sky_overnight_low_temperature_1
+    - sensor.dark_sky_overnight_low_temperature_2
+    - sensor.dark_sky_overnight_low_temperature_3
+    - sensor.dark_sky_overnight_low_temperature_4
+    - sensor.dark_sky_overnight_low_temperature_5
+    - sensor.dark_sky_overnight_low_temperature_6
+    - sensor.dark_sky_overnight_low_temperature_7
+    - sensor.dark_sky_precip_probability
+    - sensor.dark_sky_precip_probability_1
+    - sensor.dark_sky_precip_probability_2
+    - sensor.dark_sky_precip_probability_3
+    - sensor.dark_sky_precip_probability_4
+    - sensor.dark_sky_precip_probability_5
+    - sensor.dark_sky_precip_probability_6
+    - sensor.dark_sky_precip_probability_7
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_wind_speed_1
+    - sensor.dark_sky_wind_speed_2
+    - sensor.dark_sky_wind_speed_3
+    - sensor.dark_sky_wind_speed_4
+    - sensor.dark_sky_wind_speed_5
+    - sensor.dark_sky_wind_speed_6
+    - sensor.dark_sky_wind_speed_7
+    - sensor.forecast_0
+    - sensor.forecast_1
+    - sensor.forecast_2
+    - sensor.forecast_3
+    - sensor.forecast_4
+    - sensor.forecast_5
+    - sensor.forecast_6
+    - sensor.forecast_7
+  
+################################################################
+# date and time
+################################################################
+
+date:
+    - sensor.date
+    - sensor.time
+    - sensor.date_time
+
+################################################################
+# system monitor
+################################################################
+
+system:
+    - sensor.disk_use_percent
+    - sensor.dphone_battery
+    - sensor.processor_use
+    - sensor.memory_use_percent
+    - sensor.last_boot
+    - sensor.since_last_boot
+
+################################################################
+# Printer Ink
+################################################################
+
+printer_ink:
+    - sensor.epson_ink_level_black
+    - sensor.epson_ink_level_cyan
+    - sensor.epson_ink_level_magenta
+    - sensor.epson_ink_level_yellow
+
+################################################################
+# Google Wifi
+################################################################
+
+google_wifi: 
+    - sensor.google_wifi_current_version
+    - sensor.google_wifi_last_restart
+    - sensor.google_wifi_local_ip
+    - sensor.google_wifi_new_version
+    - sensor.google_wifi_status
+    - sensor.google_wifi_uptime
+
+################################################################
+# Motion Sensors
+################################################################
+
+motion_bathroom:
+    - sensor.bathroom_lux
+    - sensor.bathroom_motion
+    - sensor.bathroom_motion_sensor_battery_level
+    - sensor.bathroom_temperature
+    - timer.bathroom_timer
+
+motion_ensuite:
+    - sensor.ensuite_lux
+    - sensor.ensuite_motion
+    - sensor.ensuite_motion_sensor_battery_level
+    - sensor.ensuite_temperature
+    - timer.ensuite_timer
+
+motion_laundry:
+    - sensor.laundry_lux
+    - sensor.laundry_motion
+    - sensor.laundry_motion_sensor_battery_level
+    - sensor.laundry_temperature
+    - timer.laundry_timer
+
+motion_garage:
+    - sensor.garage_lux
+    - sensor.garage_motion
+    - sensor.garage_motion_sensor_battery_level
+    - sensor.garage_temperature
+    - timer.garage_timer
+
+################################################################
+# Distance between people
+################################################################
+
+car_distance:
+    - sensor.meg_to_simon
+    - sensor.meg_to_staci
+    - sensor.meg_to_delia
+    - sensor.simon_to_staci
+    - sensor.simon_to_delia
+
+################################################################
+# travel timers
+################################################################
+
+walk_timer:
+    - timer.simon_walk
+    - timer.megan_walk
+    - timer.staci_walk
+    - timer.delia_walk
+
+cit_timer:
+    - timer.cit_travel
+    - timer.maybe_travel
+
+################################################################
+# Personal Mapping
+################################################################
+
+mapping:
+    - sensor.simon_map
+    - sensor.megan_map
+    - sensor.staci_map
+    - sensor.delia_map
+
+################################################################
+# Calendars
+################################################################
+
+calendars:
+    - input_boolean.send_message
+    - sensor.date
+    - sensor.time
+    - sensor.hass_calendar
+    - sensor.dandd_calendar
+    - sensor.cleaner_calendar
+    - sensor.bin_calendar
+    - sensor.recycling_calendar
+    - sensor.greenwaste_calendar
+    - sensor.skipbin_calendar
+    - sensor.morning_calendar
+    - sensor.tv_calendar
+    - sensor.cook_calendar
+    - sensor.guest_calendar
+
+################################################################
+# input selects
+################################################################
+
+input_select_options:
+    - input_select.trans_staci
+    - input_select.trans_delia
+    - input_select.trans_megan
+    - input_select.trans_simon
+    - input_select.harmony
+    - input_select.channel
+    - input_select.time_mode
+    - input_select.presence_mode
+    - input_select.bshower
+    - input_select.eshower
+    - input_select.lon
+    - input_select.gon
+    - input_select.gmot
+    - input_select.lmot
+    - input_select.emot
+    - input_select.bmot
+    - input_select.cooking
+
+################################################################
+# input booleans
+################################################################
+
+input_boolean_options:
+    - input_boolean.mode_return_home
+    - input_boolean.walking_home_s
+    - input_boolean.walking_home_m
+    - input_boolean.walking_home_st
+    - input_boolean.walking_home_d
+    - input_boolean.bus_staci_300_city
+    - input_boolean.bus_meg_300_city
+    - input_boolean.car_meg_city
+    - input_boolean.motion_in_bathroom
+    - input_boolean.motion_in_laundry
+    - input_boolean.motion_in_garage
+    - input_boolean.motion_in_ensuite
+    - input_boolean.presence_holiday
+    - input_boolean.presence_away
+    - input_boolean.presence_guest
+    - input_boolean.send_message
+    - input_boolean.iron_switch
+    - input_boolean.fdoor
+    - input_boolean.gdoor
+
+################################################################
+# Automations
+################################################################
+
+auto_presence:
+    - automation.presence_all_away_day
+    - automation.presence_all_away_evening
+    - automation.presence_all_someone_home_evening
+    - automation.presence_all_someone_home
+    - automation.presence_set_all_home
+    - automation.presence_set_all_away
+    - automation.presence_set_someone_home
+
+auto_time_mode:
+    - automation.mode_set_morning
+    - automation.mode_set_day
+    - automation.mode_set_evening
+    - automation.mode_set_night
+    - automation.mode_set_returning
+    - automation.mode_settings_morning
+    - automation.mode_settings_day
+    - automation.mode_settings_evening
+    - automation.mode_settings_night
+
+auto_motion_mode:
+    - automation.mode_set_bathroom_motion_off
+    - automation.mode_set_bathroom_on
+    - automation.mode_set_ensuite_motion_off
+    - automation.mode_set_ensuite_on
+    - automation.mode_set_laundry_motion_off
+    - automation.mode_set_laundry_on
+    - automation.mode_set_garage_motion_off
+    - automation.mode_set_garage_on
+
+auto_motion_lights:
+    - automation.motion_bathroom_motion
+    - automation.motion_bathroom_no_motion_timer_on
+    - automation.motion_bathroom_timer_done
+    - automation.motion_bathroom_on_motion
+    - automation.motion_bathroom_on_motion_night
+    - automation.motion_bathroom_off_light
+    - automation.motion_ensuite_motion
+    - automation.motion_ensuite_no_motion_timer_on
+    - automation.motion_ensuite_timer_done
+    - automation.motion_ensuite_on_motion
+    - automation.motion_ensuite_on_motion_night
+    - automation.motion_ensuite_off_light
+    - automation.motion_laundry_motion
+    - automation.motion_laundry_no_motion_timer_on
+    - automation.motion_laundry_timer_done
+    - automation.motion_laundry_on_motion
+    - automation.motion_laundry_on_motion_night
+    - automation.motion_laundry_off_light
+    - automation.motion_garage_motion
+    - automation.motion_garage_no_motion_timer_on
+    - automation.motion_garage_timer_done
+    - automation.motion_garage_on_motion
+    - automation.motion_garage_off_light
+
+auto_calendar:
+    - automation.calendar_check_flags
+    - automation.calendar_guest_off
+    - automation.calendar_guest_on
+    - automation.calendar_morning_mode_on
+    - automation.calendar_tv_off
+    - automation.calendar_tv_on
+
+auto_remote:
+    - automation.harmony_activity_select
+    - automation.harmony_state_change
+
+auto_transport:
+    - automation.transport_check_gps_delia
+    - automation.transport_check_gps_megan
+    - automation.transport_check_gps_simon
+    - automation.transport_check_gps_staci
+    - automation.transport_delia_arrive_home
+    - automation.transport_megan_enter_commbridge
+    - automation.transport_megan_enter_northquarter
+    - automation.transport_megan_leave_citybus
+    - automation.transport_simon_leave_anubus
+    - automation.transport_simon_leave_citywest
+    - automation.transport_simon_leave_tuggbus
+    - automation.transport_staci_enter_300timer
+    - automation.transport_staci_enter_calhospital
+    - automation.transport_staci_enter_commbridge
+    - automation.transport_staci_leave_citybus
+    - automation.transport_staci_leave_haydondr
+    - automation.transport_staci_stop_citytimer

@@ -1,0 +1,928 @@
+###################################
+##  hue
+###################################
+
+- platform: huesensor
+
+#################################
+##  Home modes
+###################################
+
+- platform: template
+  sensors:
+    mode_day:
+      friendly_name: Day
+      value_template: "{{ is_state('input_select.time_mode', 'Day') }}"
+      icon_template: mdi:weather-sunny
+    mode_evening:
+      friendly_name: Evening
+      value_template: "{{ is_state('input_select.time_mode', 'Evening') }}"
+      icon_template: mdi:weather-sunset
+    mode_night:
+      friendly_name: Night
+      value_template: "{{ is_state('input_select.time_mode', 'Night') }}"
+      icon_template: mdi:weather-night
+    mode_morning:
+      friendly_name: Morning
+      value_template: "{{ is_state('input_select.time_mode', 'Morning') }}"
+      icon_template: mdi:weather-sunset-up
+
+#################################
+##  presence modes
+###################################
+
+- platform: template
+  sensors:
+    presence_away:
+      friendly_name: Away
+      value_template: "{{ is_state('input_select.presence_mode', 'All Away') }}"
+      icon_template: mdi:account-off
+      device_class: sound
+    presence_home:
+      friendly_name: Home
+      value_template: "{{ is_state('binary_sensor.presence_away', 'off') }}"
+      icon_template: mdi:account
+      device_class: connectivity
+
+#################################
+##  Message modes
+###################################
+
+- platform: template
+  sensors:
+    mess_hang:
+      friendly_name: Hangouts
+      value_template: "{{ is_state('input_select.message_flag', 'Hangouts') }}"
+      icon_template: mdi:google-hangouts
+      device_class: connectivity
+    mess_push:
+      friendly_name: Pushbullet
+      value_template: "{{ is_state('input_select.message_flag', 'Pushbullet') }}"
+      icon_template: mdi:bullet
+      device_class: connectivity
+
+#################################
+##  car and walk/bus modes
+###################################
+
+- platform: template
+  sensors:
+    simon_meg_car:
+      friendly_name: Simon/Meg Car
+      value_template: "{{ (not is_state('group.simon', 'home') and not is_state('group.megan', 'home')) and (is_state('binary_sensor.drive_meg','on') or is_state('binary_sensor.drive_simon','on')) and states('sensor.waze_meg_to_simon')|float < 5 }}"
+      icon_template: mdi:car-connected
+    simon_staci_car:
+      friendly_name: Simon/Staci Car
+      value_template: "{{ (not is_state('group.simon', 'home') and not is_state('group.staci', 'home')) and is_state('binary_sensor.drive_simon','on') and states('sensor.waze_simon_to_staci')|float < 5 }}"
+      icon_template: mdi:car-connected
+    simon_delia_car:
+      friendly_name: Simon/Delia Car
+      value_template: "{{ (not is_state('group.simon', 'home') and not is_state('group.delia', 'home')) and is_state('binary_sensor.drive_simon','on') and states('sensor.waze_simon_to_delia')|float < 5 }}"
+      icon_template: mdi:car-connected
+    megan_staci_car:
+      friendly_name: Megan/Staci Car
+      value_template: "{{ (not is_state('group.megan', 'home') and not is_state('group.staci', 'home')) and is_state('binary_sensor.drive_meg','on') and states('sensor.waze_meg_to_staci')|float < 5 }}"
+      icon_template: mdi:car-connected
+    megan_delia_car:
+      friendly_name: Megan/Delia Car
+      value_template: "{{ (not is_state('group.megan', 'home') and not is_state('group.delia', 'home')) and is_state('binary_sensor.drive_meg','on') and states('sensor.waze_meg_to_delia')|float < 5 }}"
+      icon_template: mdi:car-connected
+
+    simon_car:
+      friendly_name: Simon Car
+      value_template: "{{ is_state('binary_sensor.drive_simon', 'on') or (not is_state('group.simon', 'home') and is_state('binary_sensor.simon_meg_car', 'on')) }}"
+      icon_template: mdi:car-wash
+    simon_walkbus:
+      friendly_name: Simon Walk/Bus
+      value_template: "{{ not is_state('group.simon', 'home') and is_state('binary_sensor.simon_car', 'off') }}"
+      icon_template: mdi:walk
+    megan_car:
+      friendly_name: Meg Car
+      value_template: "{{ is_state('binary_sensor.drive_meg', 'on') or (not is_state('group.megan', 'home') and is_state('binary_sensor.simon_meg_car', 'on')) }}"
+      icon_template: mdi:car-wash
+    megan_walkbus:
+      friendly_name: Meg Walk/Bus
+      value_template: "{{ not is_state('group.megan', 'home') and is_state('binary_sensor.megan_car', 'off') }}"
+      icon_template: mdi:walk
+    staci_car:
+      friendly_name: Staci Car
+      value_template: "{{ (not is_state('group.staci', 'home') and is_state('binary_sensor.simon_staci_car','on')) or (not is_state('group.staci', 'home') and is_state('binary_sensor.megan_staci_car','on')) }}"
+      icon_template: mdi:car-wash
+    staci_walkbus:
+      friendly_name: Staci Walk/Bus
+      value_template: "{{ not is_state('group.staci', 'home') and is_state('binary_sensor.staci_car', 'off') }}"
+      icon_template: mdi:walk
+    delia_car:
+      friendly_name: Delia Car
+      value_template: "{{ (not is_state('group.delia', 'home') and is_state('binary_sensor.simon_delia_car','on')) or (not is_state('group.delia', 'home') and is_state('binary_sensor.megan_delia_car','on')) }}"
+      icon_template: mdi:car-wash
+    delia_walkbus:
+      friendly_name: Delia Walk/Bus
+      value_template: "{{ not is_state('group.delia', 'home') and is_state('binary_sensor.delia_car', 'off') }}"
+      icon_template: mdi:walk
+
+#################################
+##  lights/switches/fans/tv/garage/locks modes
+###################################
+
+- platform: template
+  sensors:
+    lights_on:
+      friendly_name: Lights On
+      value_template: "{{ is_state('group.all_lights', 'on') }}"
+      icon_template: mdi:lightbulb-on-outline
+    lights_off:
+      friendly_name: Lights Off
+      value_template: "{{ is_state('group.all_lights', 'off') }}"
+      icon_template: mdi:lightbulb-outline
+      device_class: motion
+    switches_on:
+      friendly_name: Switches On
+      value_template: "{{ is_state('group.all_switches', 'on') }}"
+      icon_template: mdi:toggle-switch
+    switches_off:
+      friendly_name: Switches Off
+      value_template: "{{ is_state('group.all_switches', 'off') }}"
+      icon_template: mdi:toggle-switch-off-outline
+      device_class: motion
+    fans_off:
+      friendly_name: Fans Off
+      value_template: "{{ is_state('input_select.master_fan_flag', 'Off') and is_state('input_select.staci_fan_flag', 'Off') and is_state('input_select.delia_fan_flag', 'Off')  }}"
+      icon_template: mdi:fan-off
+      device_class: motion
+    fans_on:
+      friendly_name: Fans On
+      value_template: "{{ is_state('binary_sensor.fans_off', 'off') }}"
+      icon_template: mdi:fan
+    tv_off:
+      friendly_name: TV Off
+      value_template: "{{ is_state('input_select.harmony', 'PowerOff') }}"
+      icon_template: mdi:television-off
+      device_class: motion
+    tv_on:
+      friendly_name: TV On
+      value_template: "{{ is_state('binary_sensor.tv_off', 'off') }}"
+      icon_template: mdi:television
+    roller_close:
+      friendly_name: Garage Close
+      value_template: "{{ is_state('cover.near_garage_door', 'closed') }}"
+      icon_template: mdi:garage
+      device_class: motion
+    roller_open:
+      friendly_name: Garage Open
+      value_template: "{{ is_state('binary_sensor.roller_close', 'off') }}"
+      icon_template: mdi:garage-open
+      device_class: opening
+    fdoor_lock:
+      friendly_name: Front Lock
+      value_template: "{{ is_state('input_boolean.fdoor', 'on') and is_state('binary_sensor.front_door_state_contact', 'off') }}"
+      icon_template: mdi:lock
+      device_class: connectivity
+    fdoor_unlock:
+      friendly_name: Front Unlock
+      value_template: "{{ is_state('input_boolean.fdoor', 'off') }}"
+      icon_template: mdi:lock-open-outline
+      device_class: lock
+    fdoor_close:
+      friendly_name: Front Closed
+      value_template: "{{ is_state('binary_sensor.front_door_state_contact', 'off') }}"
+      icon_template: mdi:door
+      device_class: connectivity
+    fdoor_open:
+      friendly_name: Front Open
+      value_template: "{{ is_state('binary_sensor.front_door_state_contact', 'on') }}"
+      icon_template: mdi:door-open
+      device_class: door
+    bdoor_close:
+      friendly_name: Back Closed
+      value_template: "{{ is_state('binary_sensor.back_door_state_contact', 'off') }}"
+      icon_template: mdi:glassdoor
+      device_class: connectivity
+    bdoor_open:
+      friendly_name: Back Open
+      value_template: "{{ is_state('binary_sensor.back_door_state_contact', 'on') }}"
+      icon_template: mdi:door-open
+      device_class: door
+    gdoor_lock:
+      friendly_name: GE Lock
+      value_template: "{{ is_state('input_boolean.gdoor', 'on') }}"
+      icon_template: mdi:lock
+      device_class: connectivity
+    gdoor_unlock:
+      friendly_name: GE Unlock
+      value_template: "{{ is_state('input_boolean.gdoor', 'off') }}"
+      icon_template: mdi:lock-open-outline
+      device_class: lock
+
+
+###################################
+##  doors 
+###################################
+
+- platform: template
+  sensors:
+  #physical doors
+    fdoor_door:
+      value_template: "{{ is_state('binary_sensor.front_door_state_contact', 'on') }}"
+      friendly_name: 'Front Door'
+      device_class: door
+      icon_template: mdi:door-open
+    bdoor_door:  
+      value_template: "{{ is_state('binary_sensor.back_door_state_contact', 'on') }}"
+      friendly_name: 'Back Sliding Door'
+      device_class: door
+      icon_template: mdi:door-open
+    #gdoor:
+    #  value_template: "{{ is_state('input_boolean.gdoor', 'off') }}"
+    #  friendly_name: 'Garage Entry'
+    #  device_class: lock
+    #  icon_template: mdi:lock
+  #lock status
+    fdoor:
+      value_template: "{{ is_state('input_boolean.fdoor', 'off') or is_state('binary_sensor.front_door_state_contact', 'on') }}"
+      friendly_name: 'Front Door'
+      device_class: lock
+      #entity_picture_template: /local/pics/kevolock.jpg 
+      icon_template: mdi:lock
+    gdoor:
+      value_template: "{{ is_state('input_boolean.gdoor', 'off') }}"
+      friendly_name: 'Garage Entry'
+      device_class: lock
+      #entity_picture_template: /local/pics/kevolock.jpg 
+      icon_template: mdi:lock
+
+#################################
+##  Cooking modes
+###################################
+
+- platform: template
+  sensors:
+    cook_simon:
+      friendly_name: Simon cook
+      value_template: "{{ is_state('input_select.cooking', 'Simon') }}"
+      icon_template: mdi:pot-mix
+    cook_megan:
+      friendly_name: Meg cook
+      value_template: "{{ is_state('input_select.cooking', 'Megan') }}"
+      icon_template: mdi:pot
+    cook_staci:
+      friendly_name: Staci cook
+      value_template: "{{ is_state('input_select.cooking', 'Staci') }}"
+      icon_template: mdi:cat
+    cook_delia:
+      friendly_name: Delia cook
+      value_template: "{{ is_state('input_select.cooking', 'Delia') }}"
+      icon_template: mdi:dog
+    cook_other:
+      friendly_name: Easy dinner
+      value_template: "{{ is_state('binary_sensor.cook_simon', 'off') and is_state('binary_sensor.cook_megan', 'off') and is_state('binary_sensor.cook_staci', 'off') and is_state('binary_sensor.cook_delia', 'off') }}"
+      icon_template: mdi:food
+
+#################################
+##  Driving modes
+###################################
+
+- platform: template
+  sensors:
+    drive_meg:
+      friendly_name: Meg Drive
+      value_template: "{{ is_state('input_boolean.megan_outback', 'on') }}"
+      icon_template: mdi:car
+    drive_simon:
+      friendly_name: Simon Drive
+      value_template: "{{ is_state('input_boolean.simon_outback', 'on') }}"
+      icon_template: mdi:car-key
+    #drive_staci: need to create the input_boolean if you need this
+    #  friendly_name: Staci Drive
+    #  value_template: "{{ is_state('input_boolean.staci_outback', 'on') }}"
+    #  icon_template: mdi:car
+    #drive_delia: need to create the input_boolean if you need this
+    #  friendly_name: Delia Drive
+    #  value_template: "{{ is_state('input_boolean.delia_outback', 'on') }}"
+    #  icon_template: mdi:car
+
+
+###################################
+##  Printer
+###################################
+
+- platform: template
+  sensors:
+    ink_black_alert:
+      friendly_name: Black Ink Alert
+      value_template: "{{ states('sensor.epson_ink_level_black')|float < states('input_number.ink_alert')|float }}"
+      icon_template: mdi:cup-water
+    ink_cyan_alert:
+      friendly_name: Cyan Ink Alert
+      value_template: "{{ states('sensor.epson_ink_level_cyan')|float < states('input_number.ink_alert')|float }}"
+      icon_template: mdi:cup-water
+    ink_magenta_alert:
+      friendly_name: Magenta Ink Alert
+      value_template: "{{ states('sensor.epson_ink_level_magenta')|float < states('input_number.ink_alert')|float }}"
+      icon_template: mdi:cup-water
+    ink_yellow_alert:
+      friendly_name: Yellow Ink Alert
+      value_template: "{{ states('sensor.epson_ink_level_yellow')|float < states('input_number.ink_alert')|float }}"
+      icon_template: mdi:cup-water
+
+###################################
+##  batteries
+###################################
+
+- platform: template
+  sensors:
+    simon_batt_low:
+      friendly_name: Simon Battery Low
+      value_template: "{{ states('sensor.sphone_battery')|float < states('input_number.batt_alert')|float }}"
+      icon_template: mdi:battery-10
+    megan_batt_low:
+      friendly_name: Megan Battery Low
+      value_template: "{{ states('sensor.mphone_battery')|float < states('input_number.batt_alert')|float }}"
+      icon_template: mdi:battery-10
+    staci_batt_low:
+      friendly_name: Staci Battery Low
+      value_template: "{{ states('sensor.stphone_battery')|float < states('input_number.batt_alert')|float }}"
+      icon_template: mdi:battery-10
+    delia_batt_low: 
+      friendly_name: Delia Battery Low
+      value_template: "{{ states('sensor.dphone_battery')|float < states('input_number.batt_alert')|float }}"
+      icon_template: mdi:battery-10
+
+###################################
+##  disk & cpu
+###################################
+
+- platform: template
+  sensors:
+    disk_alert:
+      friendly_name: Disk Alert
+      value_template: "{{ states('sensor.disk_use_percent')|float > states('input_number.disk_alert')|float }}"
+      icon_template: mdi:harddisk
+    cpu_alert:
+      friendly_name: CPU Alert
+      value_template: "{{ states('sensor.processor_use')|float > states('input_number.cpu_alert')|float }}"
+      icon_template: mdi:gauge-full
+
+###################################
+##  climate control
+###################################
+
+- platform: template
+  sensors:
+    # todays high is higher than our hot, and the internal temp is higher than optimal and it is before evening
+    climate_warn_hot:
+      friendly_name: Warning to Cool (Day)
+      value_template: "{{ (states('sensor.dark_sky_daytime_high_temperature_0')|float > states('input_number.temp_ext_high')|float) and (states('sensor.inside_now')|float > states('input_number.temp_opt_high')|float) and (now().hour < 17) }}"
+      icon_template: mdi:air-conditioner
+      device_class: heat
+    # todays low is higher than our optimal, and the internal temp is higher than optimal and it is after evening
+    climate_warn_hot_overnight:
+      friendly_name: Warning to Cool (Night)
+      value_template: "{{ (states('sensor.dark_sky_overnight_low_temperature_0')|float > states('input_number.temp_opt_high')|float) and (states('sensor.inside_now')|float > states('input_number.temp_opt_high')|float) and (now().hour > 17) }}"
+      icon_template: mdi:air-conditioner
+      device_class: heat
+    # todays low is lower than our cold, and the internal temp is lower than optimal and it is after evening
+    climate_warn_cold:
+      friendly_name: Warning to Warm (Night)
+      value_template: "{{ (states('sensor.dark_sky_overnight_low_temperature_0')|float < states('input_number.temp_ext_low')|float) and (states('sensor.inside_now')|float < states('input_number.temp_opt_low')|float) and (now().hour > 17) }}"
+      icon_template: mdi:radiator
+      device_class: cold
+    # todays hign is lower than our optimal, and the internal temp is lower than optimal and it is before evening
+    climate_warn_cold_overday:
+      friendly_name: Warning to Warm (Day)
+      value_template: "{{ (states('sensor.dark_sky_daytime_high_temperature_0')|float < states('input_number.temp_opt_low')|float) and (states('sensor.inside_now')|float < states('input_number.temp_opt_low')|float) and (now().hour < 17) }}"
+      icon_template: mdi:radiator
+      device_class: cold
+
+    # the internal temp is higher than internal high preference
+    climate_hot_turn_on_cooling:
+      friendly_name: Turn on Cooling (Now)
+      value_template: "{{ (states('sensor.inside_now')|float > states('input_number.temp_int_high')|float) }}"
+      icon_template: mdi:air-conditioner
+      device_class: heat
+    # the internal temp is lower than internal low preference
+    climate_cold_turn_on_warming:
+      friendly_name: Turn on Warming (Now)
+      value_template: "{{ (states('sensor.inside_now')|float < states('input_number.temp_int_low')|float) }}"
+      icon_template: mdi:radiator
+      device_class: cold
+
+    # the internal temp is lower than internal optimal high 
+    climate_opt_turn_off_cooling:
+      friendly_name: Turn Off Cooling
+      value_template: "{{ (states('sensor.inside_now')|float <= states('input_number.temp_opt_high')|float) }}"
+      icon_template: mdi:fan-off
+      device_class: sound
+    # the internal temp is higher than internal optimal low
+    climate_opt_turn_off_warming:
+      friendly_name: Turn Off Warming
+      value_template: "{{ (states('sensor.inside_now')|float >= states('input_number.temp_opt_low')|float) }}"
+      icon_template: mdi:radiator-off
+      device_class: sound
+
+    # the internal temp is between optimals
+    climate_optimal:
+      friendly_name: Pleasant
+      value_template: "{{ (states('sensor.inside_now')|float >= states('input_number.temp_int_low')|float) and (states('sensor.inside_now')|float <= states('input_number.temp_int_high')|float) }}"
+      icon_template: mdi:emoticon-happy-outline
+    
+    # for the fans
+    # the internal temp is higher than the internal low preference and the current outside temp is higher than the optimal high
+    climate_hot_outside_on_fan:
+      friendly_name: Turn on Fans
+      value_template: "{{ (states('sensor.inside_now')|float >= states('input_number.temp_int_low')|float) and (states('sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c')|float >= states('input_number.temp_opt_high')|float) }}"
+      icon_template: mdi:fan
+    # the internal temp is lower than the internal optimal high and the current outside temp is lower than the internal high preference
+    climate_cool_outside_off_fan:
+      friendly_name: Turn Off Fans
+      value_template: "{{ (states('sensor.inside_now')|float <= states('input_number.temp_opt_high')|float) and (states('sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c')|float <= states('input_number.temp_int_high')|float) }}"
+      icon_template: mdi:fan-off
+      device_class: sound
+
+###################################
+##  hometabs 
+###################################
+
+- platform: template
+  sensors:
+    ht_study:
+      value_template: "{{ is_state('device_tracker.hometab_study', 'home') }}"
+      friendly_name: 'Study'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/nexus7.jpg 
+      icon_template: mdi:desktop-classic
+    ht_kitchen:
+      value_template: "{{ is_state('device_tracker.hometab_kitchen', 'home') }}"
+      friendly_name: 'Kitchen'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/nexus7.jpg 
+      icon_template: mdi:fridge-outline
+    ht_hall:
+      value_template: "{{ is_state('device_tracker.hometab_hall', 'home') }}"
+      friendly_name: 'Back Hall'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/nexus7.jpg 
+      icon_template: mdi:door-closed
+    ht_lounge:
+      value_template: "{{ is_state('device_tracker.hometab_lounge', 'home') }}"
+      friendly_name: 'Lounge'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/nexus7.jpg 
+      icon_template: mdi:sofa
+    ht_system:
+      value_template: "{{ is_state('binary_sensor.ht_lounge', 'on') and is_state('binary_sensor.ht_hall', 'on') and is_state('binary_sensor.ht_kitchen', 'on') and is_state('binary_sensor.ht_study', 'on') }}"
+      friendly_name: 'HomeTabs'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/nexus7.jpg 
+      icon_template: mdi:tab
+
+###################################
+##  nest
+###################################
+
+- platform: template
+  sensors:
+    nest_system:
+      value_template: "{{ is_state('binary_sensor.hallway_nest_protect_online', 'on') and is_state('binary_sensor.back_hall_nest_protect_online', 'on') }}"
+      friendly_name: 'Nest Protects'
+      device_class: connectivity
+      icon_template: mdi:smoke-detector
+      #entity_picture_template: /local/pics/protect.jpg 
+
+###################################
+##  switches 
+###################################
+
+- platform: template
+  sensors:
+    sw_study:
+      value_template: "{{ is_state('device_tracker.printer_switch', 'home') }}"
+      friendly_name: 'Study'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:toggle-switch
+    sw_tv:
+      value_template: "{{ is_state('device_tracker.tv_switch', 'home') }}"
+      friendly_name: 'Lounge TV'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:toggle-switch
+    sw_chairs:
+      value_template: "{{ is_state('device_tracker.chairs_switch', 'home') }}"
+      friendly_name: 'Lounge Chairs'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:toggle-switch
+    sw_iron:
+      value_template: "{{ is_state('device_tracker.iron_switch', 'home') }}"
+      friendly_name: 'Iron'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:toggle-switch
+    sw_system:
+      value_template: "{{ is_state('binary_sensor.sw_study', 'on') and is_state('binary_sensor.sw_tv', 'on') and is_state('binary_sensor.sw_chairs', 'on') and is_state('binary_sensor.sw_iron', 'on') }}"
+      friendly_name: 'Switches'
+      device_class: connectivity
+      icon_template: mdi:dip-switch
+
+###################################
+##  speakers 
+###################################
+
+- platform: template
+  sensors:
+    sp_kitchen:
+      value_template: "{{ is_state('device_tracker.kitchen_home_speaker', 'home') }}"
+      friendly_name: 'Kitchen Home'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/googlehome.jpg
+      icon_template: mdi:google-home 
+    sp_lounge:
+      value_template: "{{ is_state('device_tracker.lounge_mini_speaker', 'home') }}"
+      friendly_name: 'Lounge Mini'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/googlemini.jpg 
+      icon_template: mdi:google-home
+    sp_ensuite:
+      value_template: "{{ is_state('device_tracker.ensuite_mini_speaker', 'home') }}"
+      friendly_name: 'Ensuite Mini'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/googlemini.jpg 
+      icon_template: mdi:google-home
+    sp_ltv:
+      value_template: "{{ is_state('device_tracker.lounge_chromecast', 'home') }}"
+      friendly_name: 'Lounge TV'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/googlecast.jpg 
+      icon_template: mdi:google-chrome
+    sp_gtv:
+      value_template: "{{ is_state('device_tracker.gaming_chromecast', 'home') }}"
+      friendly_name: 'Gaming TV'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/googlecast.jpg 
+      icon_template: mdi:google-chrome
+    sp_system:
+      value_template: "{{ is_state('binary_sensor.sp_kitchen', 'on') and is_state('binary_sensor.sp_lounge', 'on') and is_state('binary_sensor.sp_bathroom', 'on') and is_state('binary_sensor.sp_ltv', 'on') and is_state('binary_sensor.sp_gtv', 'on') }}"
+      friendly_name: 'Speaker/Chromecasts'
+      device_class: connectivity
+      icon_template: mdi:speaker
+
+###################################
+##  GPS update
+###################################
+
+- platform: template
+  sensors:
+    s_gps_up:
+      value_template: "{{ states('sensor.sphone_gps_up')|float < 3600 }}"
+      friendly_name: 'Simon GPS'
+      icon_template: mdi:crosshairs-gps
+    m_gps_up:
+      value_template: "{{ states('sensor.mphone_gps_up')|float < 3600 }}"
+      friendly_name: 'Megan GPS'
+      icon_template: mdi:crosshairs-gps
+    st_gps_up:
+      value_template: "{{ states('sensor.stphone_gps_up')|float < 3600 }}"
+      friendly_name: 'Staci GPS'
+      icon_template: mdi:crosshairs-gps
+    d_gps_up:
+      value_template: "{{ states('sensor.dphone_gps_up')|float < 3600 }}"
+      friendly_name: 'Delia GPS'
+      icon_template: mdi:crosshairs-gps
+    gps_system:
+      value_template: "{{ is_state('binary_sensor.s_gps_up', 'on') and is_state('binary_sensor.m_gps_up', 'on') and is_state('binary_sensor.st_gps_up', 'on') and is_state('binary_sensor.d_gps_up', 'on') }}"
+      friendly_name: 'GPS Updates under an hour'
+      device_class: connectivity
+      icon_template: mdi:crosshairs-gps
+
+
+###################################
+##  trackr 
+###################################
+
+- platform: template
+  sensors:
+    tr_red:
+      value_template: "{{ is_state('device_tracker.meg_red', 'home') }}"
+      friendly_name: 'Megan Bag - Red'
+      device_class: connectivity
+      entity_picture_template: /local/pics/trackr.jpg 
+    tr_blue:
+      value_template: "{{ is_state('device_tracker.simon_blue', 'home') }}"
+      friendly_name: 'Simon Bag - Blue'
+      device_class: connectivity
+      entity_picture_template: /local/pics/trackr.jpg 
+    tr_white:
+      value_template: "{{ is_state('device_tracker.outback_white', 'home') }}"
+      friendly_name: 'Outback - White'
+      device_class: connectivity
+      entity_picture_template: /local/pics/trackr.jpg 
+    tr_system:
+      value_template: "{{ is_state('binary_sensor.tr_red', 'on') and is_state('binary_sensor.tr_blue', 'on') and is_state('binary_sensor.tr_white', 'on') }}"
+      friendly_name: 'Trakr'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/trackr.jpg 
+      icon_template: mdi:mapbox
+
+###################################
+##  Pi Server 
+###################################
+
+- platform: template
+  sensors:
+    hassios:
+      value_template: "{{ is_state('device_tracker.hassio', 'home') }}"
+      friendly_name: 'Pi Server'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/hassio.jpg 
+      icon_template: mdi:home-assistant
+    pi_hole:
+      value_template: "{{ states('sensor.pi_hole_dns_unique_clients')|float > 0 }}"
+      friendly_name: 'Pi Hole'
+      device_class: connectivity
+      icon_template: mdi:fire
+
+###################################
+##  network 
+###################################
+
+- platform: template
+  sensors:
+    nt_system:
+      value_template: "{{ is_state('binary_sensor.epson', 'on') and is_state('binary_sensor.fetchtv', 'on') and is_state('binary_sensor.sonyps4', 'on') }}"
+      friendly_name: 'Devices'
+      device_class: connectivity
+      icon_template: mdi:access-point-network
+    epson:
+      value_template: "{{ is_state('device_tracker.epson_printer', 'home') }}"
+      friendly_name: 'Printer'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/wf3720.jpg 
+      icon_template: mdi:printer
+    fetchtv:
+      value_template: "{{ is_state('device_tracker.fetch_tv', 'home') }}"
+      friendly_name: 'Fetch TV'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/fetchtv.jpg
+      icon_template: mdi:television-box
+    sonyps4:
+      value_template: "{{ is_state('device_tracker.sony_ps4', 'home') }}"
+      friendly_name: 'PS4 Console'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/ps4.jpg 
+      icon_template: mdi:playstation
+
+###################################
+##  network 
+###################################
+
+- platform: template
+  sensors:
+    app_system:
+      value_template: "{{ is_state('binary_sensor.samwash', 'on') and is_state('binary_sensor.samdry', 'on') }}"
+      friendly_name: 'Appliances'
+      device_class: connectivity
+      icon_template: mdi:dishwasher
+    samwash:
+      value_template: "{{ is_state('device_tracker.samsung_washer', 'home') }}"
+      friendly_name: 'Washing Machine'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/swasher.jpg 
+      icon_template: mdi:washing-machine
+    samdry:
+      value_template: "{{ is_state('device_tracker.samsung_dryer', 'home') }}"
+      friendly_name: 'Clothes Dryer'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/sdryer.jpg 
+      icon_template: mdi:tumble-dryer
+    samwash_sw:
+      value_template: "{{ is_state('switch.washing_machine', 'on') }}"
+      friendly_name: 'Washing Machine'
+      device_class: connectivity
+      icon_template: mdi:washing-machine
+    samdry_sw:
+      value_template: "{{ is_state('switch.tumble_dryer', 'on') }}"
+      friendly_name: 'Clothes Dryer'
+      device_class: connectivity
+      icon_template: mdi:tumble-dryer
+
+
+
+###################################
+##  hubs
+###################################
+
+- platform: template
+  sensors:
+    hubs_system:
+      value_template: "{{ is_state('binary_sensor.bond', 'on') and is_state('binary_sensor.harmony', 'on') and is_state('binary_sensor.hue', 'on') and is_state('binary_sensor.kevo', 'on') and is_state('binary_sensor.myq', 'on') and is_state('binary_sensor.smart', 'on') }}"
+      friendly_name: 'Hubs'
+      device_class: connectivity
+      icon_template: mdi:battlenet
+    bond:
+      value_template: "{{ is_state('device_tracker.bond_hub', 'home') }}"
+      friendly_name: 'Fan Hub'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/bond.jpg
+      icon_template: mdi:fan
+    harmony:
+      value_template: "{{ is_state('device_tracker.harmonyhublan', 'home') }}"
+      friendly_name: 'Remote Hub'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/harmonyelite.jpg 
+      icon_template: mdi:remote
+    hue:
+      value_template: "{{ is_state('device_tracker.hue_hub', 'home') }}"
+      friendly_name: 'Lights Hub'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/huehub.jpg 
+      icon_template: mdi:ceiling-light
+    kevo:
+      value_template: "{{ is_state('device_tracker.kevo_bridge', 'home') }}"
+      friendly_name: 'Locks Hub'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/kevobridge.jpg 
+      icon_template: mdi:home-lock
+    myq:
+      value_template: "{{ is_state('device_tracker.myq_hub', 'home') }}"
+      friendly_name: 'Garage Door Hub'
+      device_class: connectivity
+      icon_template: mdi:garage
+    smart:
+      value_template: "{{ is_state('device_tracker.smartthings_wifi', 'home') }}"
+      friendly_name: 'Smartthings Hub'
+      device_class: connectivity
+      icon_template: mdi:home-circle
+    
+###################################
+##  wifi
+###################################
+
+- platform: template
+  sensors:
+    wifi_system:
+      value_template: "{{ is_state('binary_sensor.wifi_lounge', 'on') and is_state('binary_sensor.wifi_kitchen', 'on') }}"
+      friendly_name: 'Wifi'
+      device_class: connectivity
+      icon_template: mdi:orbit
+    wifi_lounge:
+      value_template: "{{ is_state('device_tracker.orbi_lounge', 'home') }}"
+      friendly_name: 'Wifi Lounge/Satelite'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/bond.jpg
+      icon_template: mdi:orbit
+    wifi_kitchen:
+      value_template: "{{ is_state('device_tracker.orbi_kitchen', 'home') }}"
+      friendly_name: 'Wifi Kitchen/Router'
+      device_class: connectivity
+      #entity_picture_template: /local/pics/bond.jpg
+      icon_template: mdi:orbit
+
+###################################
+##  simon
+###################################
+
+- platform: template
+  sensors:
+    sphone:
+      value_template: "{{ is_state('device_tracker.sphone', 'home') }}"
+      friendly_name: 'Simon Phone/GPS'
+      device_class: connectivity
+      #icon_template: mdi:cellphone
+      entity_picture_template: /local/pics/Simon.jpg
+    sphone_net:
+      value_template: "{{ is_state('device_tracker.sphone_net', 'home') }}"
+      friendly_name: 'Phone/Net'
+      device_class: connectivity
+      icon_template: mdi:cellphone-wireless
+    swatch:
+      value_template: "{{ is_state('device_tracker.simon_watch', 'home') }}"
+      friendly_name: 'Watch'
+      device_class: connectivity
+      icon_template: mdi:watch
+    stablet:
+      value_template: "{{ is_state('device_tracker.simon_tablet', 'home') }}"
+      friendly_name: 'Tablet'
+      device_class: connectivity
+      icon_template: mdi:tablet-android
+    ssurface:
+      value_template: "{{ is_state('device_tracker.simon_surface', 'home') }}"
+      friendly_name: 'Surface'
+      device_class: connectivity
+      icon_template: mdi:windows
+    sdesktop:
+      value_template: "{{ is_state('device_tracker.simon_desktop', 'home') }}"
+      friendly_name: 'Desktop'
+      device_class: connectivity
+      icon_template: mdi:desktop-classic
+
+###################################
+##  megan
+###################################
+
+- platform: template
+  sensors:
+    mphone:
+      value_template: "{{ is_state('device_tracker.mphone', 'home') }}"
+      friendly_name: 'Megan Phone/GPS'
+      device_class: connectivity
+      #icon_template: mdi:cellphone
+      entity_picture_template: /local/pics/Megan.jpg
+    mphone_net:
+      value_template: "{{ is_state('device_tracker.mphone_net', 'home') }}"
+      friendly_name: 'Phone/Net'
+      device_class: connectivity
+      icon_template: mdi:cellphone-wireless
+    mwatch:
+      value_template: "{{ is_state('device_tracker.meg_fitbit', 'home') }}"
+      friendly_name: 'Watch'
+      device_class: connectivity
+      icon_template: mdi:watch-variant
+    mtablet:
+      value_template: "{{ is_state('device_tracker.meg_ipad', 'home') }}"
+      friendly_name: 'Tablet'
+      device_class: connectivity
+      icon_template: mdi:tablet-ipad
+    msurface:
+      value_template: "{{ is_state('device_tracker.meg_surface', 'home') }}"
+      friendly_name: 'Surface'
+      device_class: connectivity
+      icon_template: mdi:windows
+    mdesktop:
+      value_template: "{{ is_state('device_tracker.meg_desktop', 'home') }}"
+      friendly_name: 'Desktop'
+      device_class: connectivity
+      icon_template: mdi:desktop-classic
+
+###################################
+##  staci
+###################################
+
+- platform: template
+  sensors:
+    stphone:
+      value_template: "{{ is_state('device_tracker.stphone', 'home') }}"
+      friendly_name: 'Staci Phone/GPS'
+      device_class: connectivity
+      #icon_template: mdi:cellphone
+      entity_picture_template: /local/pics/Staci.jpg
+    stphone_net:
+      value_template: "{{ is_state('device_tracker.stphone_net', 'home') }}"
+      friendly_name: 'Phone/Net'
+      device_class: connectivity
+      icon_template: mdi:cellphone-wireless
+    stsurface:
+      value_template: "{{ is_state('device_tracker.staci_surface', 'home') }}"
+      friendly_name: 'Surface'
+      device_class: connectivity
+      icon_template: mdi:windows
+    
+###################################
+##  delia
+###################################
+
+- platform: template
+  sensors:
+    dphone:
+      value_template: "{{ is_state('device_tracker.dphone', 'home') }}"
+      friendly_name: 'Delia Phone/GPS'
+      device_class: connectivity
+      #icon_template: mdi:cellphone
+      entity_picture_template: /local/pics/Delia.jpg
+    dphone_net:
+      value_template: "{{ is_state('device_tracker.dphone_net', 'home') }}"
+      friendly_name: 'Phone/Net'
+      device_class: connectivity
+      icon_template: mdi:cellphone-wireless
+    dsurface:
+      value_template: "{{ is_state('device_tracker.delia_surface', 'home') }}"
+      friendly_name: 'Surface'
+      device_class: connectivity
+      icon_template: mdi:windows
+    
+   
+###################################
+##  bed warming 
+###################################
+
+- platform: template
+  sensors:
+    sbed:
+      friendly_name: Warm Simon's bed tonight
+      value_template: "{{ states('sensor.dark_sky_overnight_low_temperature_0')|float < states('input_number.bed_flag')|float }}"
+      icon_template: mdi:radiator
+    mbed:
+      friendly_name: Warm Megan's bed tonight
+      value_template: "{{ states('sensor.dark_sky_overnight_low_temperature_0')|float < states('input_number.bed_flag')|float }}"
+      icon_template: mdi:radiator
+    stbed:
+      friendly_name: Warm Staci's bed tonight
+      value_template: "{{ states('sensor.dark_sky_overnight_low_temperature_0')|float < states('input_number.bed_flag')|float }}"
+      icon_template: mdi:radiator
+    dbed:
+      friendly_name: Warm Delia's bed tonight
+      value_template: "{{ states('sensor.dark_sky_overnight_low_temperature_0')|float < states('input_number.bed_flag')|float }}"
+      icon_template: mdi:radiator             
+    
+              
+              

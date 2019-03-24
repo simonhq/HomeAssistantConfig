@@ -1,0 +1,79 @@
+###################################
+##
+##  remote control - normal press
+## 
+###################################
+
+- alias: remote_set_evening
+  trigger:
+    - platform: state
+      entity_id: sensor.remote
+      to: '1_click'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Evening"}}'
+
+- alias: remote_set_day
+  trigger:
+    - platform: state
+      entity_id: sensor.remote
+      to: '2_click'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Day"}}'
+
+- alias: remote_set_morning
+  trigger:
+    - platform: state
+      entity_id: sensor.remote
+      to: '3_click'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Morning"}}'
+
+- alias: remote_set_night
+  trigger:
+    - platform: state
+      entity_id: sensor.remote
+      to: '4_click'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.time_mode
+        option: '{{"Night"}}'
+
+###################################
+##
+##  remote control - long press
+## 
+###################################
+
+# long press night time - shut down lights & tv etc.
+- alias: remote_set_night_all_off
+  trigger:
+    - platform: state
+      entity_id: sensor.remote
+      to: '4_hold'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: 
+        - group.family_lights
+        - remote.harmony_hub
+    - service: homeassistant.turn_on
+      entity_id: 
+        - input_boolean.fdoor
+    - delay: '00:00:10'
+    - service: homeassistant.turn_off
+      entity_id: 
+        - switch.dining_room_iron
+        - switch.study_printer
+        - switch.lounge_tv
+        - switch.lounge_chairs
+
+    

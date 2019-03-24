@@ -1,0 +1,76 @@
+###################################
+##  tv control
+###################################
+
+#update the input select based upon someone using the remote
+- alias: harmony_state_change
+  trigger:
+    platform: state
+    entity_id: remote.harmony_hub
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.harmony
+        option: '{{ trigger.to_state.attributes.current_activity }}' 
+
+# using the input select        
+- alias: harmony_activity_select
+  trigger:
+    platform: state
+    entity_id: input_select.harmony
+  action:
+    - service: remote.turn_on
+      entity_id: remote.harmony_hub
+      data_template:
+        activity: >
+          {% if is_state("input_select.harmony", "Watch TV") %}
+            28293269
+          {% elif is_state("input_select.harmony", "Watch Chromecast") %}
+            28293288
+          {% elif is_state("input_select.harmony", "Watch a Movie") %}
+            28293281
+          {% elif is_state("input_select.harmony", "Play Wii") %}
+            31066497
+          {% else %}
+            -1
+          {% endif %}
+
+#turn off the light when the tv gets turned off
+- alias: harmony_tv_off_lightstrip_off
+  trigger:
+    platform: state
+    entity_id: input_select.harmony
+    to: 'PowerOff'
+  action:
+    - service: light.turn_off
+      entity_id: 
+        - light.lounge_lightstrip
+
+#turn on the light when the tv gets turned on (evening or night)
+- alias: harmony_tv_on_lightstrip_on
+  trigger:
+    - platform: state
+      entity_id: input_select.harmony
+      to: 'Watch TV'
+    - platform: state
+      entity_id: input_select.harmony
+      to: 'Watch Chromecast'
+    - platform: state
+      entity_id: input_select.harmony
+      to: 'Watch a Movie'
+    - platform: state
+      entity_id: input_select.harmony
+      to: 'Play Wii'
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: input_select.time_mode
+        state: 'Evening'
+      - condition: state
+        entity_id: input_select.time_mode
+        state: 'Night'
+  action:
+    - service: light.turn_on
+      entity_id: 
+        - light.lounge_lightstrip

@@ -1,0 +1,991 @@
+#################################################################################################
+# Date & Time
+#################################################################################################
+
+#date
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'
+
+#################################################################################################
+# System Monitor
+#################################################################################################
+
+- platform: systemmonitor
+  scan_interval:
+    seconds: 10
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: processor_use
+    - type: last_boot
+
+#################################################################################################
+# pi-hole
+#################################################################################################
+
+- platform: pi_hole
+  host: 192.168.1.25:4865
+  #ssl: true
+  #verify_ssl: false
+  monitored_conditions:
+    - ads_blocked_today
+    - domains_being_blocked
+    - dns_queries_today
+    - unique_clients
+
+#################################################################################################
+# Epson Printer
+#################################################################################################
+
+- platform: command_line
+  name: Epson Ink Level Black
+  command: /usr/bin/curl -s --insecure -X GET https://192.168.1.28/PRESENTATION/HTML/TOP/PRTINFO.HTML | awk -F"'" '/Ink_K.PNG/ && $6+0 == $6 { printf "%.0f\n", $6 / 50 * 100 }'
+  unit_of_measurement: '%'
+  scan_interval: 120
+
+- platform: command_line
+  name: Epson Ink Level Magenta
+  command: /usr/bin/curl -s --insecure -X GET https://192.168.1.28/PRESENTATION/HTML/TOP/PRTINFO.HTML | awk -F"'" '/Ink_M.PNG/ && $6+0 == $6 { printf "%.0f\n", $6 / 50 * 100 }'
+  unit_of_measurement: '%'
+  scan_interval: 120
+
+- platform: command_line
+  name: Epson Ink Level Yellow
+  command: /usr/bin/curl -s --insecure -X GET https://192.168.1.28/PRESENTATION/HTML/TOP/PRTINFO.HTML | awk -F"'" '/Ink_Y.PNG/ && $6+0 == $6 { printf "%.0f\n", $6 / 50 * 100 }'
+  unit_of_measurement: '%'
+  scan_interval: 120
+
+- platform: command_line
+  name: Epson Ink Level Cyan
+  command: /usr/bin/curl -s --insecure -X GET https://192.168.1.28/PRESENTATION/HTML/TOP/PRTINFO.HTML | awk -F"'" '/Ink_C.PNG/ && $6+0 == $6 { printf "%.0f\n", $6 / 50 * 100 }'
+  unit_of_measurement: '%'
+  scan_interval: 120
+
+#################################################################################################
+# Phone Batteries
+#################################################################################################
+
+- platform: template
+  sensors:
+    sphone_battery:
+      friendly_name: Simon Phone Battery
+      value_template: '{{ states.device_tracker.sphone.attributes.battery }}'
+      unit_of_measurement: '%'
+    mphone_battery:
+      friendly_name: Megan Phone Battery
+      value_template: '{{ states.device_tracker.mphone.attributes.battery }}'
+      unit_of_measurement: '%'
+    stphone_battery:
+      friendly_name: Staci Phone Battery
+      value_template: '{{ states.device_tracker.stphone.attributes.battery }}'
+      unit_of_measurement: '%'
+    dphone_battery:
+      friendly_name: Delia Phone Battery
+      value_template: '{{ states.device_tracker.dphone.attributes.battery }}'
+      unit_of_measurement: '%'
+
+#################################################################################################
+# Other Batteries
+#################################################################################################
+
+- platform: template
+  sensors:
+    bed_remote_batt:
+      friendly_name: Bedroom Remote Battery
+      value_template: '{{ states.sensor.bedroom_remote.attributes.battery }}'
+      unit_of_measurement: '%'
+    live_remote_batt:
+      friendly_name: Living Remote Battery
+      value_template: '{{ states.sensor.remote.attributes.battery }}'
+      unit_of_measurement: '%'
+    bath_motion_batt:
+      friendly_name: Bathroom Motion Battery
+      value_template: '{{ states.binary_sensor.bathroom_motion_sensor.attributes.battery }}'
+      unit_of_measurement: '%'
+    ensuite_motion_batt:
+      friendly_name: Ensuite Motion Battery
+      value_template: '{{ states.binary_sensor.ensuite_motion_sensor.attributes.battery }}'
+      unit_of_measurement: '%'
+    garage_motion_batt:
+      friendly_name: Garage Motion Battery
+      value_template: '{{ states.binary_sensor.garage_motion_sensor.attributes.battery }}'
+      unit_of_measurement: '%'
+    laundry_motion_batt:
+      friendly_name: Laundry Motion Battery
+      value_template: '{{ states.binary_sensor.laundry_motion_sensor.attributes.battery }}'
+      unit_of_measurement: '%'
+  
+
+#################################################################################################
+# Phone gps
+#################################################################################################
+
+- platform: template
+  sensors:
+    sphone_gps_up:
+      friendly_name: Simon Phone GPS
+      value_template: '{{ as_timestamp(now()) - as_timestamp(states.device_tracker.sphone.last_updated) }}'
+    mphone_gps_up:
+      friendly_name: Megan Phone GPS
+      value_template: '{{ as_timestamp(now()) - as_timestamp(states.device_tracker.mphone.last_updated) }}'
+    stphone_gps_up:
+      friendly_name: Staci Phone GPS
+      value_template: '{{ as_timestamp(now()) - as_timestamp(states.device_tracker.stphone.last_updated) }}'
+    dphone_gps_up:
+      friendly_name: Delia Phone GPS
+      value_template: '{{ as_timestamp(now()) - as_timestamp(states.device_tracker.dphone.last_updated) }}'
+
+
+#################################################################################################
+# Switch energy
+#################################################################################################
+
+- platform: template
+  sensors:
+    dri_current_w:
+      friendly_name: Iron Switch Current Watts
+      value_template: '{{ states.switch.dining_room_iron.attributes.current_power_w }}'
+      unit_of_measurement: 'W'
+    dri_current_a:
+      friendly_name: Iron Switch Current Amps
+      value_template: '{{ states.switch.dining_room_iron.attributes.current_a }}'
+      unit_of_measurement: 'A'
+    dri_today_kwh:
+      friendly_name: Iron Switch Today Energy Kwh
+      value_template: '{{ states.switch.dining_room_iron.attributes.today_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    dri_total_kwh:
+      friendly_name: Iron Switch Total Energy Kwh
+      value_template: '{{ states.switch.dining_room_iron.attributes.total_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    dri_voltage:
+      friendly_name: Iron Switch Voltage
+      value_template: '{{ states.switch.dining_room_iron.attributes.voltage }}'
+      unit_of_measurement: 'V'
+    ltv_current_w:
+      friendly_name: Lounge TV Switch Current Watts
+      value_template: '{{ states.switch.lounge_tv.attributes.current_power_w }}'
+      unit_of_measurement: 'W'
+    ltv_current_a:
+      friendly_name: Lounge TV Switch Current Amps
+      value_template: '{{ states.switch.lounge_tv.attributes.current_a }}'
+      unit_of_measurement: 'A'
+    ltv_today_kwh:
+      friendly_name: Lounge TV Switch Today Energy Kwh
+      value_template: '{{ states.switch.lounge_tv.attributes.today_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    ltv_total_kwh:
+      friendly_name: Lounge TV Switch Total Energy Kwh
+      value_template: '{{ states.switch.lounge_tv.attributes.total_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    ltv_voltage:
+      friendly_name: Lounge TV Switch Voltage
+      value_template: '{{ states.switch.lounge_tv.attributes.voltage }}'
+      unit_of_measurement: 'V'
+    sps_current_w:
+      friendly_name: Study Printer Switch Current Watts
+      value_template: '{{ states.switch.study_printer.attributes.current_power_w }}'
+      unit_of_measurement: 'W'
+    sps_current_a:
+      friendly_name: Study Printer Switch Current Amps
+      value_template: '{{ states.switch.study_printer.attributes.current_a }}'
+      unit_of_measurement: 'A'
+    sps_today_kwh:
+      friendly_name: Study Printer Switch Today Energy Kwh
+      value_template: '{{ states.switch.study_printer.attributes.today_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    sps_total_kwh:
+      friendly_name: Study Printer Switch Total Energy Kwh
+      value_template: '{{ states.switch.study_printer.attributes.total_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    sps_voltage:
+      friendly_name: Study Printer Switch Voltage
+      value_template: '{{ states.switch.study_printer.attributes.voltage }}'
+      unit_of_measurement: 'V'
+    lch_current_w:
+      friendly_name: Lounge Chairs Current Watts
+      value_template: '{{ states.switch.lounge_chairs.attributes.current_power_w }}'
+      unit_of_measurement: 'W'
+    lch_current_a:
+      friendly_name: Lounge Chairs Switch Current Amps
+      value_template: '{{ states.switch.lounge_chairs.attributes.current_a }}'
+      unit_of_measurement: 'A'
+    lch_today_kwh:
+      friendly_name: Lounge Chairs Switch Today Energy Kwh
+      value_template: '{{ states.switch.lounge_chairs.attributes.today_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    lch_total_kwh:
+      friendly_name: Lounge Chairs Switch Total Energy Kwh
+      value_template: '{{ states.switch.lounge_chairs.attributes.total_energy_kwh }}'
+      unit_of_measurement: 'kW'
+    lch_voltage:
+      friendly_name: Lounge Chairs Switch Voltage
+      value_template: '{{ states.switch.lounge_chairs.attributes.voltage }}'
+      unit_of_measurement: 'V'
+
+
+#################################################################################################
+# BOM
+#################################################################################################
+
+- platform: bom
+  station: IDN60903.94925
+  name: Tuggeranong (Isabella Plains) AWS
+  monitored_conditions:
+    - apparent_t
+    - delta_t
+    - gust_kmh
+    - air_temp
+    - dewpt
+    - press
+    - press_qnh
+    - press_msl
+    - rain_trace
+    - rel_hum
+    - vis_km
+    - wind_dir
+    - wind_spd_kmh
+
+#################################################################################################
+# Darksky
+#################################################################################################
+
+- platform: darksky
+  api_key: !secret darksky_token
+  forecast:
+    - 0
+    - 1
+  monitored_conditions:
+    - summary
+    - precip_probability
+    - wind_speed
+    - cloud_cover
+    - icon
+    - temperature_low
+    - temperature_high
+    - daily_summary
+    - hourly_summary
+    - precip_intensity
+    - precip_accumulation
+    - precip_type
+    - temperature
+    - apparent_temperature
+    - wind_bearing
+    - humidity
+    - pressure
+    - uv_index 
+  scan_interval:
+    minutes: 5
+
+#################################################################################################
+# Season
+#################################################################################################
+
+- platform: season
+
+#################################################################################################
+# Torque (car)
+#################################################################################################
+
+- platform: torque
+  email: !secret torque_email
+
+#################################################################################################
+# hue remote
+#################################################################################################
+
+- platform: huesensor
+#  ip_address: !secret hue_ip
+#  token: !secret hue_api_token
+
+#################################################################################################
+# check to see if the external IP has changed, if it has use automation to reconnect hangouts
+#################################################################################################
+
+- platform: rest
+  resource: https://api.ipify.org?format=json
+  name: External IP
+  value_template: '{{ value_json.ip }}'
+  scan_interval: 10
+
+#################################################################################################
+# hue motion sensors
+#################################################################################################
+
+#bathroom
+- platform: rest
+  resource: !secret hue_bth_lux
+  value_template: '{{ value_json.state.lightlevel }}'
+  unit_of_measurement: Lux
+  name: 'Bathroom Lux'
+    
+- platform: rest
+  resource: !secret hue_bth_temp
+  value_template: '{{ value_json.state.temperature | round(-1) | float / 100 }}'
+  unit_of_measurement: °C
+  name: 'Bathroom Temperature'
+
+#for ui (same as above)
+- platform: rest
+  resource: !secret hue_bth_temp
+  value_template: '{{ value_json.state.temperature | round(-1) | float / 100 }}'
+  unit_of_measurement: °C
+  name: 'Inside Now'
+
+- platform: rest
+  resource: !secret hue_bth_motion
+  value_template: '{{ value_json.state.presence }}'
+  scan_interval: 2
+  name: 'Bathroom Motion'
+
+- platform: rest
+  resource: !secret hue_bth_temp
+  value_template: '{{ value_json.config.battery }}'
+  unit_of_measurement: '%'
+  scan_interval: 1800
+  name: 'Bathroom Motion Sensor Battery Level'
+
+#ensuite
+- platform: rest
+  resource: !secret hue_ens_lux
+  value_template: '{{ value_json.state.lightlevel }}'
+  unit_of_measurement: Lux
+  name: 'Ensuite Lux'
+
+- platform: rest
+  resource: !secret hue_ens_temp
+  value_template: '{{ value_json.state.temperature | round(-1) | float / 100 }}'
+  unit_of_measurement: °C
+  name: 'Ensuite Temperature'
+
+- platform: rest
+  resource: !secret hue_ens_motion
+  value_template: '{{ value_json.state.presence }}'
+  scan_interval: 2
+  name: 'Ensuite Motion'
+
+- platform: rest
+  resource: !secret hue_ens_temp
+  value_template: '{{ value_json.config.battery }}'
+  unit_of_measurement: '%'
+  scan_interval: 1800
+  name: 'Ensuite Motion Sensor Battery Level'
+
+#laundry
+- platform: rest
+  resource: !secret hue_lnd_lux
+  value_template: '{{ value_json.state.lightlevel }}'
+  unit_of_measurement: Lux
+  name: 'Laundry Lux'
+
+- platform: rest
+  resource: !secret hue_lnd_temp
+  value_template: '{{ value_json.state.temperature | round(-1) | float / 100 }}'
+  unit_of_measurement: °C
+  name: 'Laundry Temperature'
+
+- platform: rest
+  resource: !secret hue_lnd_motion
+  value_template: '{{ value_json.state.presence }}'
+  scan_interval: 2
+  name: 'Laundry Motion'
+
+- platform: rest
+  resource: !secret hue_lnd_temp
+  value_template: '{{ value_json.config.battery }}'
+  unit_of_measurement: '%'
+  scan_interval: 1800
+  name: 'Laundry Motion Sensor Battery Level'
+
+#garage
+- platform: rest
+  resource: !secret hue_gar_lux
+  value_template: '{{ value_json.state.lightlevel }}'
+  unit_of_measurement: Lux
+  name: 'Garage Lux'
+
+- platform: rest
+  resource: !secret hue_gar_temp
+  value_template: '{{ value_json.state.temperature | round(-1) | float / 100 }}'
+  unit_of_measurement: °C
+  name: 'Garage Temperature'
+
+- platform: rest
+  resource: !secret hue_gar_motion
+  value_template: '{{ value_json.state.presence }}'
+  scan_interval: 2
+  name: 'Garage Motion'
+
+- platform: rest
+  resource: !secret hue_gar_temp
+  value_template: '{{ value_json.config.battery }}'
+  unit_of_measurement: '%'
+  scan_interval: 1800
+  name: 'Garage Motion Sensor Battery Level'
+
+#################################################################################################
+# Google Travel Time
+#################################################################################################
+
+# #travel times for Meg    
+# - platform: google_travel_time
+#   name: Meg to Simon
+#   api_key: !secret google_distance_api
+#   origin: device_tracker.mphone
+#   destination: device_tracker.sphone
+#   scan interval: 900
+#   options:
+#       units: metric
+
+# - platform: google_travel_time
+#   name: Meg to Staci
+#   api_key: !secret google_distance_api
+#   origin: device_tracker.mphone
+#   destination: device_tracker.stphone
+#   scan interval: 900
+#   options:
+#       units: metric
+
+# - platform: google_travel_time
+#   name: Meg to Delia
+#   api_key: !secret google_distance_api
+#   origin: device_tracker.mphone
+#   destination: device_tracker.dphone
+#   scan interval: 900
+#   options:
+#       units: metric
+
+# #travel times for Simon
+# - platform: google_travel_time
+#   name: Simon to Staci
+#   api_key: !secret google_distance_api
+#   origin: device_tracker.sphone
+#   destination: device_tracker.stphone
+#   scan interval: 900
+#   options:
+#       units: metric
+
+# - platform: google_travel_time  
+#   name: Simon to Delia
+#   api_key: !secret google_distance_api
+#   origin: device_tracker.sphone
+#   destination: device_tracker.dphone
+#   scan interval: 900
+#   options:
+#       units: metric
+
+- platform: waze_travel_time
+  name: Waze Meg time to work
+  origin: device_tracker.mphone
+  destination: zone.NorthQuarter
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Simon time to uni
+  origin: device_tracker.sphone
+  destination: zone.CityWestBus
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Meg time to home
+  origin: device_tracker.mphone
+  destination: zone.Home
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Simon time to home
+  origin: device_tracker.sphone
+  destination: zone.Home
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Meg to Staci
+  origin: device_tracker.mphone
+  destination: device_tracker.stphone
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Meg to Delia
+  origin: device_tracker.mphone
+  destination: device_tracker.dphone
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Meg to Simon
+  origin: device_tracker.mphone
+  destination: device_tracker.sphone
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Simon to Delia
+  origin: device_tracker.sphone
+  destination: device_tracker.dphone
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Simon to Staci
+  origin: device_tracker.sphone
+  destination: device_tracker.stphone
+  region: 'EU'
+
+- platform: waze_travel_time
+  name: Waze Staci to Delia
+  origin: device_tracker.dphone
+  destination: device_tracker.stphone
+  region: 'EU'
+
+- platform: template
+  sensors:
+    m_to_h_route:
+      value_template: '{{ states.sensor.waze_meg_time_to_home.attributes.route }}'
+    s_to_h_route:
+      value_template: '{{ states.sensor.waze_simon_time_to_home.attributes.route }}'
+    m_to_w_route:
+      value_template: '{{ states.sensor.waze_meg_time_to_work.attributes.route }}'
+    m_to_s_route:
+      value_template: '{{ states.sensor.waze_meg_to_simon.attributes.route }}'
+    m_to_st_route:
+      value_template: '{{ states.sensor.waze_meg_to_staci.attributes.route }}'
+    m_to_d_route:
+      value_template: '{{ states.sensor.waze_meg_to_delia.attributes.route }}'
+    s_to_w_route:
+      value_template: '{{ states.sensor.waze_simon_time_to_uni.attributes.route }}'
+    s_to_st_route:
+      value_template: '{{ states.sensor.waze_simon_to_staci.attributes.route }}'
+    s_to_d_route:
+      value_template: '{{ states.sensor.waze_simon_to_delia.attributes.route }}'
+    st_to_d_route:
+      value_template: '{{ states.sensor.waze_staci_to_delia.attributes.route }}'
+    #direction of travel
+    m_travel_direction:
+      value_template: '{{ states.proximity.home_meg.attributes.dir_of_travel }}'
+    s_travel_direction:
+      value_template: '{{ states.proximity.home_simon.attributes.dir_of_travel }}'
+    st_travel_direction:
+      value_template: '{{ states.proximity.home_staci.attributes.dir_of_travel }}'
+    d_travel_direction:
+      value_template: '{{ states.proximity.home_delia.attributes.dir_of_travel }}'
+
+
+#################################################################################################
+# Logging Detection
+#################################################################################################
+
+- platform: template
+  sensors:
+    sphone_type:
+      value_template: '{{ states.device_tracker.sphone.attributes.source_type }}'
+    mphone_type:
+      value_template: '{{ states.device_tracker.mphone.attributes.source_type }}'
+    stphone_type:
+      value_template: '{{ states.device_tracker.stphone.attributes.source_type }}'
+    dphone_type:
+      value_template: '{{ states.device_tracker.dphone.attributes.source_type }}'
+
+#################################################################################################
+# Calendars
+#################################################################################################
+
+- platform: template
+  sensors:
+    hass_calendar:
+      friendly_name: Hassio Calendar
+      value_template: '{{ states.calendar.hassiothompsonhqnet.attributes.message }} at {{ as_timestamp(states.calendar.hassiothompsonhqnet.attributes.start_time) | timestamp_custom("%a %d/%m %I:%M") }}'
+    dandd_calendar:
+      friendly_name: Next Playing Date
+      value_template: '{{ as_timestamp(states.calendar.dandd.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    cleaner_calendar:
+      friendly_name: Cleaner next comes on
+      value_template: '{{ as_timestamp(states.calendar.cleaner.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    bin_calendar:
+      friendly_name: Next Bin pickup
+      value_template: '{{ as_timestamp(states.calendar.bin.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    recycling_calendar:
+      friendly_name: Next Recycling pickup
+      value_template: '{{ as_timestamp(states.calendar.recycling.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    greenwaste_calendar:
+      friendly_name: Next Greenwaste pickup
+      value_template: '{{ as_timestamp(states.calendar.greenwaste.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    skipbin_calendar:
+      friendly_name: Next Skipbin pickup
+      value_template: '{{ as_timestamp(states.calendar.skipbin.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    morning_calendar:
+      friendly_name: Turn on Morning at
+      value_template: '{{ as_timestamp(states.calendar.morning.attributes.start_time) | timestamp_custom("%a %d/%m") }}'
+    tv_calendar:
+      friendly_name: Turn on TV at
+      value_template: '{{ states.calendar.tv.attributes.message }} {{ as_timestamp(states.calendar.tv.attributes.start_time) | timestamp_custom("%a %d/%m %I:%M") }}'
+    cook_calendar:
+      friendly_name: Person cooking next
+      value_template: '{{ states.calendar.cook.attributes.message }}'
+    guest_calendar:
+      friendly_name: Guest staying from
+      value_template: '{{ states.calendar.guest.attributes.message }} {{ as_timestamp(states.calendar.guest.attributes.start_time) | timestamp_custom("%a %d/%m %I:%M") }}'
+
+
+#################################################################################################
+# Buses
+#################################################################################################
+
+# from ellerston & johnson to tugg
+- platform: gtfs
+  name: bus_to_tugg_ej
+  offset: 300 # 5 minute delay 
+  origin: 1075
+  destination: 13
+  scan_interval: 60 # update each minute
+  data: action.zip
+
+- platform: gtfs
+  name: bus_to_tugg_ej_2
+  offset: 300 # 5 minute delay 
+  origin: 1075
+  destination: 13
+  scan_interval: 60 # update each minute
+  data: action.zip
+  position: 2
+
+- platform: gtfs
+  name: bus_to_tugg_ej_3
+  offset: 300 # 5 minute delay 
+  origin: 1075
+  destination: 13
+  scan_interval: 60 # update each minute
+  data: action.zip
+  position: 3
+
+#65 to tugger
+- platform: gtfs
+  name: bus_to_tugg_dg
+  offset: 300 # 5 minute delay 
+  origin: 1014
+  destination: 13
+  scan_interval: 60 # update each minute
+  data: action.zip
+
+- platform: gtfs
+  name: bus_to_tugg_dg_2
+  offset: 300 # 5 minute delay 
+  origin: 1014
+  destination: 13
+  scan_interval: 60 # update each minute
+  data: action.zip
+  position: 2
+
+- platform: gtfs
+  name: bus_to_tugg_dg_3
+  offset: 300 # 5 minute delay 
+  origin: 1014
+  destination: 13
+  scan_interval: 60 # update each minute
+  data: action.zip
+  position: 3
+
+# from ellerston & johnson to city
+- platform: gtfs
+  name: bus_to_city_ej
+  offset: 300 # 5 minute delay 
+  origin: 1076
+  destination: 3404
+  scan_interval: 60 # update each minute
+  data: action.zip
+
+- platform: gtfs
+  name: bus_to_city_ej_2
+  offset: 300 # 5 minute delay 
+  origin: 1076
+  destination: 3404
+  scan_interval: 60 # update each minute
+  data: action.zip
+  position: 2
+
+- platform: gtfs
+  name: bus_to_city_ej_3
+  offset: 300 # 5 minute delay 
+  origin: 1076
+  destination: 3404
+  scan_interval: 60 # update each minute
+  data: action.zip
+  position: 3
+
+#format bus sensors
+
+- platform: template
+  sensors:
+#block
+    home_to_tugg_countdown:
+      friendly_name: (E&J) to Tuggeranong
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_tugg_ej') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_2_countdown:
+      friendly_name: (E&J) to Tuggeranong 2
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_tugg_ej_2') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_3_countdown:
+      friendly_name: (E&J) to Tuggeranong 3
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_tugg_ej_3') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_hour:
+      friendly_name: (E&J) to Tuggeranong
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_tugg_ej', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_tugg_ej', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_2_hour:
+      friendly_name: (E&J) to Tugeranong (Next)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_tugg_ej_2', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_tugg_ej_2', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_3_hour:
+      friendly_name: (E&J) to Tuggeranong (After)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_tugg_ej_3', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_tugg_ej_3', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+#block
+    home_to_city_countdown:
+      friendly_name: (E&J) to City
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_city_ej') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_city_2_countdown:
+      friendly_name: (E&J) to City 2
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_city_ej_2') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_city_3_countdown:
+      friendly_name: (E&J) to City 3
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_city_ej_3') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_city_hour:
+      friendly_name: (E&J) to City 
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_city_ej', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_city_ej', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_city_2_hour:
+      friendly_name: (E&J) to City (Next) 
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_city_ej_2', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_city_ej_2', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_city_3_hour:
+      friendly_name: (E&J) to City (After) 
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_city_ej_3', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_city_ej_3', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+#block
+    grove_to_tugg_countdown:
+      friendly_name: (E&G) to Tugg
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_tugg_dg') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    grove_to_tugg_2_countdown:
+      friendly_name: (E&G) to Tugg 2
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_tugg_dg_2') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    grove_to_tugg_3_countdown:
+      friendly_name: (E&G) to Tugg 3
+      icon_template: mdi:bus
+      value_template: >-
+        {% set countdown = states('sensor.bus_to_tugg_dg_3') | int(-1) %}
+        {% if countdown > 60 %}
+          {% set hours = (countdown / 60) | int %}
+          {% set minutes = countdown % 60 %}
+          {% if minutes < 10 %}
+            {% set minutes = '0' ~ minutes %}
+          {% endif %}
+          {{hours}}:{{minutes}}
+        {% elif countdown >= 0 %}
+          {{countdown}}
+        {% else %}
+          unknown
+        {% endif %}
+    grove_to_tugg_hour:
+      friendly_name: (E&G) to Tugg
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_tugg_dg', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_tugg_dg', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    grove_to_tugg_2_hour:
+      friendly_name: (E&G) to Tugg (Next) 
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_tugg_dg_2', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_tugg_dg_2', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    grove_to_tugg_3_hour:
+      friendly_name: (E&G) to Tugg (After) 
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.bus_to_tugg_dg_3', 'Origin Stop Departure Time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.bus_to_tugg_dg_3', 'Route Short Name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}

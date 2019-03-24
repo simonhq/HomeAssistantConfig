@@ -1,0 +1,103 @@
+# if you leave initial commmented, it will hold state through restarts
+#
+###################################
+##  Printer
+###################################
+
+ink_alert:
+  min: 0
+  max: 100
+  name: 'Notify at'
+  #initial: 20
+  unit_of_measurement: '%'
+  icon: mdi:alarm-bell
+
+###################################
+##  Batteries
+###################################
+
+batt_alert:
+  min: 0
+  max: 100
+  name: 'Notify at'
+  #initial: 15
+  unit_of_measurement: '%'
+  icon: mdi:alarm-bell
+
+###################################
+##  Pi server
+###################################
+
+disk_alert:
+  min: 0
+  max: 100
+  name: 'Notify at'
+  #initial: 75
+  unit_of_measurement: '%'
+  icon: mdi:harddisk
+
+cpu_alert:
+  min: 0
+  max: 100
+  name: 'Notify at'
+  #initial: 85
+  unit_of_measurement: '%'
+  icon: mdi:gauge
+
+##################################
+##  weather warning
+###################################
+
+temp_opt_high:
+  min: 21
+  max: 22
+  name: 'Optimal (high)'
+  unit_of_measurement: 'C'
+  icon: mdi:arrow-expand-vertical
+
+temp_opt_low:
+  min: 20
+  max: 21
+  name: 'Optimal (low)'
+  unit_of_measurement: 'C'
+  icon: mdi:arrow-collapse-vertical
+
+temp_int_high:
+  min: 22
+  max: 24
+  name: 'Internal High (prefer)'
+  unit_of_measurement: 'C'
+  icon: mdi:arrow-collapse-up
+
+temp_int_low:
+  min: 18
+  max: 20
+  name: 'Internal Low (prefer)'
+  unit_of_measurement: 'C'
+  icon: mdi:arrow-collapse-down
+
+temp_ext_high:
+  min: 26
+  max: 30
+  name: 'External High (Warn)'
+  unit_of_measurement: 'C'
+  icon: mdi:fire
+
+temp_ext_low:
+  min: 12
+  max: 16
+  name: 'External Low (Warn)'
+  unit_of_measurement: 'C'
+  icon: mdi:snowflake
+
+##################################
+##  bed 
+###################################
+
+bed_flag:
+  min: 5
+  max: 15
+  name: 'Warm bed when overnight'
+  #initial: 12
+  unit_of_measurement: 'C'
+  icon: mdi:hotel

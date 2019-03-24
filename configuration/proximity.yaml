@@ -1,0 +1,54 @@
+# not currently used for anything
+
+home: 
+  zone: Home
+  ignored_zones:
+    #- DJSB_Mort
+    - Tugg_College
+    - Bruce_CIT
+    - SouthPort
+    - ANU
+  devices:
+    - device_tracker.mphone
+    - device_tracker.sphone
+    - device_tracker.stphone
+    - device_tracker.dphone
+  tolerance: 50
+
+# These fields are documented in HAAuto
+
+home_meg: 
+  zone: Home
+  ignored_zones:
+    - DJSB_Mort
+    - SouthPort
+  devices:
+    - device_tracker.mphone
+  tolerance: 50  
+
+home_simon: 
+  zone: Home
+  ignored_zones:
+    - ANU
+    - SouthPort
+  devices:
+    - device_tracker.sphone
+  tolerance: 50  
+
+home_delia: 
+  zone: Home
+  ignored_zones:
+    - Tugg_college
+    - SouthPort
+  devices:
+    - device_tracker.dphone
+  tolerance: 50  
+
+home_staci: 
+  zone: Home
+  ignored_zones:
+    - Bruce_CIT
+    - SouthPort
+  devices:
+    - device_tracker.stphone
+  tolerance: 50  

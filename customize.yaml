@@ -1,0 +1,177 @@
+# scripts
+script.fans_off:
+  friendly_name: 'All Fans Off'
+  icon: mdi:fan-off
+script.fans_low:
+  friendly_name: 'All Fans On - Low'
+  icon: mdi:fan
+# presence
+group.simon:
+  friendly_name: 'Simon'
+  entity_picture: /local/pics/Simon.jpg
+group.megan:
+  friendly_name: 'Megan'
+  entity_picture: /local/pics/Megan.jpg
+group.staci:
+  friendly_name: 'Staci'
+  entity_picture: /local/pics/Staci.jpg
+group.delia:
+  friendly_name: 'Delia'
+  entity_picture: /local/pics/Delia.jpg
+# weather
+sensor.dark_sky_overnight_low_temperature_0:
+  friendly_name: 'Today Low'
+  entity_picture: /local/icons/alpha-l-circle-outline.png
+  #icon: 'mdi:alpha-l-circle-outline'
+sensor.dark_sky_daytime_high_temperature_0:
+  friendly_name: 'Today High'
+  entity_picture: /local/icons/alpha-h-circle.png
+  #icon: mdi:alpha-h-circle
+sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c:
+  friendly_name: 'Outside Now'
+sensor.front_door_state_temperature_measurement:
+  friendly_name: 'Front Door Temp'
+sensor.back_door_state_temperature_measurement:
+  friendly_name: 'Back Door Temp'
+# ink cartridges
+sensor.epson:
+  friendly_name: 'Printer'
+  entity_picture: /local/pics/wf3720.jpg
+sensor.epson_ink_level_black:
+  friendly_name: 'Black'
+  entity_picture: /local/pics/black.png
+sensor.epson_ink_level_cyan:
+  friendly_name: 'Cyan'
+  entity_picture: /local/pics/cyan.png
+sensor.epson_ink_level_magenta:
+  friendly_name: 'Magenta'
+  entity_picture: /local/pics/magenta.png
+sensor.epson_ink_level_yellow:
+  friendly_name: 'Yellow'
+  entity_picture: /local/pics/yellow.png
+# batteries
+sensor.sphone_battery:
+  friendly_name: 'Simon'
+  entity_picture: /local/pics/Simon.jpg
+sensor.mphone_battery:
+  friendly_name: 'Megan'
+  entity_picture: /local/pics/Megan.jpg
+sensor.stphone_battery:
+  friendly_name: 'Staci'
+  entity_picture: /local/pics/Staci.jpg
+sensor.dphone_battery:
+  friendly_name: 'Delia'
+  entity_picture: /local/pics/Delia.jpg
+# proximity
+proximity.home_meg:
+  friendly_name: 'Meg from Home'
+proximity.home_simon:
+  friendly_name: 'Simon from Home'
+proximity.home_staci:
+  friendly_name: 'Staci from Home'
+proximity.home_delia:
+  friendly_name: 'Delia from Home'
+# routes
+sensor.waze_meg_time_to_work:
+  friendly_name: 'Meg to City'
+sensor.waze_meg_time_to_home:
+  friendly_name: 'Meg to Home'
+sensor.waze_meg_to_simon:
+  friendly_name: 'Meg to Simon'
+sensor.waze_simon_time_to_uni:
+  friendly_name: 'Simon to City West'
+sensor.waze_simon_time_to_home:
+  friendly_name: 'Simon to Home'
+sensor.waze_meg_to_staci:
+  friendly_name: 'Meg to Staci'
+sensor.waze_meg_to_delia:
+  friendly_name: 'Meg to Delia'
+sensor.waze_simon_to_staci:
+  friendly_name: 'Simon to Staci'
+sensor.waze_simon_to_delia:
+  friendly_name: 'Simon to Delia'
+# person
+person.simon:
+  friendly_name: 'Simon'
+  entity_picture: /local/pics/Simon.jpg
+person.megan:
+  friendly_name: 'Megan'
+  entity_picture: /local/pics/Megan.jpg
+person.staci:
+  friendly_name: 'Staci'
+  entity_picture: /local/pics/Staci.jpg
+person.delia:
+  friendly_name: 'Delia'
+  entity_picture: /local/pics/Delia.jpg
+
+#gtfs - buses
+
+#Sensors: Transit
+#
+sensor.home_to_tugg_hour:
+  icon: mdi:cart
+  extra_badge:
+    entity_id: sensor.home_to_tugg
+  templates:
+    theme: >-
+      var e = 'sensor.home_to_tugg';
+      if (entities[e] === undefined || entities[e].state === 'unknown') return null;
+      var v = parseInt(entities[e].state);
+      return v <= 5 ? 'card-critical'
+      : v <= 10 ? 'card-warning'
+      : null;
+sensor.home_to_tugg_2_hour:
+  icon: mdi:blank
+  friendly_name: Next
+  extra_badge:
+    entity_id: sensor.home_to_tugg_2_countdown
+sensor.home_to_tugg_3_hour:
+  icon: mdi:blank
+  friendly_name: After
+  extra_badge:
+    entity_id: sensor.home_to_tugg_3_countdown
+#block
+sensor.grove_to_tugg_hour:
+  icon: mdi:cart
+  extra_badge:
+    entity_id: sensor.grove_to_tugg
+  templates:
+    theme: >-
+      var e = 'sensor.grove_to_tugg';
+      if (entities[e] === undefined || entities[e].state === 'unknown') return null;
+      var v = parseInt(entities[e].state);
+      return v <= 5 ? 'card-critical'
+      : v <= 10 ? 'card-warning'
+      : null;
+sensor.grove_to_tugg_2_hour:
+  icon: mdi:blank
+  friendly_name: Next
+  extra_badge:
+    entity_id: sensor.grove_to_tugg_2_countdown
+sensor.grove_to_tugg_3_hour:
+  icon: mdi:blank
+  friendly_name: After
+  extra_badge:
+    entity_id: sensor.grove_to_tugg_3_countdown
+#block
+sensor.home_to_city_hour:
+  extra_badge:
+    entity_id: sensor.home_to_city
+  templates:
+    theme: >-
+      var e = 'sensor.home_to_city';
+      if (entities[e] === undefined || entities[e].state === 'unknown') return null;
+      var v = parseInt(entities[e].state);
+      return v <= 5 ? 'card-critical'
+      : v <= 10 ? 'card-warning'
+      : null;
+sensor.home_to_city_2_hour:
+  icon: mdi:blank
+  friendly_name: Next
+  extra_badge:
+    entity_id: sensor.home_to_city_2_countdown
+sensor.home_to_city_3_hour:
+  icon: mdi:blank
+  friendly_name: After
+  extra_badge:
+    entity_id: sensor.home_to_city_3_countdown

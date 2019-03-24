@@ -1,0 +1,291 @@
+## If you don't provide an initial value, it will hold values between restarts of home assistant
+
+###################################
+##  transport
+###################################
+
+trav_staci:
+  name: Staci Travel Type
+  options:
+    - Home
+    - Walk
+    - Car
+  icon: mdi:train-car
+
+trans_staci:
+  name: Staci Transport Type
+  options:
+    - 'Nil'
+    - '3'
+    - '66'
+    - '67'
+    - '300C'
+    - '300W'
+    - '300H'
+  initial: 'Nil'
+  icon: mdi:car-connected
+
+trav_delia:
+  name: Delia Travel Type
+  options:
+    - Home
+    - Walk
+    - Car
+  icon: mdi:train-car
+
+trans_delia:
+  name: Delia Transport
+  options:
+    - 'Nil'
+    - 'Bus'
+  initial: 'Nil'
+  icon: mdi:car-connected
+
+trav_megan:
+  name: Megan Travel Type
+  options:
+    - Home
+    - Walk
+    - Car
+  icon: mdi:train-car
+
+trans_megan:
+  name: Megan Transport
+  options:
+    - 'Nil'
+    - 'Bus'
+    - '300W'  
+    - '300C'
+    - 'Car'
+  initial: 'Nil'
+  icon: mdi:car-connected
+
+trav_simon:
+  name: Simon Travel Type
+  options:
+    - Home
+    - Walk
+    - Car
+  icon: mdi:train-car
+
+trans_simon:
+  name: Simon Transport Type
+  options:
+    - 'Nil'
+    - '171'
+    - '300'
+    - '300W'
+    - 'Bus'
+  initial: 'Nil'
+  icon: mdi:car-connected
+
+###################################
+##  Harmony Remote
+###################################
+
+harmony:
+  name: Harmony Control
+  options:
+    - Watch TV
+    - Watch Chromecast
+    - Watch a Movie  
+    - Play Wii
+    - PowerOff
+  #initial: PowerOff
+  icon: mdi:monitor
+
+channel:
+  name: TV Channel
+  options:
+    - None
+    - SBS
+    - 7mate
+    - ESPN  
+  initial: None
+  icon: mdi:television
+
+###################################
+##  Time mode
+###################################
+
+time_mode:
+  name: Time Mode
+  options:
+    - Morning
+    - Day
+    - Evening
+    - Night
+  #initial: Day
+  icon: mdi:sync
+
+###################################
+##  presence mode
+###################################
+
+presence_mode:
+  name: Presence Mode
+  options:
+    - All Away
+    - Someone Home
+    - All Home
+  #initial: All Away
+  icon: mdi:account-location
+
+###################################
+##  Motion modes
+###################################
+
+bshower:
+  name: Bathroom Mode
+  options:
+    - Motion
+    - Bathroom On
+    - Bathroom Off
+  initial: Motion
+  icon: mdi:vanish
+
+eshower:
+  name: Ensuite Mode
+  options:
+    - Motion
+    - Ensuite On
+    - Ensuite Off
+  initial: Motion
+  icon: mdi:vanish
+
+lon:
+  name: Laundry Mode
+  options:
+    - Motion
+    - Laundry On
+    - Laundry Off
+  initial: Motion
+  icon: mdi:vanish
+
+gon:
+  name: Garage Mode
+  options:
+    - Motion
+    - Garage On
+    - Garage Off
+  initial: Motion
+  icon: mdi:vanish
+
+ton:
+  name: Toilet Mode
+  options:
+    - Motion
+    - Toilet On
+    - Toilet Off
+  initial: Motion
+  icon: mdi:vanish
+
+###################################
+##  cooking mode
+###################################
+
+cooking:
+  name: Cooking
+  options:
+    - Easy
+    - Going Out
+    - Simon
+    - Megan
+    - Staci
+    - Delia
+  #initial: Easy
+  icon: mdi:silverware-spoon
+
+###################################
+##  messaging mode
+###################################
+
+message_flag:
+  name: Message Platform
+  options:
+    - Hangouts
+    - Pushbullet
+  initial: Hangouts
+  icon: mdi:message
+
+###################################
+##  fan mode
+###################################
+
+master_fan_flag:
+  name: Master Fan
+  options:
+    - 'Off'
+    - '1'
+    - '2'
+    - '3'
+    - 'Transition'
+  #initial: 'Off'
+  icon: mdi:fan
+
+staci_fan_flag:
+  name: Staci Fan
+  options:
+    - 'Off'
+    - '1'
+    - '2'
+    - '3'
+    - 'Transition'
+  #initial: 'Off'
+  icon: mdi:fan
+
+delia_fan_flag:
+  name: Delia Fan
+  options:
+    - 'Off'
+    - '1'
+    - '2'
+    - '3'
+    - 'Transition'
+  #initial: 'Off'
+  icon: mdi:fan
+
+
+###################################
+##  Motion flags - not being used
+###################################
+
+gmot:
+  name: Garage Motion
+  options:
+    - Idle
+    - Start
+    - Cancel
+    - Finished
+  initial: Idle
+  icon: mdi:vanish
+
+lmot:
+  name: Laundry Motion
+  options:
+    - Idle
+    - Start
+    - Cancel
+    - Finished
+  initial: Idle
+  icon: mdi:vanish
+
+emot:
+  name: Ensuite Motion
+  options:
+    - Idle
+    - Start
+    - Cancel
+    - Finished
+  initial: Idle
+  icon: mdi:vanish
+
+bmot:
+  name: Bathroom Motion
+  options:
+    - Idle
+    - Start
+    - Cancel
+    - Finished
+  initial: Idle
+  icon: mdi:vanish

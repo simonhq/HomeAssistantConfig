@@ -1,0 +1,2003 @@
+title: Rushbrook Overlook
+# Exclude entites from "Unused entities" view
+#excluded_entities:
+  #- weblink.router
+
+resources:
+  - url: /customcards/plugins/card-tools.js
+    type: js
+  - url: /customcards/plugins/card-modder.js
+    type: js
+  - url: /customcards/plugins/tracker-card.js
+    type: js
+  - url: /customcards/plugins/vertical-stack-in-card.js
+    type: js
+  - url: /customcards/plugins/layout-card.js
+    type: js
+  - url: /customcards/plugins/fold-entity-row.js
+    type: js
+  - url: /customcards/plugins/waze-card/waze-card.js
+    type: js
+
+#styles
+#top
+                        #background-color: rgba(0,0,0,1.0) #black background
+                        #border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        #border: solid 1px rgba(100,100,100,0.3)
+                        #border-bottom: none
+                        #color: "#dddddd" #white (dull) text (full white #ffffff)
+                        #box-shadow: 3px 3px rgba(0,0,0,0.4)
+#bottom
+                        #background-color: rgba(0,0,0,1.0) #black background
+                        #border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        #border: solid 1px rgba(100,100,100,0.3)
+                        #border-bottom: none
+                        #color: "#dddddd" #white (dull) text (full white #ffffff)
+                        #box-shadow: 3px 3px rgba(0,0,0,0.4)
+#complete
+                        #background-color: rgba(0,0,0,1.0) #black background
+                        #border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                        #border: solid 1px rgba(100,100,100,0.3)
+                        #border-bottom: none
+                        #color: "#dddddd" #white (dull) text (full white #ffffff)
+                        #box-shadow: 3px 3px rgba(0,0,0,0.4)
+######################################################################################### main
+views:
+
+######################################################################################### for mobile
+  - icon: mdi:cellphone-text
+    path: mobile
+    title: Small Screen
+    theme: midnight
+    cards:
+      - type: entity-filter
+        entities:
+          #printer mode
+          - binary_sensor.ink_black_alert
+          - binary_sensor.ink_cyan_alert
+          - binary_sensor.ink_magenta_alert
+          - binary_sensor.ink_yellow_alert
+          #batteries
+          - binary_sensor.simon_batt_low
+          - binary_sensor.megan_batt_low
+          - binary_sensor.staci_batt_low
+          - binary_sensor.delia_batt_low
+          #pi server
+          - binary_sensor.cpu_alert
+          - binary_sensor.disk_alert
+        state_filter:
+          - 'on'
+        card:
+          type: glance
+          title: Current Alerts
+      - type: entity-filter
+        entities:
+          - group.simon
+          - group.megan
+          - group.staci
+          - group.delia
+        state_filter:
+          - home
+        card:
+          type: glance
+          title: People at home
+      - type: entity-filter
+        entities:
+          #house mode
+          - binary_sensor.mode_day
+          - binary_sensor.mode_morning
+          - binary_sensor.mode_evening
+          - binary_sensor.mode_night
+          #garage door
+          - binary_sensor.roller_close
+          - binary_sensor.roller_open
+          #front door
+          - binary_sensor.fdoor_close
+          - binary_sensor.fdoor_open
+          - binary_sensor.fdoor_lock
+          - binary_sensor.fdoor_unlock
+          #back door
+          - binary_sensor.bdoor_close
+          - binary_sensor.bdoor_open
+          #garage entry
+          - binary_sensor.gdoor_lock
+          - binary_sensor.gdoor_unlock
+          #home presence
+          - binary_sensor.presence_away
+          - binary_sensor.presence_home
+          #
+          - input_boolean.presence_guest
+          #tv
+          - binary_sensor.tv_off
+          - binary_sensor.tv_on
+          #lights
+          - binary_sensor.lights_off
+          - binary_sensor.lights_on
+          #switches
+          - binary_sensor.switches_off
+          - binary_sensor.switches_on
+          #fans
+          - binary_sensor.fans_off
+          - binary_sensor.fans_on
+          #cooking
+          - binary_sensor.cook_simon
+          - binary_sensor.cook_megan
+          - binary_sensor.cook_staci
+          - binary_sensor.cook_delia
+          - binary_sensor.cook_other
+          #driving
+          - binary_sensor.drive_meg
+          - binary_sensor.drive_simon
+          #car outside canberra
+          - input_boolean.presence_holiday
+          #messaging platform
+          - binary_sensor.mess_hang
+          - binary_sensor.mess_push
+          #message stuck on
+          - input_boolean.send_message
+        state_filter:
+          - 'on'
+        card:
+          type: glance
+          title: Current Modes
+      - type: glance
+        title: Weather
+        entities:
+          - sensor.season
+          - sun.sun
+          - sensor.inside_now
+          - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
+      - type: entity-filter
+        entities:
+          - binary_sensor.climate_optimal
+          - binary_sensor.climate_warn_hot_overnight
+          - binary_sensor.climate_warn_hot
+          - binary_sensor.climate_warn_cold
+          - binary_sensor.climate_warn_cold_overday
+          - binary_sensor.climate_hot_turn_on_cooling
+          - binary_sensor.climate_cold_turn_on_warming
+          - binary_sensor.climate_opt_turn_off_cooling
+          - binary_sensor.climate_opt_turn_off_warming
+          - binary_sensor.climate_hot_outside_on_fan
+          - binary_sensor.climate_cool_outside_off_fan
+        state_filter:
+          - 'on'
+        card:
+          type: glance
+          title: Climate Control
+      - type: entity-filter
+        entities:
+          #hubs
+          - binary_sensor.wifi_system
+          - binary_sensor.nest_system
+          - binary_sensor.kevo
+          - binary_sensor.bond
+          - binary_sensor.harmony
+          - binary_sensor.hue
+          - binary_sensor.myq
+          - binary_sensor.smart
+          - binary_sensor.ht_system
+          - binary_sensor.sw_system
+          - binary_sensor.gps_system
+          #- binary_sensor.app_system #washer/dryer viewable through the smartthings system
+          - binary_sensor.epson
+          - binary_sensor.fetchtv
+          - binary_sensor.pi_hole
+          - binary_sensor.tr_system
+        state_filter:
+          - 'off'
+        card:
+          type: glance
+          title: Disconnected Hubs
+      - type: glance
+        title: New Person Component
+        entities:
+          - person.simon
+          - person.megan
+          - person.staci
+          - person.delia
+  
+######################################################################################### main
+  - icon: mdi:home-assistant
+    path: home
+    # Name of the view. Will be used as the tooltip for tab icon
+    title: Home
+    theme: midnight #dark_theme
+    cards:
+      - id: 571bff25c6c84fd7b03f8a7042dd7a63  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: entities
+            title: House Modes & Chef
+            entities:
+            #- group.family
+              - input_select.time_mode
+              - input_select.presence_mode
+              - input_select.cooking
+              - input_select.message_flag
+              - sensor.pi_hole_ads_blocked_today
+          - type: entities
+            title: Weather Forecast
+            entities:
+              - sensor.dark_sky_daytime_high_temperature_0
+              - sensor.dark_sky_overnight_low_temperature_0
+              - sensor.dark_sky_precip_probability
+              - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
+              - sensor.dark_sky_daily_summary
+              - sensor.season
+              - sun.sun
+          - type: entities
+            title: Bus Times
+            entities:
+              - sensor.home_to_tugg_hour
+              - sensor.home_to_tugg_2_hour
+              - sensor.home_to_tugg_3_hour
+              - sensor.grove_to_tugg_hour
+              - sensor.grove_to_tugg_2_hour
+              - sensor.grove_to_tugg_3_hour
+              - sensor.home_to_city_hour
+              - sensor.home_to_city_2_hour
+              - sensor.home_to_city_3_hour
+                  
+      - id: 5f87f8c177fb449ba1ad6bfea6c93bef  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: entity-filter
+            entities:
+              - group.simon
+              - group.megan
+              - group.staci
+              - group.delia
+            state_filter:
+              - home
+            card:
+              type: glance
+              title: People that are home
+          - type: glance
+            title: Phone Batteries
+            entities:
+              - sensor.sphone_battery
+              - sensor.mphone_battery
+              - sensor.stphone_battery
+              - sensor.dphone_battery
+          - type: glance
+            title: Doors & TV
+            entities:
+              - binary_sensor.fdoor
+              - binary_sensor.fdoor_door
+              - binary_sensor.bdoor_door
+              - binary_sensor.gdoor
+              - cover.near_garage_door
+              - input_select.harmony
+          - type: glance
+            title: Presence Flags
+            entities:
+              - input_boolean.presence_guest
+              - input_boolean.presence_holiday
+              - input_boolean.presence_away
+              - input_boolean.send_message
+          - type: glance
+            title: Car Flags
+            entities:
+              - input_boolean.simon_outback
+              - input_boolean.megan_outback
+
+      - id: dbe1f7227c1e43f1a9781ae7466016b6  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: glance
+            title: Switches
+            entities:
+              - switch.lounge_tv
+              - switch.lounge_chairs
+              - switch.study_printer
+              - switch.dining_room_iron
+          - type: entities
+            title: Fans
+            entities:
+            #- group.family
+              - input_select.master_fan_flag
+              - input_select.staci_fan_flag
+              - input_select.delia_fan_flag
+          - type: horizontal-stack
+            cards:
+              - type: entity-filter
+                entities:
+                  - light.kitchen     #kitchen_1, _2, _3, _4
+                  - light.laundry     #laundry_2
+                  - light.stacis      #stacis_lamp, _light
+                  - light.study       #study_2
+                  - light.toilet      #toilet_2
+                  - light.lounge_room #lounge_lamp, _light
+                  - light.living_room #living_1, _2, _3, _4
+                  - light.girls_hall  #back_hall
+                  - light.garage      #garage_2
+                  - light.front_light #front_door, front_garage
+                  - light.front_hall  #front_hall_2
+                  - light.ensuite     #ensuite_spot, ensuite
+                  - light.dining      #dining_1, _2, _x, _4
+                  - light.delias      #delias_lamp
+                  - light.bathroom    #bathroom_2
+                  - light.lounge_lightstrip
+                  - light.master_lightstrip
+                state_filter:
+                  - 'on'
+                card:
+                  title: Lights On
+              - type: entity-filter
+                entities:
+                  - light.kitchen     #kitchen_1, _2, _3, _4
+                  - light.laundry     #laundry_2
+                  - light.stacis      #stacis_lamp, _light
+                  - light.study       #study_2
+                  - light.toilet      #toilet_2
+                  - light.lounge_room #lounge_lamp, _light
+                  - light.living_room #living_1, _2
+                  - light.girls_hall  #back_hall
+                  - light.garage      #garage_2
+                  - light.front_light #front_door, front_garage
+                  - light.front_hall  #front_hall_2
+                  - light.ensuite     #ensuite_spot, ensuite
+                  - light.dining      #dining_1, _2
+                  - light.delias      #delias_lamp
+                  - light.bathroom    #bathroom_2
+                  - light.lounge_lightstrip
+                  - light.master_lightstrip
+                state_filter:
+                  - 'off'
+                card:
+                  title: Lights Off
+
+      
+      # - type: custom:waze-card
+      #   entities:
+      #     - entity: sensor.waze_meg_time_to_work
+      #       zone: zone.NorthQuarter
+      #       name: Meg Work
+      #     - entity: sensor.waze_meg_time_to_home
+      #       zone: zone.NorthQuarter
+      #       name: Meg Home
+      #     - entity: sensor.waze_meg_to_simon
+      #       zone: zone.NorthQuarter
+      #       name: Meg > Simon
+      #     - entity: sensor.waze_meg_to_staci
+      #       zone: zone.NorthQuarter
+      #       name: Meg > Staci
+      #     - entity: sensor.waze_meg_to_delia
+      #       zone: zone.NorthQuarter
+      #       name: Meg > Delia
+      #     - entity: sensor.waze_simon_to_staci
+      #       zone: zone.NorthQuarter
+      #       name: Simon > Staci
+      #     - entity: sensor.waze_simon_to_delia
+      #       zone: zone.NorthQuarter
+      #       name: Simon > Delia
+        
+######################################################################################### people
+  - icon: mdi:account
+    path: people
+    # Name of the view. Will be used as the tooltip for tab icon
+    title: People
+    theme: midnight #dark_theme
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Simon
+            entities:
+              - group.simon
+              - sensor.sphone_battery
+              - sensor.sphone_gps_up
+              - input_boolean.simon_outback
+              - input_select.trav_simon
+              - input_select.trans_simon
+              #- input_boolean.walking_home_s
+              #- timer.simon_walk
+          - type: entities
+            title: Staci
+            entities:
+              - group.staci
+              - sensor.stphone_battery
+              - sensor.stphone_gps_up
+              - input_select.trav_staci
+              - input_select.trans_staci
+              #- input_boolean.walking_home_st
+              #- timer.staci_walk    
+              #- timer.cit_travel
+              #- input_boolean.bus_staci_300_city
+              #- timer.maybe_travel
+
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Megan
+            entities:
+              - group.megan
+              - sensor.mphone_battery
+              - sensor.mphone_gps_up
+              - input_boolean.megan_outback
+              - input_select.trav_megan
+              - input_select.trans_megan
+              #- input_boolean.walking_home_m
+              #- timer.megan_walk    
+              #- input_boolean.car_meg_city
+              #- input_boolean.bus_meg_300_city
+          - type: entities
+            title: Delia
+            entities:
+              - group.delia
+              - sensor.dphone_battery
+              - sensor.dphone_gps_up
+              - input_select.trav_delia 
+              - input_select.trans_delia
+              #- input_boolean.walking_home_d
+              #- timer.delia_walk    
+              
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+              - sensor.m_travel_direction
+              - sensor.s_travel_direction
+              - sensor.st_travel_direction
+              - sensor.d_travel_direction
+              - binary_sensor.simon_meg_car
+              - binary_sensor.simon_staci_car
+              - binary_sensor.simon_delia_car
+              - binary_sensor.megan_staci_car
+              - binary_sensor.megan_delia_car
+              - binary_sensor.simon_car
+              - binary_sensor.simon_walkbus
+              - binary_sensor.megan_car
+              - binary_sensor.megan_walkbus
+              - binary_sensor.staci_car
+              - binary_sensor.staci_walkbus
+              - binary_sensor.delia_car
+              - binary_sensor.delia_walkbus
+
+#################################################################################### lights/switches/doors
+  - icon: mdi:lightbulb-on
+    path: appliances1
+    title: Appliances
+    theme: midnight #dark_theme
+    panel: true
+    cards:
+      - type: custom:layout-card
+        layout: horizontal
+        column_num: 3
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - group.simon
+                          - group.megan
+                          - group.staci
+                          - group.delia
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - input_boolean.presence_guest
+                          - input_boolean.presence_holiday
+                          - input_boolean.presence_away
+                          - input_boolean.send_message
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+    # home modes
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - input_select.time_mode
+                          - input_select.presence_mode
+                          - input_select.cooking
+                          - input_select.message_flag
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+
+    #temperature
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - sensor.season
+                          - sensor.dark_sky_daytime_high_temperature_0
+                          - sensor.dark_sky_overnight_low_temperature_0
+                          - sensor.dark_sky_precip_probability
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - sun.sun
+                          - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
+                          - sensor.bathroom_temperature
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+
+    #switches & locks
+          - type: vertical-stack
+            cards:
+              #switches & Locks
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - switch.lounge_tv
+                          - switch.study_printer
+                          - switch.dining_room_iron
+                          - switch.lounge_chairs
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - binary_sensor.fdoor
+                          - binary_sensor.bdoor_door
+                          - binary_sensor.gdoor
+                          - cover.near_garage_door
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+    # remotes   
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - sensor.remote
+                          - sensor.bedroom_remote
+                          - remote.harmony_hub
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: remote.harmony_hub
+                            items:
+                              - input_select.harmony
+                              - input_select.channel
+                          - type: custom:fold-entity-row
+                            head: light.master_lightstrip
+                            items:
+                              - light.master_lightstrip
+                          - type: custom:fold-entity-row
+                            head: light.stacis 
+                            items:
+                              - light.stacis_lamp 
+                              - light.stacis_light
+                          - type: custom:fold-entity-row
+                            head: light.delias
+                            items:
+                              - light.delias_lamp
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)             
+    #fans
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - script.fans_off
+                          - script.fans_low
+                          - input_select.master_fan_flag
+                          - input_select.staci_fan_flag
+                          - input_select.delia_fan_flag
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)           
+    #lights
+          - type: vertical-stack
+            cards:
+            #shared lights
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: light.front_light
+                            items:
+                              - light.front_door
+                              - light.front_garage
+                          - type: custom:fold-entity-row
+                            head: light.front_hall
+                            items:
+                              - light.front_hall
+                          - type: custom:fold-entity-row
+                            head: light.girls_hall
+                            items:
+                              - light.girls_hall
+                          - type: custom:fold-entity-row
+                            head: light.kitchen
+                            items:
+                              - light.kitchen_1
+                              - light.kitchen_2
+                              - light.kitchen_3
+                              - light.kitchen_4
+                          - type: custom:fold-entity-row
+                            head: light.living_room
+                            items:
+                              - light.living_1
+                              - light.living_2
+                          - type: custom:fold-entity-row
+                            head: light.dining
+                            items:
+                              - light.dining_1
+                              - light.dining_2
+                          - type: custom:fold-entity-row
+                            head: light.study
+                            items:
+                              - light.study
+                          - type: custom:fold-entity-row
+                            head: light.lounge_room
+                            items:
+                              - light.lounge_light
+                              - light.lounge_lamp
+                              - light.lounge_lightstrip
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)                                           
+    #motion lights 
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: light.ensuite
+                            items:
+                              - sensor.ensuite_motion_sensor_battery_level
+                              - sensor.ensuite_temperature
+                              - sensor.ensuite_lux
+                              - input_select.eshower
+                              - sensor.ensuite_motion
+                              - input_boolean.motion_in_ensuite
+                              - timer.ensuite_timer
+                          - type: custom:fold-entity-row
+                            head: light.laundry
+                            items:
+                              - sensor.laundry_motion_sensor_battery_level
+                              - sensor.laundry_temperature
+                              - sensor.laundry_lux
+                              - input_select.lon
+                              - sensor.laundry_motion
+                              - input_boolean.motion_in_laundry
+                              - timer.laundry_timer
+                          - type: custom:fold-entity-row
+                            head: light.bathroom
+                            items:
+                              - sensor.bathroom_motion_sensor_battery_level
+                              - sensor.bathroom_temperature
+                              - sensor.bathroom_lux
+                              - input_select.bshower
+                              - sensor.bathroom_motion
+                              - input_boolean.motion_in_bathroom
+                              - timer.bathroom_timer 
+                          - type: custom:fold-entity-row
+                            head: light.garage
+                            items:
+                              - sensor.garage_motion_sensor_battery_level
+                              - sensor.garage_temperature
+                              - sensor.garage_lux
+                              - input_select.gon
+                              - sensor.garage_motion
+                              - input_boolean.motion_in_garage
+                              - timer.garage_timer
+                          - type: custom:fold-entity-row
+                            head: light.toilet
+                            items:
+                              - sensor.toilet_motion_battery
+                              - sensor.toilet_motion_temperature_measurement
+                              - input_select.ton
+                              - binary_sensor.toilet_motion_motion
+                              - input_boolean.motion_in_toilet
+                              - timer.toilet_timer
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+          
+#################################################################################### devices
+  - icon: mdi:monitor-cellphone-star
+    path: devices1
+    title: Devices
+    theme: midnight #dark_theme
+    panel: true
+    cards:
+      - type: custom:layout-card
+        layout: horizontal
+        column_num: 3
+        cards:
+        #devices
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - binary_sensor.wifi_system
+                          - group.simon
+                          - group.megan
+                          - group.staci
+                          - group.delia
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.wifi_system
+                            items:
+                              - binary_sensor.wifi_kitchen
+                              - binary_sensor.wifi_lounge
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.sphone 
+                            items:
+                              - binary_sensor.sphone_net
+                              - binary_sensor.simon_batt_low
+                              - binary_sensor.swatch
+                              - binary_sensor.stablet
+                              - binary_sensor.ssurface
+                              - binary_sensor.sdesktop
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.mphone
+                            items:
+                              - binary_sensor.mphone_net
+                              - binary_sensor.megan_batt_low
+                              - binary_sensor.mwatch
+                              - binary_sensor.mtablet
+                              - binary_sensor.msurface
+                              - binary_sensor.mdesktop
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.stphone
+                            items:
+                              - binary_sensor.stphone_net
+                              - binary_sensor.staci_batt_low
+                              - binary_sensor.stsurface
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.dphone
+                            items:
+                              - binary_sensor.dphone_net
+                              - binary_sensor.delia_batt_low
+                              - binary_sensor.dsurface
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+              #printer
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - binary_sensor.epson
+                          - sensor.epson_ink_level_black
+                          - sensor.epson_ink_level_cyan
+                          - sensor.epson_ink_level_magenta
+                          - sensor.epson_ink_level_yellow
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - input_number.ink_alert
+                          - type: custom:fold-entity-row
+                            head: input_boolean.ink_notify_system
+                            items:
+                              - binary_sensor.ink_black_alert
+                              - binary_sensor.ink_cyan_alert
+                              - binary_sensor.ink_magenta_alert
+                              - binary_sensor.ink_yellow_alert
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+    #systems
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - binary_sensor.nest_system
+                          - binary_sensor.ht_system
+                          - binary_sensor.sw_system
+                          - binary_sensor.sp_system
+                          - binary_sensor.tr_system
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.nest_system
+                            items:
+                              - binary_sensor.hallway_nest_protect_online
+                              - binary_sensor.back_hall_nest_protect_online
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.ht_system
+                            items:
+                              - binary_sensor.ht_study
+                              - binary_sensor.ht_kitchen
+                              - binary_sensor.ht_hall
+                              - binary_sensor.ht_lounge
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.sw_system
+                            items:
+                              - binary_sensor.sw_study
+                              - binary_sensor.sw_tv
+                              - binary_sensor.sw_chairs
+                              - binary_sensor.sw_iron
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.sp_system
+                            items:
+                              - binary_sensor.sp_kitchen
+                              - binary_sensor.sp_lounge
+                              - binary_sensor.sp_ensuite
+                              - binary_sensor.sp_ltv
+                              - binary_sensor.sp_gtv   
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.tr_system
+                            items:
+                              - binary_sensor.tr_red
+                              - binary_sensor.tr_blue
+                              - binary_sensor.tr_white
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - sensor.sphone_battery
+                          - sensor.mphone_battery
+                          - sensor.stphone_battery
+                          - sensor.dphone_battery
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - input_number.batt_alert
+                          - type: custom:fold-entity-row
+                            head: input_boolean.batt_notify_system
+                            items:
+                              - binary_sensor.simon_batt_low
+                              - binary_sensor.megan_batt_low
+                              - binary_sensor.staci_batt_low
+                              - binary_sensor.delia_batt_low
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+    #network
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - binary_sensor.hubs_system
+                          - binary_sensor.app_system
+                          - binary_sensor.nt_system
+                          - binary_sensor.hassios
+                          - binary_sensor.pi_hole
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.hubs_system
+                            items:
+                              - binary_sensor.bond
+                              - binary_sensor.harmony
+                              - binary_sensor.hue
+                              - binary_sensor.kevo
+                              - binary_sensor.myq
+                              - binary_sensor.smart
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.app_system
+                            items:
+                              #- binary_sensor.samwash
+                              #- binary_sensor.samdry
+                              - binary_sensor.samwash_sw
+                              - sensor.washing_machine_washer_machine_state
+                              - sensor.washing_machine_washer_mode
+                              - sensor.washing_machine_washer_job_state
+                              - sensor.washing_machine_washer_completion_time
+                              - binary_sensor.samdry_sw
+                              - sensor.tumble_dryer_dryer_machine_state
+                              - sensor.tumble_dryer_dryer_mode
+                              - sensor.tumble_dryer_dryer_job_state
+                              - sensor.tumble_dryer_dryer_completion_time
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.nt_system
+                            items:
+                              - binary_sensor.epson
+                              - binary_sensor.fetchtv
+                              - binary_sensor.sonyps4
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.hassios
+                            items:
+                              - sensor.processor_use
+                              - sensor.disk_use_percent
+                              - sensor.memory_use_percent
+                              - sensor.last_boot
+                          - type: custom:fold-entity-row
+                            head: binary_sensor.pi_hole
+                            items:
+                              - sensor.pi_hole_ads_blocked_today
+                              - sensor.pi_hole_dns_queries_today
+                              - sensor.pi_hole_dns_unique_clients
+                              - sensor.pi_hole_domains_blocked
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                # pi server
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - binary_sensor.hassios
+                          - sensor.processor_use
+                          - sensor.disk_use_percent
+                          - sensor.memory_use_percent
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - type: custom:fold-entity-row
+                            head: input_number.cpu_alert
+                            items:
+                              - binary_sensor.cpu_alert
+                              - input_boolean.cpu_notify_system
+                          - type: custom:fold-entity-row
+                            head: input_number.disk_alert
+                            items: 
+                              - binary_sensor.disk_alert
+                              - input_boolean.disk_notify_system
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+        
+#################################################################################### Weather
+  - icon: mdi:weather-cloudy
+    path: weather
+    title: Weather
+    theme: midnight #dark_theme
+    cards:
+    # external
+      - type: vertical-stack
+        cards:
+          - type: weather-forecast
+            entity: weather.dark_sky
+    # internal
+          - type: custom:card-modder
+            card:
+              type: custom:vertical-stack-in-card
+              cards:
+                - type: custom:card-modder
+                  card:
+                    type: glance
+                    entities:
+                      - sensor.ensuite_temperature
+                      - sensor.bathroom_temperature
+                      - sensor.laundry_temperature
+                      - sensor.garage_temperature
+                      - sensor.front_door_state_temperature_measurement
+                      - sensor.back_door_state_temperature_measurement
+                      - sensor.toilet_motion_temperature_measurement
+                    show_header_toggle: false
+                  style:
+                    background-color: rgba(0,0,0,1.0) #black background
+                    border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                    border: solid 1px rgba(100,100,100,0.3)
+                    border-bottom: none
+                    color: "#dddddd" #white (dull) text (full white #ffffff)
+                    box-shadow: 3px 3px rgba(0,0,0,0.4)
+          - type: iframe
+            aspect_ratio: 70%
+            url: https://embed.windy.com/embed2.html?rain,-35.4310,149.0958,600             
+    # climate control
+      - type: vertical-stack
+        cards:
+        - type: custom:card-modder
+          card:
+            type: entities
+            entities:
+              - input_number.temp_ext_high
+              - input_number.temp_int_high
+              - input_number.temp_opt_high
+              - input_number.temp_opt_low
+              - input_number.temp_int_low
+              - input_number.temp_ext_low
+            show_header_toggle: false
+          style:
+            background-color: rgba(0,0,0,1.0) #black background
+            border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+            border: solid 1px rgba(100,100,100,0.3)
+            border-bottom: none
+            color: "#dddddd" #white (dull) text (full white #ffffff)
+            box-shadow: 3px 3px rgba(0,0,0,0.4)     
+    #bed warming
+        - type: custom:card-modder
+          card:
+            type: entities
+            entities:
+              - type: custom:fold-entity-row
+                head: input_number.bed_flag #set the heat value
+                items:
+                  - binary_sensor.sbed
+                  - binary_sensor.mbed 
+                  - binary_sensor.stbed 
+                  - binary_sensor.dbed
+                show_header_toggle: false
+          style:
+            background-color: rgba(0,0,0,1.0) #black background
+            border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+            border: solid 1px rgba(100,100,100,0.3)
+            border-bottom: none
+            color: "#dddddd" #white (dull) text (full white #ffffff)
+            box-shadow: 3px 3px rgba(0,0,0,0.4) 
+    #fans
+        - type: custom:card-modder
+          card:
+            type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: glance
+                  entities:
+                    - script.fans_off
+                    - script.fans_low
+                    - input_select.master_fan_flag
+                    - input_select.staci_fan_flag
+                    - input_select.delia_fan_flag
+                  show_header_toggle: false
+                style:
+                  background-color: rgba(0,0,0,1.0) #black background
+                  border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                  border: solid 1px rgba(100,100,100,0.3)
+                  border-bottom: none
+                  color: "#dddddd" #white (dull) text (full white #ffffff)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)   
+    # flags
+      - type: vertical-stack
+        cards:
+        - type: custom:card-modder
+          card:
+            type: custom:vertical-stack-in-card
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: glance
+                  entities:
+                    - sun.sun
+                    - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
+                    - sensor.inside_now
+                    - binary_sensor.climate_optimal
+                  show_header_toggle: false
+                style:
+                  background-color: rgba(0,0,0,1.0) #black background
+                  border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                  border: solid 1px rgba(100,100,100,0.3)
+                  border-bottom: none
+                  color: "#dddddd" #white (dull) text (full white #ffffff)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+        - type: custom:card-modder
+          card:
+            type: entities
+            entities:
+              - binary_sensor.climate_warn_hot
+              - binary_sensor.climate_warn_hot_overnight
+              - binary_sensor.climate_warn_cold
+              - binary_sensor.climate_warn_cold_overday
+              - binary_sensor.climate_hot_turn_on_cooling
+              - binary_sensor.climate_cold_turn_on_warming
+              - binary_sensor.climate_opt_turn_off_cooling
+              - binary_sensor.climate_opt_turn_off_warming
+              - binary_sensor.climate_hot_outside_on_fan
+              - binary_sensor.climate_cool_outside_off_fan
+            show_header_toggle: false  
+          style:
+            background-color: rgba(0,0,0,1.0) #black background
+            border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+            border: solid 1px rgba(100,100,100,0.3)
+            border-bottom: none
+            color: "#dddddd" #white (dull) text (full white #ffffff)
+            box-shadow: 3px 3px rgba(0,0,0,0.4)  
+
+#################################################################################### usage tracker setup
+  - icon: mdi:tune
+    path: notify settings
+    title: Notify Set
+    panel: false
+    theme: midnight #dark_theme
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: history-graph
+            title: 'Locks'
+            entities:
+              - entity: input_boolean.fdoor
+                name: Front Door
+              - entity: input_boolean.gdoor
+                name: Garage Entry
+              - entity: cover.near_garage_door
+                name: Near Roller
+          - type: history-graph
+            title: 'Switches'
+            entities:
+              - entity: switch.lounge_tv
+                name: TV
+              - entity: switch.lounge_chairs
+                name: Chairs
+              - entity: switch.study_printer
+                name: Monitors
+              - entity: switch.dining_room_iron
+                name: Ironing
+          - type: history-graph
+            title: 'Motion Lights'
+            entities:
+              - entity: light.ensuite
+                name: Ensuite
+              - entity: light.bathroom
+                name: Bathroom
+              - entity: light.laundry
+                name: Laundry
+              - entity: light.garage
+                name: Garage
+          
+      - type: custom:layout-card
+        layout: horizontal
+        column_num: 3
+        cards:
+          - type: custom:tracker-card
+            title:
+            trackers:
+              - sensor.custom_card_tracker
+              - sensor.custom_component_tracker
+      
+######################################################################################### tv
+  - icon: mdi:television-classic
+    path: tv
+    # Name of the view. Will be used as the tooltip for tab icon
+    title: Television
+    #panel: true
+    theme: midnight #dark_theme
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: media-control
+            entity: media_player.lounge_room_tv
+          - type: media-control
+            entity: media_player.gaming_tv
+      - type: vertical-stack
+        cards:
+          - type: media-control
+            entity: media_player.kitchen_speaker
+          - type: media-control
+            entity: media_player.lounge_room_speaker
+          - type: media-control
+            entity: media_player.bathroom_speaker #in ensuite - need to change in google...
+       
+######################################################################################### travel
+  - icon: mdi:train-car
+    path: travel
+    title: Travel
+    panel: true
+    theme: midnight #theme doesn't work with panel on...
+    cards:
+      - type: custom:layout-card
+        layout: horizontal
+        column_num: 3
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: custom:vertical-stack-in-card
+                  cards:
+                    - type: custom:card-modder
+                      card:
+                        type: entities
+                        entities:
+                          - input_boolean.mode_return_home
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 10px 10px 0px 0px #rounded top left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+                    - type: custom:card-modder
+                      card:
+                        type: glance
+                        entities:
+                          - proximity.home_meg
+                          - proximity.home_simon
+                          - proximity.home_staci
+                          - proximity.home_delia
+                        show_header_toggle: false
+                      style:
+                        background-color: rgba(0,0,0,1.0) #black background
+                        border-radius: 0px 0px 10px 10px #rounded bottom left/right corners
+                        border: solid 1px rgba(100,100,100,0.3)
+                        border-bottom: none
+                        color: "#dddddd" #white (dull) text (full white #ffffff)
+                        box-shadow: 3px 3px rgba(0,0,0,0.4)
+              - type: custom:card-modder
+                card:
+                  type: entities
+                  entities:
+                    - sensor.m_travel_direction
+                    - sensor.s_travel_direction
+                    - sensor.st_travel_direction
+                    - sensor.d_travel_direction
+                style:
+                  background-color: rgba(0,0,0,1.0) #black background
+                  border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                  border: solid 1px rgba(100,100,100,0.3)
+                  border-bottom: none
+                  color: "#dddddd" #white (dull) text (full white #ffffff)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: entities
+                  entities:
+                    - sensor.home_to_tugg_hour
+                    - sensor.home_to_tugg_2_hour
+                    - sensor.home_to_tugg_3_hour
+                    - sensor.grove_to_tugg_hour
+                    - sensor.grove_to_tugg_2_hour
+                    - sensor.grove_to_tugg_3_hour
+                    - sensor.home_to_city_hour
+                    - sensor.home_to_city_2_hour
+                    - sensor.home_to_city_3_hour
+                style:
+                  background-color: rgba(0,0,0,1.0) #black background
+                  border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                  border: solid 1px rgba(100,100,100,0.3)
+                  border-bottom: none
+                  color: "#dddddd" #white (dull) text (full white #ffffff)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+              
+          - type: vertical-stack
+            cards:
+              - type: custom:card-modder
+                card:
+                  type: custom:waze-card
+                  entities:
+                    - entity: sensor.waze_meg_time_to_work
+                    - entity: sensor.waze_meg_time_to_home
+                    - entity: sensor.waze_simon_time_to_uni
+                    - entity: sensor.waze_simon_time_to_home
+                    - entity: sensor.waze_meg_to_simon
+                    - entity: sensor.waze_meg_to_staci
+                    - entity: sensor.waze_meg_to_delia
+                    - entity: sensor.waze_simon_to_staci
+                    - entity: sensor.waze_simon_to_delia
+                    - entity: sensor.waze_staci_to_delia
+                style:
+                  background-color: rgba(0,0,0,1.0) #black background
+                  border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
+                  border: solid 1px rgba(100,100,100,0.3)
+                  border-bottom: none
+                  color: "#dddddd" #white (dull) text (full white #ffffff)
+                  box-shadow: 3px 3px rgba(0,0,0,0.4)
+
+          - type: vertical-stack
+            cards:
+              - type: map
+                entities:
+                  - entity: device_tracker.sphone
+                  - entity: device_tracker.mphone
+                  - entity: device_tracker.stphone
+                  - entity: device_tracker.dphone
+                  - entity: zone.Home
+
+#################################################################################### status
+  - icon: mdi:leaf
+    path: status
+    title: Status
+    theme: midnight #dark_theme
+    cards:
+      - id: e9b998bbebd64a7db39531c2169a250e  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: entities
+            title: Lounge TV Switch
+            entities:
+              - sensor.ltv_current_w
+              - sensor.ltv_current_a
+              - sensor.ltv_today_kwh
+              - sensor.ltv_total_kwh
+              - sensor.ltv_voltage
+          - type: entities
+            title: Lounge Chairs Switch
+            entities:
+              - sensor.lch_current_w
+              - sensor.lch_current_a
+              - sensor.lch_today_kwh
+              - sensor.lch_total_kwh
+              - sensor.lch_voltage
+          
+
+      - id: fb34107bffdc4b65a7556769d383809f  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: entities
+            title: Study Printer Switch
+            entities:
+              - sensor.sps_current_w
+              - sensor.sps_current_a
+              - sensor.sps_today_kwh
+              - sensor.sps_total_kwh
+              - sensor.sps_voltage
+          - type: entities
+            title: Iron Switch
+            entities:
+              - sensor.dri_current_w
+              - sensor.dri_current_a
+              - sensor.dri_today_kwh
+              - sensor.dri_total_kwh
+              - sensor.dri_voltage
+       
+
+      - id: eae4498ad02d47249a09ebb28e6aee4f  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: entities
+            title: Pi-Hole
+            entities:
+              - sensor.pi_hole_ads_blocked_today
+              - sensor.pi_hole_dns_queries_today
+              - sensor.pi_hole_dns_unique_clients
+              - sensor.pi_hole_domains_blocked
+          - type: entities
+            title: Batteries
+            entities:
+              # smartthings reed switches
+              - sensor.back_door_state_battery
+              - sensor.front_door_state_battery
+              # nest protects
+              - sensor.back_hall_nest_protect_battery_health
+              - sensor.hallway_nest_protect_battery_health
+              # rest sensors
+              - sensor.bathroom_motion_sensor_battery_level
+              - sensor.ensuite_motion_sensor_battery_level
+              - sensor.garage_motion_sensor_battery_level
+              - sensor.laundry_motion_sensor_battery_level
+              # smartthings motion
+              - sensor.toilet_motion_battery
+              # custom component sensors
+              - sensor.bath_motion_batt
+              - sensor.ensuite_motion_batt
+              - sensor.garage_motion_batt
+              - sensor.laundry_motion_batt
+                       
+#################################################################################### calendars
+  - icon: mdi:calendar-clock
+    path: calendar
+    title: Calendar
+    theme: midnight #dark_theme
+    cards:
+      - id: 1b2cb302291e4b22be1652f26897b636  # Automatically created id
+        type: entities
+        title: Details
+        entities:
+          - input_boolean.send_message
+          - sensor.date
+          - sensor.time
+          - sensor.hass_calendar
+          - sensor.cook_calendar
+      - id: ac2601aca1a14dbca4103324da0ed665  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: entities
+            title: Next Event
+            entities:
+              - sensor.dandd_calendar
+              - sensor.cleaner_calendar
+              - sensor.bin_calendar
+              - sensor.recycling_calendar
+              - sensor.greenwaste_calendar
+              - sensor.skipbin_calendar
+          - type: entities
+            title: Special Timing
+            entities:
+              - sensor.morning_calendar
+              - sensor.tv_calendar
+              - sensor.guest_calendar
+      - id: b078c0bb9f0645ca8322c47a78eb477f  # Automatically created id
+        type: vertical-stack
+        cards:
+          - type: markdown
+            title: Calendar Automation
+            content: >
+              D&D - #DandD  - 8 day lead time<br /> <br />
+              Cleaner - #Cleaner - 1 day lead time<br /> <br />
+              Bin pick up - #Bin - 1 day lead time<br /> <br />
+              Recycling Bin pick up - #Recycling - 1 day lead time<br /> <br />
+              Green Waste Bin pick up - #Green - 1 day lead time<br /> <br />
+              Skip Bin pick up - #Skip - 1 day lead time<br /> <br /> 
+          - type: markdown
+            title: Special Timing Automation
+            content: >
+              Turn on Morning mode - #Morning <br /> <br />
+              Turn on/off TV - #TV <br /> <br />
+              Turn on/off Guest - #Guest <br /> <br />  ------------------------------------------------
+              <br /> <br />
+              [name] #cook - will set the Chef flag to [name] <br />
+
+#################################################################################### automation general
+  - icon: mdi:robot
+    path: automation
+    title: Automation
+    theme: midnight #dark_theme
+    cards:
+      - id: 802d7c64773e4c9c8ac4cde3372ac451  # Automatically created id
+        type: entities
+        title: Script
+        entities:
+          - script.auto_on
+          - script.auto_off
+          - automation.ifttt_trigger
+      - id: 0004eff484a547499abe4f144ee2b126  # Automatically created id
+        type: entities
+        title: Presence
+        entities:
+          - automation.presence_all_away_day
+          - automation.presence_all_away_evening
+          - automation.presence_all_someone_home_evening
+          - automation.presence_all_someone_home
+          - automation.presence_set_all_home
+          - automation.presence_set_all_away
+          - automation.presence_set_someone_home
+          - automation.presence_someone_opened_garage_door_night
+      - id: c8d213c3c12e4e39848a20d484d4cd4d  # Automatically created id
+        type: entities
+        title: Modes
+        entities:
+          - automation.mode_reconnect_hangouts
+          - automation.mode_set_morning
+          - automation.mode_set_day
+          - automation.mode_set_evening
+          - automation.mode_set_night
+          - automation.mode_set_returning
+          - automation.mode_settings_morning
+          - automation.mode_settings_day
+          - automation.mode_settings_evening
+          - automation.mode_settings_night
+          - automation.mode_settings_night_bedroom_dim
+      - id: 579eb2410d034c03a5cb82ec256b59b2  # Automatically created id
+        type: entities
+        title: Motion Modes
+        entities:
+          - automation.mode_set_bathroom_motion_off
+          - automation.mode_set_bathroom_on
+          - automation.mode_set_ensuite_motion_off
+          - automation.mode_set_ensuite_on
+          - automation.mode_set_laundry_motion_off
+          - automation.mode_set_laundry_on
+          - automation.mode_set_garage_motion_off
+          - automation.mode_set_garage_on
+          - automation.mode_set_toilet_motion_off
+          - automation.mode_set_toilet_on
+      - id: de7d500326a3479abe04cb37d572cb6f  # Automatically created id
+        type: entities
+        title: Remote
+        entities:
+          - automation.harmony_activity_select
+          - automation.harmony_state_change
+          - automation.harmony_tv_off_lightstrip_off
+          - automation.harmony_tv_on_lightstrip_on
+      - id: cf6fbaf4f45b47eaabf4c1b756f6a7c1  # Automatically created id
+        type: entities
+        title: Hue Remote
+        entities:
+          - automation.remote_set_morning
+          - automation.remote_set_day
+          - automation.remote_set_evening
+          - automation.remote_set_night
+          - automation.remote_set_night_all_off
+      - id: cf6fbaf4f45b47eaabf4c1b756f6a7cx  # Automatically created id
+        type: entities
+        title: Hue Bedroom Remote
+        entities:
+          - automation.bed_remote_megan_lamp_toggle
+          - automation.bed_remote_toggle_ensuite
+          - automation.bed_remote_toggle_lightstrip
+          - automation.bed_remote_simon_lamp_toggle
+          - automation.bed_remote_set_night_all_off
+      - id: cf6fbaf4f45b47eaabf4dafie56f6a7cx  # Automatically created id
+        type: entities
+        title: Hue Bedroom Remote
+        entities:
+          - automation.master_fan_off
+          - automation.master_fan_1
+          - automation.master_fan_2
+          - automation.master_fan_3
+          - automation.staci_fan_off
+          - automation.staci_fan_1
+          - automation.staci_fan_2
+          - automation.staci_fan_3
+          - automation.delia_fan_off
+          - automation.delia_fan_1
+          - automation.delia_fan_2
+          - automation.delia_fan_3
+
+#################################################################################### automation watchers
+  - icon: mdi:eye-outline
+    path: auto_watchers
+    title: Automation - Watchers
+    theme: midnight #dark_theme
+    cards:
+      - type: entities
+        title: Car Watchers
+        entities:
+          - automation.transport_car_connect_timer_start
+          - automation.transport_car_connect_timer_done
+
+      - type: entities
+        title: Transport Watchers
+        entities:
+          #- automation.transport_check_gps_delia
+          #- automation.transport_check_gps_megan
+          #- automation.transport_check_gps_simon
+          #- automation.transport_check_gps_staci
+          - automation.transport_delia_leave_tuggbus
+          - automation.transport_megan_enter_commbridge
+          - automation.transport_megan_enter_woden
+          - automation.transport_megan_enter_northquarter
+          - automation.transport_megan_leave_citybus
+          - automation.transport_simon_leave_anubus
+          - automation.transport_simon_leave_citywest
+          - automation.transport_simon_leave_tuggbus
+          - automation.transport_simon_leave_woden
+          - automation.transport_staci_enter_300timer
+          - automation.transport_staci_enter_calhospital
+          #- automation.transport_staci_leave_canhospital_66
+          - automation.transport_staci_leave_canhospital_67
+          - automation.transport_staci_enter_commbridge
+          - automation.transport_staci_leave_citybus
+          - automation.transport_staci_leave_haydondr
+          - automation.transport_staci_stop_citytimer
+          
+      - type: entities
+        title: Motion Sensors
+        entities:
+          - automation.motion_bathroom_motion
+          - automation.motion_bathroom_no_motion_timer_on
+          - automation.motion_bathroom_timer_done
+          - automation.motion_bathroom_on_motion
+          - automation.motion_bathroom_on_motion_night
+          - automation.motion_bathroom_off_light
+          - automation.motion_ensuite_motion
+          - automation.motion_ensuite_no_motion_timer_on
+          - automation.motion_ensuite_timer_done
+          - automation.motion_ensuite_on_motion
+          - automation.motion_ensuite_on_motion_night
+          - automation.motion_ensuite_on_motion_morning
+          - automation.motion_ensuite_off_light
+          - automation.motion_laundry_motion
+          - automation.motion_laundry_no_motion_timer_on
+          - automation.motion_laundry_timer_done
+          - automation.motion_laundry_on_motion
+          - automation.motion_laundry_on_motion_night
+          - automation.motion_laundry_off_light
+          - automation.motion_garage_motion
+          - automation.motion_garage_no_motion_timer_on
+          - automation.motion_garage_timer_done
+          - automation.motion_garage_on_motion
+          - automation.motion_garage_off_light
+          - automation.motion_toilet_motion
+          - automation.motion_toilet_no_motion_timer_on
+          - automation.motion_toilet_timer_done
+          - automation.motion_toilet_on_motion
+          - automation.motion_toilet_on_motion_night
+          - automation.motion_toilet_off_light
+          
+      - type: entities
+        title: Calendar Watchers
+        entities:
+          - automation.calendar_check_flags
+          - automation.calendar_guest_off
+          - automation.calendar_guest_on
+          - automation.calendar_morning_mode_on
+          - automation.calendar_tv_off
+          - automation.calendar_tv_on
+
+
+#################################################################################### floorplan
+  - icon: mdi:home-circle
+    path: floorplan
+    title: Floorplan
+    panel: true
+    theme: midnight #dark_theme
+    cards:
+      - type: picture-elements
+        image: /local/pics/rushbrook.png
+        elements:
+          - type: state-icon                # Study light
+            tap_action:
+              action: toggle
+            entity: light.study
+            style:
+              top: 47%
+              left: 17%
+          - type: state-icon                # Study switch
+            tap_action:
+              action: toggle
+            entity: switch.study_printer
+            style:
+              top: 43%
+              left: 13%
+          - type: state-icon                # bathroom light
+            tap_action:
+              action: toggle
+            entity: light.bathroom
+            style:
+              top: 36%
+              left: 17%
+          - type: state-icon               # ensuite light
+            tap_action:
+              action: toggle
+            entity: light.ensuite
+            style:
+              top: 57%
+              left: 17%
+          - type: state-icon              # master lightstrip
+            tap_action:
+              action: toggle
+            entity: light.master_lightstrip
+            style:
+              top: 70%
+              left: 14%
+          - type: state-icon              # delia's lamp
+            tap_action:
+              action: toggle
+            entity: light.delias
+            style:
+              top: 24%
+              left: 17%
+          - type: state-icon              # staci's lamp
+            tap_action:
+              action: toggle
+            entity: light.stacis_lamp
+            style:
+              top: 24%
+              left: 39%
+          - type: state-icon              # staci's light
+            tap_action:
+              action: toggle
+            entity: light.stacis_light
+            style:
+              top: 32%
+              left: 39%
+          - type: state-icon              # toilet
+            tap_action:
+              action: toggle
+            entity: light.toilet
+            style:
+              top: 26%
+              left: 26.5%
+          - type: state-icon              # back hall
+            tap_action:
+              action: toggle
+            entity: light.back_hall
+            style:
+              top: 33%
+              left: 26.5%
+          - type: state-icon              # living room
+            tap_action:
+              action: toggle
+            entity: light.living_room
+            style:
+              top: 49%
+              left: 34%
+          - type: state-icon              # front hall
+            tap_action:
+              action: toggle
+            entity: light.front_hall
+            style:
+              top: 65%
+              left: 31%
+          - type: state-icon              # front door light
+            tap_action:
+              action: toggle
+            entity: light.front_door
+            style:
+              top: 76%
+              left: 30.5%
+          - type: state-icon              # front garage light
+            tap_action:
+              action: toggle
+            entity: light.front_garage
+            style:
+              top: 76%
+              left: 83.75%
+          - type: state-icon              # near garage door
+            tap_action:
+              action: toggle
+            entity: cover.near_garage_door
+            style:
+              top: 75%
+              left: 78%
+          - type: state-icon              # garage light
+            tap_action:
+              action: toggle
+            entity: light.garage
+            style:
+              top: 58%
+              left: 80%
+          - type: state-icon              # laundry light
+            tap_action:
+              action: toggle
+            entity: light.laundry
+            style:
+              top: 54%
+              left: 65%
+          - type: state-icon              # kitchen lights
+            tap_action:
+              action: toggle
+            entity: light.kitchen
+            style:
+              top: 52%
+              left: 52%
+          - type: state-icon              # dining lights
+            tap_action:
+              action: toggle
+            entity: light.dining
+            style:
+              top: 65%
+              left: 63%
+          - type: state-icon              # lounge light
+            tap_action:
+              action: toggle
+            entity: light.lounge_light
+            style:
+              top: 65%
+              left: 43%
+          - type: state-icon              # lounge lamp
+            tap_action:
+              action: toggle
+            entity: light.lounge_lamp
+            style:
+              top: 70%
+              left: 48%
+          - type: state-icon              # lounge lightstrip
+            tap_action:
+              action: toggle
+            entity: light.lounge_lightstrip
+            style:
+              top: 61%
+              left: 48%
+          - type: state-icon                # tv switch
+            tap_action:
+              action: toggle
+            entity: switch.lounge_tv
+            style:
+              top: 61%
+              left: 41%
+          - type: state-icon                # chairs switch
+            tap_action:
+              action: toggle
+            entity: switch.lounge_chairs
+            style:
+              top: 70%
+              left: 54%
+          - type: state-icon                # iron switch
+            tap_action:
+              action: toggle
+            entity: switch.dining_room_iron
+            style:
+              top: 61%
+              left: 68%
+
+
+            
+          

@@ -1,0 +1,17 @@
+# These fields are documented in HAAuto
+
+#chairs
+#- platform: tplink
+#  host: 192.168.1.8
+
+#
+#- platform: tplink
+#  host: 192.168.1.9
+
+#tv
+#- platform: tplink
+#  host: 192.168.1.10
+
+#study
+#- platform: tplink
+#  host: 192.168.1.12

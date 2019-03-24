@@ -1,0 +1,68 @@
+
+- cal_id: hassio@thompson-hq.net
+  entities:
+  - device_id: hassiothompsonhqnet
+    ignore_availability: true
+    name: Hassio Calendar
+    track: true
+  - device_id: cleaner
+    name: Cleaner
+    track: true
+    search: "#Cleaner"
+  - device_id: dandd
+    name: D&D
+    track: true
+    search: "#DandD"
+  - device_id: bin
+    name: Bin
+    track: true
+    search: "#Bin"
+  - device_id: recycling
+    name: Recycling
+    track: true
+    search: "#Recycling"
+  - device_id: greenwaste
+    name: Green Waste
+    track: true
+    search: "#Green"
+  - device_id: skipbin
+    name: Skip Bin
+    track: true
+    search: "#Skip"
+  - device_id: morning
+    name: Morning
+    track: true
+    search: "#Morning"
+  - device_id: tv
+    name: TV
+    track: true
+    search: "#TV"
+  - device_id: cook
+    name: Cook
+    track: true
+    search: "#cook"
+  - device_id: guest
+    name: Guest
+    track: true
+    search: "#guest"
+
+- cal_id: '#contacts@group.v.calendar.google.com'
+  entities:
+  - device_id: contacts
+    ignore_availability: true
+    name: Contacts
+    track: true
+
+- cal_id: en.australian#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_australia
+    ignore_availability: true
+    name: Holidays in Australia
+    track: true
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: contacts
+    ignore_availability: true
+    name: Contacts
+    track: true

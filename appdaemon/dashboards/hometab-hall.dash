@@ -1,0 +1,179 @@
+##
+## Main arguments, all optional
+##
+title: Hall Panel
+widget_dimensions: [140, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 7
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+
+layout:
+    #- clock (2x1),                  myweather (2x2),            group.family_lights (2x1),      input_boolean.mode_evening
+    #- st_presence, d_presence,                                  group.back_hall (2x1),          input_boolean.mode_day
+    #- group.staci_bedroom (2x1),    group.delia_bedroom (2x1),  bth_select (2x1),               input_boolean.mode_morning
+    #- group.study,  group.toilet,   group.front_hall, group.living_lights, group.kitchen_lights, load_study_panel,       input_boolean.mode_night
+
+    - time_select (2x1),        fam_lights (2x1),           spacer,                             clock (2x1)
+    - spacer (2x1),             l_living,                   l_kitchen,              spacer,     myweather (2x2)
+    - bth_select (2x1),         l_toilet,                   l_fhall 
+    - d_presence,               l_delias (2x1),         l_bhall,        l_stacis (2x1),      st_presence
+
+
+#fd_select, ge_select
+
+
+fam_lights:
+    widget_type: group
+    entity: group.family_lights
+    title: Shared Lights
+    icon_on: mdi-home-heart
+    icon_off: mdi-home-heart
+
+l_delias:
+    widget_type: light
+    entity: light.delias
+    title: Delia Room
+    icon_on: mdi-seat-flat
+    icon_off: mdi-seat-flat
+
+l_stacis:
+    widget_type: light
+    entity: light.stacis
+    title: Staci Room
+    icon_on: mdi-seat-individual-suite
+    icon_off: mdi-seat-individual-suite
+
+l_toilet:
+    widget_type: light
+    entity: light.toilet
+    title: Toilet
+    icon_on: mdi-emoticon-poop
+    icon_off: mdi-emoticon-poop
+
+l_bhall:
+    widget_type: light
+    entity: light.girls_hall
+    title: Girls Hall
+    icon_on: mdi-door-closed
+    icon_off: mdi-door-closed
+
+l_fhall:
+    widget_type: light
+    entity: light.front_hall
+    title: Front Hall
+    icon_on: mdi-door
+    icon_off: mdi-door
+
+l_fext:
+    widget_type: light
+    entity: light.front_light
+    title: External Lights
+    icon_on: mdi-earth
+    icon_off: mdi-earth
+
+l_study:
+    widget_type: light
+    entity: light.study
+    title: Study
+    icon_on: mdi-desktop-tower
+    icon_off: mdi-desktop-tower
+
+l_living:
+    widget_type: light
+    entity: light.living_room
+    title: Living Room
+    icon_on: mdi-gamepad-variant
+    icon_off: mdi-gamepad-variant
+
+l_kitchen:
+    widget_type: light
+    entity: light.kitchen
+    title: Kitchen
+    icon_on: mdi-fridge
+    icon_off: mdi-fridge
+
+l_lounge:
+    widget_type: light
+    entity: light.lounge_room
+    title: Lounge Room
+    icon_on: mdi-sofa
+    icon_off: mdi-sofa
+
+
+clock:
+    widget_type: clock
+
+myweather:
+    widget_type: weather
+    units: "&deg;C"
+
+s_presence:
+    widget_type: device_tracker
+    title: Simon
+    device: sphone
+    icon_on: fa-male
+    icon_off: mdi-account-off
+    state_text: 1
+
+m_presence:
+    widget_type: device_tracker
+    title: Meg
+    device: mphone
+    icon_on: fa-female
+    icon_off: mdi-account-off
+    state_text: 1
+
+d_presence:
+    widget_type: device_tracker
+    title: Delia
+    device: dphone
+    icon_on: fa-female
+    icon_off: mdi-account-off
+    state_text: 1
+
+st_presence:
+    widget_type: device_tracker
+    title: Staci
+    device: stphone
+    icon_on: fa-female
+    icon_off: mdi-account-off
+    state_text: 1
+
+bth_select:
+    widget_type: input_select
+    title: Bathroom
+    entity: input_select.bshower
+
+ens_select:
+    widget_type: input_select
+    title: Ensuite
+    entity: input_select.eshower
+
+fd_select:
+    widget_type: input_select
+    title: Front Door
+    entity: input_select.fdoor
+
+ge_select:
+    widget_type: input_select
+    title: Garage Entry
+    entity: input_select.gdoor
+
+away_bool:
+    widget_type: input_boolean
+    title: Someone Away
+    entity: input_boolean.mode_away
+
+holi_bool:
+    widget_type: input_boolean
+    title: On Holidays
+    entity: input_boolean.mode_holiday
+
+time_select:
+    widget_type: input_select
+    title: House Mode
+    entity: input_select.time_mode

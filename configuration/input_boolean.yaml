@@ -1,0 +1,221 @@
+###################################
+##  walking Modes
+###################################
+
+mode_return_home:
+    name: People are travelling home
+    initial: off
+    icon: mdi:satellite-variant
+
+#walking depreciated with travel.py
+
+#walking_home_s:
+#    name: Simon might be walking home
+#    initial: off
+#    icon: mdi:walk
+
+#walking_home_m:
+#    name: Megan might be walking home
+#    initial: off
+#    icon: mdi:walk
+
+#walking_home_st:
+#    name: Staci might be walking home
+#    initial: off
+#    icon: mdi:walk
+
+#walking_home_d:
+#    name: Delia might be walking home
+#    initial: off
+#    icon: mdi:walk
+
+###################################
+## car Modes - no initial will keep the state between restarts
+###################################
+
+outback_just:
+    name: Someone has just connected to the outback
+    icon: mdi:car-connected
+
+simon_outback:
+    name: Simon is connected to the Outback
+    icon: mdi:car-connected
+
+simon_outback_home:
+    name: Simon is within 200m of home
+    icon: mdi:car-connected
+
+megan_outback:
+    name: Meg is connected to the Outback
+    icon: mdi:car-connected
+
+megan_outback_home:
+    name: Megan is within 200m of home
+    icon: mdi:car-connected
+
+###################################
+## car Modes for the girls - not used, tasker setup required on phones
+###################################
+
+staci_outback: #requires tasker - not being used
+    name: Staci is connected to the Outback
+    icon: mdi:car-connected
+    
+staci_outback_home: #requires tasker - not being used
+    name: Staci is within 200m of home
+    icon: mdi:car-connected
+    
+delia_outback: #requires tasker - not being used
+    name: Delia is connected to the Outback
+    icon: mdi:car-connected
+    
+delia_outback_home: #requires tasker - not being used
+    name: Delia is within 200m of home
+    icon: mdi:car-connected
+
+###################################
+##  bus Modes
+###################################
+
+bus_staci_300_city:
+    name: Staci might be on the 300 from City
+    initial: off
+
+bus_meg_300_city:
+    name: Meg might be on the 300 from City
+    initial: off
+
+###################################
+##  car Modes
+###################################
+
+
+car_meg_city:
+    name: Meg might be on heading to the car
+    initial: off
+
+###################################
+##  Presence Flags
+###################################
+
+presence_holiday:
+    name: Car Away
+    initial: off
+    icon: mdi:airplane-takeoff
+
+presence_away:
+    name: Someone away for the night
+    initial: off
+    icon: mdi:account-remove
+
+presence_guest:
+    name: Guest visiting (Someone home)
+    initial: off
+    icon: mdi:account-star
+
+###################################
+##  message Modes
+###################################
+
+send_message:
+    name: Trigger Calendar Messages
+    initial: off
+    icon: mdi:calendar-clock
+
+###################################
+##  iron Modes
+###################################
+
+iron_switch:
+    name: Iron Switch
+    initial: off
+    icon: mdi:tshirt-v
+
+###################################
+##  Doors
+###################################
+
+fdoor:
+    name: Front Door
+    initial: on
+    icon: mdi:key-variant
+
+gdoor:
+    name: Garage Entry
+    initial: on
+    icon: mdi:key-variant
+
+###################################
+##  Printer
+###################################
+
+ink_notify_system:
+    name: Printer Ink Message
+    initial: off
+    icon: mdi:printer-alert
+
+###################################
+##  Batteries
+###################################
+
+batt_notify_system:
+    name: Battery Message
+    initial: off
+    icon: mdi:battery-10
+
+###################################
+##  Pi Server
+###################################
+
+disk_notify_system:
+    name: Disk Message
+    initial: off
+    icon: mdi:harddisk
+
+cpu_notify_system:
+    name: CPU Message
+    initial: off
+    icon: mdi:gauge
+
+###################################
+##  Weather - not uesd?
+###################################
+
+#high_alert:
+#    name: High Message
+#    initial: off
+#    icon: mdi:brightness-7
+
+#low_alert:
+#    name: Low Message
+#    initial: off
+#    icon: mdi:snowflake
+
+###################################
+##  Motion Flags 
+###################################
+
+motion_in_bathroom:
+    name: Motion in the bathroom
+    initial: off
+    icon: mdi:run
+
+motion_in_laundry:
+    name: Motion in the Laundry
+    initial: off
+    icon: mdi:run
+
+motion_in_garage:
+    name: Motion in the Garage
+    initial: off
+    icon: mdi:run
+
+motion_in_ensuite:
+    name: Motion in the Ensuite
+    initial: off
+    icon: mdi:run
+
+motion_in_toilet:
+    name: Motion in the Toilet
+    initial: off
+    icon: mdi:run

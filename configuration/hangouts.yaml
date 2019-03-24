@@ -1,0 +1,30 @@
+######################################################
+#
+# allows conversations with HA through hangouts
+#
+######################################################
+
+default_conversations:
+  - id: !secret hangout_id
+error_suppressed_conversations:
+  - id: !secret hangout_id
+
+intents:
+  HangoutsHelp:
+    sentences:
+      - Help
+  HassLightSet:
+    sentences:
+      - Toggle {name}
+  WhereIs:
+    sentences:
+      - Where is {name}
+  Ping:
+    sentences:
+      - How many Conversations do you know
+  GarageCheck:
+    sentences:
+      - Is the garage door open
+  FrontCheck:
+    sentences:
+      - Is the front door locked

@@ -1,0 +1,58 @@
+# don't put these files onto GIT must be backed up and updated separately
+# A * ensures that everything will be ignored.
+*
+
+# You can whitelist files/folders with !, these will not be ignored.
+!*.yaml
+!.gitignore
+!*.md
+!*.py
+!*.conf
+!*.jpg
+!*.png
+!*.dash
+!*.js
+!automations/
+!configuration/
+!images/
+!custom_components/
+!custom_components/gtfs/
+!custom_components/huesensor/
+!appdaemon/
+!appdaemon/dashboards/
+!appdaemon/apps/
+!appdaemon/apps/kevo/
+!appdaemon/apps/modes/
+!appdaemon/apps/notifiers/
+!appdaemon/apps/travel/
+!appdaemon/apps/pykevoplus/
+!www/
+!www/icons/
+!www/icons/dark_sky/
+!www/pics/
+!www/plugins/
+!www/plugins/waze-card/
+
+# Ignore folders.
+.storage
+.cloud
+.google.token
+.uuid
+__pycache__/
+bs4/
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+apps.yaml
+appdaemon.yaml
+known_devices.yaml
+
+# just not important
+[Hh]ello.* 
+
+# ensure pictures of people are ignored
+Megan.jpg
+Simon.jpg
+Staci.jpg
+Delia.jpg

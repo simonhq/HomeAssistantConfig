@@ -1,0 +1,2 @@
+client_id: !secret ha_cal_client_id
+client_secret: !secret ha_cal_client_secret

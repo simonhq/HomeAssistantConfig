@@ -1,0 +1,412 @@
+
+###################################
+##  transport control
+###################################
+
+# check peoples logging when travel flag turns on - added to notifiers-general.py
+
+# - alias: transport_check_gps_simon
+#   trigger:
+#     - platform: state
+#       entity_id: input_boolean.mode_return_home
+#       to: 'on'
+#     - platform: state
+#       entity_id: group.simon
+#       to: 'not_home'
+#   condition:
+#     condition: and
+#     conditions:
+#     - condition: state
+#       entity_id: device_tracker.sphone_net
+#       state: 'not_home'
+#     - condition: template
+#       value_template: "{{ states('sensor.sphone_gps_up')|float > 2 }}"
+#   action:
+#     - service: notify.hang_home
+#       data: 
+#         message: "Hi Simon, logging hasn't reported for a while, can you check it please." 
+
+# - alias: transport_check_gps_megan
+#   trigger:
+#     - platform: state
+#       entity_id: input_boolean.mode_return_home
+#       to: 'on'
+#     - platform: state
+#       entity_id: group.megan
+#       to: 'not_home'
+#   condition:
+#     condition: and
+#     conditions:
+#     - condition: state
+#       entity_id: device_tracker.mphone_net
+#       state: 'not_home'
+#     - condition: template
+#       value_template: "{{ states('sensor.mphone_gps_up')|float > 2 }}"
+#   action:
+#     - service: notify.hang_home
+#       data: 
+#         message: "Hi Megan, logging hasn't reported for a while, can you check it please." 
+
+# - alias: transport_check_gps_staci
+#   trigger:
+#     - platform: state
+#       entity_id: input_boolean.mode_return_home
+#       to: 'on'
+#     - platform: state
+#       entity_id: group.staci
+#       to: 'not_home'
+#   condition:
+#     condition: and
+#     conditions:
+#     - condition: state
+#       entity_id: device_tracker.stphone_net
+#       state: 'not_home'
+#     - condition: template
+#       value_template: "{{ states('sensor.stphone_gps_up')|float > 2 }}"
+#   action:
+#     - service: notify.hang_home
+#       data: 
+#         message: "Hi Staci, logging hasn't reported for a while, can you check it please."
+
+# - alias: transport_check_gps_delia
+#   trigger:
+#     - platform: state
+#       entity_id: input_boolean.mode_return_home
+#       to: 'on'
+#     - platform: state
+#       entity_id: group.delia
+#       to: 'not_home'
+#   condition:
+#     condition: and
+#     conditions:
+#     - condition: state
+#       entity_id: device_tracker.dphone_net
+#       state: 'not_home'
+#     - condition: template
+#       value_template: "{{ states('sensor.dphone_gps_up')|float > 2 }}"
+#   action:
+#     - service: notify.hang_home
+#       data: 
+#         message: "Hi Delia, logging hasn't reported for a while, can you check it please."
+
+###################################
+##  car flag timer
+###################################
+
+- alias: transport_car_connect_timer_start
+  trigger:
+    - platform: state
+      entity_id: input_boolean.simon_outback
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.megan_outback
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.staci_outback
+      to: 'on'
+    - platform: state
+      entity_id: input_boolean.delia_outback
+      to: 'on'
+  action:
+    - service: timer.start
+      entity_id: timer.outback_just
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.outback_just
+
+# when timer finishes, turn off bool
+- alias: transport_car_connect_timer_done
+  trigger:
+    platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.outback_just
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.outback_just      
+
+###################################
+##  Megan leaving City - bus
+###################################
+
+- alias: transport_megan_leave_citybus
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.mphone
+      zone: zone.CityBus
+      event: leave
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.bus_meg_300_city
+
+- alias: transport_megan_enter_commbridge
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.mphone
+      zone: zone.CommBridge
+      event: enter
+  condition:
+    - condition: state
+      entity_id: input_boolean.bus_meg_300_city
+      state: 'on'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_megan
+        option: '{{"300C"}}'
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bus_meg_300_city
+
+- alias: transport_megan_enter_woden
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.mphone
+      zone: zone.WodenBus
+      event: enter
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_megan
+        option: '{{"300W"}}'
+
+###################################
+##  Megan leaving City - car
+###################################
+
+- alias: transport_megan_enter_northquarter
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.mphone
+      zone: zone.NorthQuarter
+      event: enter
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_megan
+        option: '{{"Car"}}'
+
+###################################
+##  Simon leaving City
+###################################
+
+- alias: transport_simon_leave_anubus
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sphone
+      zone: zone.ANUBus
+      event: leave
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_simon
+        option: '{{"300"}}'
+
+- alias: transport_simon_leave_woden
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sphone
+      zone: zone.WodenBus
+      event: leave
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_simon
+        option: '{{"300W"}}'
+
+- alias: transport_simon_leave_citywest
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sphone
+      zone: zone.CityWestBus
+      event: leave
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_simon
+        option: '{{"171"}}'
+
+###################################
+##  Simon leaving Tuggeranong
+###################################
+
+- alias: transport_simon_leave_tuggbus
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.sphone
+      zone: zone.TuggBus
+      event: leave
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_simon
+        option: '{{"Bus"}}'
+
+###################################
+##  Delia arriving home
+###################################
+
+- alias: transport_delia_leave_tuggbus
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.dphone
+      zone: zone.TuggBus
+      event: leave
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_delia
+        option: '{{"Bus"}}'
+
+#depreciated with travel.py
+# - alias: transport_delia_arrive_home
+#   trigger:
+#     - platform: zone
+#       entity_id: device_tracker.dphone
+#       zone: zone.Home
+#       event: enter
+#   action:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.trans_delia
+#         option: '{{"Home"}}'
+
+###################################
+##  Staci leaving CIT
+###################################
+
+# staci leaving cit - leaving the 300 stop, might be on the 300 or the 3
+
+- alias: transport_staci_leave_haydondr
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.stphone
+      zone: zone.HaydonDr
+      event: leave
+  action:
+    - service: timer.start
+      entity_id: timer.cit_travel
+    
+# staci leaving cit - timer runs down so on the 300
+
+- alias: transport_staci_enter_300timer
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.cit_travel
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_staci
+        option: '{{"300C"}}'
+
+# staci leaving cit - going into the hospital, definitely the 3
+
+- alias: transport_staci_enter_calhospital
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.stphone
+      zone: zone.CalHospital
+      event: enter
+  action:
+    - service: timer.cancel
+      entity_id: timer.cit_travel
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_staci
+        option: '{{"3"}}'
+
+# leaving canberra hospital - day
+
+- alias: transport_staci_leave_canhospital_67
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.stphone
+      zone: zone.CanHospital
+      event: leave
+  #condition:
+  #  - condition: time
+  #    before: '20:00:00'
+  action:
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_staci
+        option: '{{"67"}}'
+
+# leaving canberra hospital - night
+
+#- alias: transport_staci_leave_canhospital_66
+#  trigger:
+#    - platform: zone
+#      entity_id: device_tracker.stphone
+#      zone: zone.CanHospital
+#      event: leave
+#  condition:
+#    - condition: time
+#      after: '20:00:00'
+#  action:
+#    - service: input_select.select_option
+#      data_template:
+#        entity_id: input_select.trans_staci
+#        option: '{{"66"}}'
+
+
+#staci leaving the city bus station - might be on the 300, might be walking
+
+- alias: transport_staci_leave_citybus
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.stphone
+      zone: zone.CityBus
+      event: leave
+  action:
+    - service: homeassistant.turn_on
+      entity_id: input_boolean.bus_staci_300_city
+    - service: timer.start
+      entity_id: timer.maybe_travel
+
+#staci going over the bridge - is on the 300
+
+- alias: transport_staci_enter_commbridge
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.stphone
+      zone: zone.CommBridge
+      event: enter
+  action:
+    - service: timer.cancel
+      entity_id: timer.maybe_travel
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_staci
+        option: '{{"300H"}}'
+
+#staci still in the city
+
+- alias: transport_staci_stop_citytimer
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.maybe_travel
+  action:
+    - service: homeassistant.turn_off
+      entity_id: input_boolean.bus_staci_300_city
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.trans_staci
+        option: '{{"Nil"}}'
+
+#staci arrive home        
+# depreciated with travel.py
+# - alias: transport_staci_arrive_home
+#   trigger:
+#     - platform: zone
+#       entity_id: device_tracker.stphone
+#       zone: zone.Home
+#       event: enter
+#   action:
+#     - service: input_select.select_option
+#       data_template:
+#         entity_id: input_select.trans_staci
+#         option: '{{"Home"}}'
