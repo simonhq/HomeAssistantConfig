@@ -304,6 +304,10 @@ views:
               - switch.lounge_chairs
               - switch.study_printer
               - switch.dining_room_iron
+              - switch.simon_blanket
+              - switch.megan_blanket
+              - switch.staci_blanket
+              - switch.delia_blanket
           - type: entities
             title: Fans
             entities:
@@ -591,6 +595,10 @@ views:
                           - switch.study_printer
                           - switch.dining_room_iron
                           - switch.lounge_chairs
+                          - switch.simon_blanket
+                          - switch.megan_blanket
+                          - switch.staci_blanket
+                          - switch.delia_blanket
                         show_header_toggle: false
                       style:
                         background-color: rgba(0,0,0,1.0) #black background
@@ -985,6 +993,10 @@ views:
                               - binary_sensor.sw_tv
                               - binary_sensor.sw_chairs
                               - binary_sensor.sw_iron
+                              - binary_sensor.sw_sb
+                              - binary_sensor.sw_mb
+                              - binary_sensor.sw_stb
+                              - binary_sensor.sw_db
                           - type: custom:fold-entity-row
                             head: binary_sensor.sp_system
                             items:
@@ -1351,6 +1363,14 @@ views:
                 name: Monitors
               - entity: switch.dining_room_iron
                 name: Ironing
+              - entity: switch.simon_blanket
+                name: Blanket (S)
+              - entity: switch.megan_blanket
+                name: Blanket (M)
+              - entity: switch.staci_blanket
+                name: Blanket (St)
+              - entity: switch.delia_blanket
+                name: Blanket (D)
           - type: history-graph
             title: 'Motion Lights'
             entities:
@@ -1684,6 +1704,7 @@ views:
           - automation.mode_set_morning
           - automation.mode_set_day
           - automation.mode_set_evening
+          - automation.mode_settings_evening_blankets
           - automation.mode_set_night
           - automation.mode_set_returning
           - automation.mode_settings_morning

@@ -519,6 +519,30 @@
       device_class: plug
       #entity_picture_template: /local/pics/tplinkhs110.jpg 
       icon_template: mdi:toggle-switch
+    sw_sb:
+      value_template: "{{ is_state('device_tracker.simon_blanket', 'home') }}"
+      friendly_name: 'Simon Blanket'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:hotel
+    sw_mb:
+      value_template: "{{ is_state('device_tracker.megan_blanket', 'home') }}"
+      friendly_name: 'Megan Blanket'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:hotel
+    sw_stb:
+      value_template: "{{ is_state('device_tracker.staci_blanket', 'home') }}"
+      friendly_name: 'Staci Blanket'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:hotel
+    sw_db:
+      value_template: "{{ is_state('device_tracker.delia_blanket', 'home') }}"
+      friendly_name: 'Delia Blanket'
+      device_class: plug
+      #entity_picture_template: /local/pics/tplinkhs110.jpg 
+      icon_template: mdi:hotel
     sw_system:
       value_template: "{{ is_state('binary_sensor.sw_study', 'on') and is_state('binary_sensor.sw_tv', 'on') and is_state('binary_sensor.sw_chairs', 'on') and is_state('binary_sensor.sw_iron', 'on') }}"
       friendly_name: 'Switches'

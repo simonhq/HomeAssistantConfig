@@ -143,7 +143,13 @@
     - service: light.turn_off
       entity_id: 
         - light.ensuite_light
-        
+    - service: home_assistant.turn_off
+      entity_id: 
+        - switch.simon_blanket
+        - switch.megan_blanket
+        - switch.staci_blanket
+        - switch.delia_blanket
+
 ###################################
 ##  Day Mode
 ###################################
@@ -174,6 +180,10 @@
       entity_id: 
         - group.all_lights
         - switch.dining_room_iron
+        - switch.simon_blanket
+        - switch.megan_blanket
+        - switch.staci_blanket
+        - switch.delia_blanket
 
 ###################################
 ##  Evening Mode
@@ -212,6 +222,30 @@
       entity_id: light.master_lightstrip
       data:
           brightness: 200
+    
+
+# blankets
+- alias: mode_settings_evening_blankets
+  trigger:
+    - platform: state
+      entity_id: input_select.time_mode
+      to: 'Evening'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.presence_holiday
+      state: 'off' 
+    - condition: state
+      entity_id: binary_sensor.sbed #just checks one to turn on all beds
+      state: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: 
+        - switch.simon_blanket
+        - switch.megan_blanket
+        - switch.staci_blanket
+        - switch.delia_blanket
 
 ###################################
 ##  Night Mode
@@ -242,6 +276,12 @@
     - service: light.turn_off
       entity_id: 
         - group.family_lights
+    - service: homeassistant.turn_off #turn off the beds for night mode
+      entity_id: 
+        - switch.simon_blanket
+        - switch.megan_blanket
+        - switch.staci_blanket
+        - switch.delia_blanket
 
 - alias: mode_settings_night_bedroom_dim
   trigger:
