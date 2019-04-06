@@ -1,0 +1,103 @@
+##
+## Main arguments, all optional
+##
+title: Master Bedroom Panel
+widget_dimensions: [130, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 7
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+
+layout:
+    - time_select (2x1),                    clock (2x1),                           spacer,        fd_select,        fdoor
+    - presence_select (2x1),                myweather (2x2),                       spacer(2x1),                     bdoor
+    - guest_bool,           away_bool,                                             ens_select,    l_ensuite,        l_master       
+    - bool_returning,       spacer,         sensor.dark_sky_daily_summary (2x1),   fan_select,        sw_s_blanket,     sw_m_blanket               
+
+clock:
+    widget_type: clock
+
+myweather:
+    widget_type: weather
+    units: "&deg;C"
+
+l_master:
+    widget_type: light
+    entity: light.master_lightstrip
+    title: Master Glow
+    icon_on: mdi-lighthouse
+    icon_off: mdi-lightbulb-off-outline
+
+l_ensuite:
+    widget_type: light
+    entity: light.ensuite
+    title: Ensuite Lights
+    icon_on: mdi-lightbulb-on
+    icon_off: mdi-lightbulb-off-outline
+
+sw_s_blanket:
+    widget_type: switch
+    entity: switch.simon_blanket
+    title: Simon Blanket
+    icon_on: mdi-hotel
+    icon_off: mdi-bed-empty
+
+sw_m_blanket:
+    widget_type: switch
+    entity: switch.megan_blanket
+    title: Megan Blanket
+    icon_on: mdi-hotel
+    icon_off: mdi-bed-empty
+
+ens_select:
+    widget_type: input_select
+    title: Ensuite
+    entity: input_select.eshower
+
+fd_select:
+    widget_type: input_boolean
+    title: Front Door
+    entity: input_boolean.fdoor
+
+fdoor:
+    widget_type: binary_sensor
+    title: Front
+    entity: binary_sensor.fdoor_door
+
+bdoor:
+    widget_type: binary_sensor
+    title: Sliding
+    entity: binary_sensor.bdoor_door
+
+bool_returning:
+    widget_type: input_boolean
+    title: People Travelling Home
+    entity: input_boolean.mode_return_home
+
+away_bool:
+    widget_type: input_boolean
+    title: Someone Away
+    entity: input_boolean.presence_away
+
+guest_bool:
+    widget_type: input_boolean
+    title: Guest Visiting
+    entity: input_boolean.presence_guest
+
+presence_select:
+    widget_type: input_select
+    title: Presence
+    entity: input_select.presence_mode
+
+time_select:
+    widget_type: input_select
+    title: House Mode
+    entity: input_select.time_mode
+
+fan_select:
+    widget_type: input_select
+    title: Fan
+    entity: input_select.master_fan_flag
