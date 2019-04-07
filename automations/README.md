@@ -8,7 +8,7 @@ Here is an overview of the logic of some of the HA Automation.
 
 * I have a number of rooms with motion sensors in them, bathrooms, laundry and garage. While I want the lights to be on while people are using them, I also want to ensure that we are using electricity efficiently. Therefore I have setup the following logic to aim to use the lights only while the rooms are in use.
 
-![Motion Lights](images/motionlights.png)
+![Motion Lights](../images/motionlights.png)
 
 ### Hardware in use
 
