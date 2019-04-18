@@ -113,7 +113,7 @@
       to: 'Morning'
   action:
     - service: light.turn_on
-      entity_id: light.ensuite_spot
+      entity_id: light.ensuite
       data:
           brightness: 100
     - service: input_select.select_option
@@ -142,7 +142,7 @@
         - light.living_room
     - service: light.turn_off
       entity_id: 
-        - light.ensuite_light
+        - light.ensuite_2
     - service: home_assistant.turn_off
       entity_id: 
         - switch.simon_blanket
@@ -316,7 +316,7 @@
       to: 'Bathroom Off'
   action:
     - service: light.turn_off
-      entity_id: light.bathroom
+      entity_id: light.bathroom_2
 
 - alias: mode_set_bathroom_on
   trigger:
@@ -325,7 +325,7 @@
       to: 'Bathroom On'
   action:
     - service: light.turn_on
-      entity_id: light.bathroom
+      entity_id: light.bathroom_2
 
 ###################################
 ##  toilet Mode control
@@ -341,7 +341,7 @@
       to: 'Toilet Off'
   action:
     - service: light.turn_off
-      entity_id: light.toilet
+      entity_id: light.toilet_2
 
 - alias: mode_set_toilet_on
   trigger:
@@ -350,7 +350,7 @@
       to: 'Toilet On'
   action:
     - service: light.turn_on
-      entity_id: light.toilet
+      entity_id: light.toilet_2
 
 ###################################
 ##  ensuite Mode control
@@ -366,7 +366,7 @@
       to: 'Ensuite Off'
   action:
     - service: light.turn_off
-      entity_id: group.ensuite
+      entity_id: group.ensuite_3
 
 - alias: mode_set_ensuite_on
   trigger:
@@ -375,7 +375,7 @@
       to: 'Ensuite On'
   action:
     - service: light.turn_on
-      entity_id: group.ensuite
+      entity_id: group.ensuite_3
 
 ###################################
 ##  laundry Mode control
@@ -391,7 +391,7 @@
       to: 'Laundry Off'
   action:
     - service: light.turn_off
-      entity_id: light.laundry
+      entity_id: light.laundry_2
 
 - alias: mode_set_laundry_on
   trigger:
@@ -400,7 +400,7 @@
       to: 'Laundry On'
   action:
     - service: light.turn_on
-      entity_id: light.laundry
+      entity_id: light.laundry_2
 
 ###################################
 ##  garage Mode control
@@ -416,7 +416,7 @@
       to: 'Garage Off'
   action:
     - service: light.turn_off
-      entity_id: light.garage
+      entity_id: light.garage_2
 
 - alias: mode_set_garage_on
   trigger:
@@ -425,6 +425,6 @@
       to: 'Garage On'
   action:
     - service: light.turn_on
-      entity_id: light.garage
+      entity_id: light.garage_2
 
 

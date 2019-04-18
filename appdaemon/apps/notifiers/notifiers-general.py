@@ -4,18 +4,10 @@
 
 import appdaemon.plugins.hass.hassapi as hass
 import time
+import globals
 
 class General_Messages(hass.Hass):
-
-    stnotify = "notify/push_staci"
-    snotify = "notify/push_simon"
-    mnotify = "notify/push_megan"
-    dnotify = "notify/push_delia"      
-    hnotify = "notify/push_hassio"
-    hangify = "notify/hang_home"
     
-    mess_platform = "Hangouts"
-
     mess = ""
     flag = 0
     washer = "Washing Machine stopped"
@@ -26,6 +18,10 @@ class General_Messages(hass.Hass):
     cpu = "Hassio Pi Server CPU is very high"
     
     def initialize(self):
+        
+        # bring in the messaging module
+        self.notifier = self.get_app('messaging')
+
         self.listen_state(self.disk_set, "binary_sensor.disk_alert")
         self.listen_state(self.cpu_set, "binary_sensor.cpu_alert")
 
@@ -57,11 +53,6 @@ class General_Messages(hass.Hass):
         self.listen_state(self.gps_notify, "sensor.stphone_gps_up")
         self.listen_state(self.gps_notify, "sensor.dphone_gps_up")
 
-        #set messaging platform
-        self.listen_state(self.mess_flag, "input_select.message_flag")
-        
-    def mess_flag(self, entity, attribute, old, new, kwargs):
-        self.mess_platform = self.get_state("input_select.message_flag")
 
     def ink_set(self, entity, attribute, old, new, kwargs):
         if new == "on":
@@ -79,49 +70,25 @@ class General_Messages(hass.Hass):
         if new == "on":
             self.turn_on("input_boolean.cpu_notify_system")
 
+
     def washing_notify(self, entity, attribute, old, new, kwargs):
         if new == "off":
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.washer)
-                self.call_service(self.snotify,message=self.washer)
-                self.call_service(self.stnotify,message=self.washer)
-                self.call_service(self.dnotify,message=self.washer)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.washer)
+            self.notifier.notify(self.washer)
 
     def drying_notify(self, entity, attribute, old, new, kwargs):
         if new == "off":
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.dryer)
-                self.call_service(self.snotify,message=self.dryer)
-                self.call_service(self.stnotify,message=self.dryer)
-                self.call_service(self.dnotify,message=self.dryer)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.dryer)
-    
+            self.notifier.notify(self.dryer)
+
     def disk_notify(self, entity, attribute, old, new, kwargs):
         if new == "off":
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.disk)
-                self.call_service(self.snotify,message=self.disk)
-                self.call_service(self.stnotify,message=self.disk)
-                self.call_service(self.dnotify,message=self.disk)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.disk)
-            
+            self.notifier.notify(self.disk)
             self.turn_off("input_boolean.disk_notify_system")
-
+            
     def cpu_notify(self, entity, attribute, old, new, kwargs):
         if new == "off":
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.cpu)
-                self.call_service(self.snotify,message=self.cpu)
-                self.call_service(self.stnotify,message=self.cpu)
-                self.call_service(self.dnotify,message=self.cpu)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.cpu)
-
+            self.notifier.notify(self.cpu)
             self.turn_off("input_boolean.cpu_notify_system")
+
 
     def printer_notify(self, entity, attribute, old, new, kwargs):
         if new == "on":
@@ -155,14 +122,7 @@ class General_Messages(hass.Hass):
 
             self.mess += self.printer            
             self.turn_off("input_boolean.ink_notify_system")
-
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.mess)
-                self.call_service(self.snotify,message=self.mess)
-                self.call_service(self.stnotify,message=self.mess)
-                self.call_service(self.dnotify,message=self.mess)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.mess)
+            self.notifier.notify(self.mess)
 
     def batt_notify(self, entity, attribute, old, new, kwargs):
         if new == "on":
@@ -195,15 +155,8 @@ class General_Messages(hass.Hass):
                     flag = 1
 
             self.mess += self.batt
-            self.turn_off("input_boolean.batt_notify_system")            
-
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.mess)
-                self.call_service(self.snotify,message=self.mess)
-                self.call_service(self.stnotify,message=self.mess)
-                self.call_service(self.dnotify,message=self.mess)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.mess)
+            self.turn_off("input_boolean.batt_notify_system")   
+            self.notifier.notify(self.mess)         
 
     def gps_notify(self, entity, attribute, old, new, kwargs):
         self.mess = ""
@@ -221,12 +174,7 @@ class General_Messages(hass.Hass):
             if float(self.get_state('sensor.dphone_gps_up')) >= 2:
                 self.mess = "Hi Delia, logging hasn't reported for a while, can you check it please."
 
-        if self.mess_platform == "Pushbullet":
-            self.call_service(self.mnotify,message=self.mess)
-            self.call_service(self.snotify,message=self.mess)
-            self.call_service(self.stnotify,message=self.mess)
-            self.call_service(self.dnotify,message=self.mess)
-        elif self.mess_platform == "Hangouts":
-            self.call_service(self.hangify,message=self.mess)
+        self.notifier.notify(self.mess)   
+       
 
 

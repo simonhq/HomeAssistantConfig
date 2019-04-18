@@ -44,9 +44,11 @@ bs4/
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
-apps.yaml
 appdaemon.yaml
 known_devices.yaml
+secrets.py
+
+#apps.yaml
 
 # just not important
 [Hh]ello.* 

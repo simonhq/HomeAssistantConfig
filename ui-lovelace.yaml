@@ -227,9 +227,9 @@ views:
           - type: entities
             title: Weather Forecast
             entities:
-              - sensor.dark_sky_daytime_high_temperature_0
-              - sensor.dark_sky_overnight_low_temperature_0
-              - sensor.dark_sky_precip_probability
+              - sensor.dark_sky_daytime_high_temperature_0d
+              - sensor.dark_sky_overnight_low_temperature_0d
+              - sensor.dark_sky_precip_probability_0d
               - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
               - sensor.dark_sky_daily_summary
               - sensor.season
@@ -320,20 +320,20 @@ views:
               - type: entity-filter
                 entities:
                   - light.kitchen     #kitchen_1, _2, _3, _4
-                  - light.laundry     #laundry_2
+                  - light.laundry_2   #laundry
                   - light.stacis      #stacis_lamp, _light
-                  - light.study       #study_2
-                  - light.toilet      #toilet_2
+                  - light.study_2     #study
+                  - light.toilet_2    #toilet
                   - light.lounge_room #lounge_lamp, _light
                   - light.living_room #living_1, _2, _3, _4
                   - light.girls_hall  #back_hall
-                  - light.garage      #garage_2
+                  - light.garage_2    #garage
                   - light.front_light #front_door, front_garage
-                  - light.front_hall  #front_hall_2
-                  - light.ensuite     #ensuite_spot, ensuite
-                  - light.dining      #dining_1, _2, _x, _4
+                  - light.front_hall_2  #front_hall
+                  - light.ensuite_3     #ensuite_2, ensuite
+                  - light.dining      #dining_1, _2, _3, _4
                   - light.delias      #delias_lamp
-                  - light.bathroom    #bathroom_2
+                  - light.bathroom_2    #bathroom
                   - light.lounge_lightstrip
                   - light.master_lightstrip
                 state_filter:
@@ -343,20 +343,20 @@ views:
               - type: entity-filter
                 entities:
                   - light.kitchen     #kitchen_1, _2, _3, _4
-                  - light.laundry     #laundry_2
+                  - light.laundry_2   #laundry
                   - light.stacis      #stacis_lamp, _light
-                  - light.study       #study_2
-                  - light.toilet      #toilet_2
+                  - light.study_2     #study
+                  - light.toilet_2    #toilet
                   - light.lounge_room #lounge_lamp, _light
-                  - light.living_room #living_1, _2
+                  - light.living_room #living_1, _2, _3, _4
                   - light.girls_hall  #back_hall
-                  - light.garage      #garage_2
+                  - light.garage_2    #garage
                   - light.front_light #front_door, front_garage
-                  - light.front_hall  #front_hall_2
-                  - light.ensuite     #ensuite_spot, ensuite
-                  - light.dining      #dining_1, _2
+                  - light.front_hall_2  #front_hall
+                  - light.ensuite_3     #ensuite_2, ensuite
+                  - light.dining      #dining_1, _2, _3, _4
                   - light.delias      #delias_lamp
-                  - light.bathroom    #bathroom_2
+                  - light.bathroom_2    #bathroom
                   - light.lounge_lightstrip
                   - light.master_lightstrip
                 state_filter:
@@ -552,8 +552,8 @@ views:
                         type: glance
                         entities:
                           - sensor.season
-                          - sensor.dark_sky_daytime_high_temperature_0
-                          - sensor.dark_sky_overnight_low_temperature_0
+                          - sensor.dark_sky_daytime_high_temperature_0d
+                          - sensor.dark_sky_overnight_low_temperature_0d
                           - sensor.dark_sky_precip_probability
                         show_header_toggle: false
                       style:
@@ -653,7 +653,7 @@ views:
                               - input_select.harmony
                               - input_select.channel
                           - type: custom:fold-entity-row
-                            head: light.master_lightstrip
+                            head: light.master_bedroom
                             items:
                               - light.master_lightstrip
                           - type: custom:fold-entity-row
@@ -713,13 +713,13 @@ views:
                               - light.front_door
                               - light.front_garage
                           - type: custom:fold-entity-row
-                            head: light.front_hall
+                            head: light.front_hall_2
                             items:
                               - light.front_hall
                           - type: custom:fold-entity-row
                             head: light.girls_hall
                             items:
-                              - light.girls_hall
+                              - light.back_hall
                           - type: custom:fold-entity-row
                             head: light.kitchen
                             items:
@@ -732,13 +732,17 @@ views:
                             items:
                               - light.living_1
                               - light.living_2
+                              - light.living_3
+                              - light.living_4
                           - type: custom:fold-entity-row
                             head: light.dining
                             items:
                               - light.dining_1
                               - light.dining_2
+                              - light.dining_3
+                              - light.dining_4
                           - type: custom:fold-entity-row
-                            head: light.study
+                            head: light.study_2
                             items:
                               - light.study
                           - type: custom:fold-entity-row
@@ -765,7 +769,7 @@ views:
                         type: entities
                         entities:
                           - type: custom:fold-entity-row
-                            head: light.ensuite
+                            head: light.ensuite_3
                             items:
                               - sensor.ensuite_motion_sensor_battery_level
                               - sensor.ensuite_temperature
@@ -775,7 +779,7 @@ views:
                               - input_boolean.motion_in_ensuite
                               - timer.ensuite_timer
                           - type: custom:fold-entity-row
-                            head: light.laundry
+                            head: light.laundry_2
                             items:
                               - sensor.laundry_motion_sensor_battery_level
                               - sensor.laundry_temperature
@@ -785,7 +789,7 @@ views:
                               - input_boolean.motion_in_laundry
                               - timer.laundry_timer
                           - type: custom:fold-entity-row
-                            head: light.bathroom
+                            head: light.bathroom_2
                             items:
                               - sensor.bathroom_motion_sensor_battery_level
                               - sensor.bathroom_temperature
@@ -795,7 +799,7 @@ views:
                               - input_boolean.motion_in_bathroom
                               - timer.bathroom_timer 
                           - type: custom:fold-entity-row
-                            head: light.garage
+                            head: light.garage_2
                             items:
                               - sensor.garage_motion_sensor_battery_level
                               - sensor.garage_temperature
@@ -805,7 +809,7 @@ views:
                               - input_boolean.motion_in_garage
                               - timer.garage_timer
                           - type: custom:fold-entity-row
-                            head: light.toilet
+                            head: light.toilet_2
                             items:
                               - sensor.toilet_motion_battery
                               - sensor.toilet_motion_temperature_measurement
@@ -1192,8 +1196,8 @@ views:
     # external
       - type: vertical-stack
         cards:
-          - type: weather-forecast
-            entity: weather.dark_sky
+      #    - type: weather-forecast
+      #      entity: weather.dark_sky
     # internal
           - type: custom:card-modder
             card:
@@ -1374,15 +1378,15 @@ views:
           - type: history-graph
             title: 'Motion Lights'
             entities:
-              - entity: light.ensuite
+              - entity: light.ensuite_3
                 name: Ensuite
-              - entity: light.bathroom
+              - entity: light.bathroom_2
                 name: Bathroom
-              - entity: light.laundry
+              - entity: light.laundry_2
                 name: Laundry
-              - entity: light.garage
+              - entity: light.garage_2
                 name: Garage
-              - entity: light.toilet
+              - entity: light.toilet_2
                 name: Toilet
           
       - type: custom:layout-card
@@ -1864,7 +1868,7 @@ views:
           - type: state-icon                # Study light
             tap_action:
               action: toggle
-            entity: light.study
+            entity: light.study_2
             style:
               top: 47%
               left: 17%
@@ -1878,14 +1882,14 @@ views:
           - type: state-icon                # bathroom light
             tap_action:
               action: toggle
-            entity: light.bathroom
+            entity: light.bathroom_2
             style:
               top: 36%
               left: 17%
           - type: state-icon               # ensuite light
             tap_action:
               action: toggle
-            entity: light.ensuite
+            entity: light.ensuite_3
             style:
               top: 57%
               left: 17%
@@ -1920,14 +1924,14 @@ views:
           - type: state-icon              # toilet
             tap_action:
               action: toggle
-            entity: light.toilet
+            entity: light.toilet_2
             style:
               top: 26%
               left: 26.5%
           - type: state-icon              # back hall
             tap_action:
               action: toggle
-            entity: light.back_hall
+            entity: light.girls_hall
             style:
               top: 33%
               left: 26.5%
@@ -1941,7 +1945,7 @@ views:
           - type: state-icon              # front hall
             tap_action:
               action: toggle
-            entity: light.front_hall
+            entity: light.front_hall_2
             style:
               top: 65%
               left: 31%
@@ -1969,14 +1973,14 @@ views:
           - type: state-icon              # garage light
             tap_action:
               action: toggle
-            entity: light.garage
+            entity: light.garage_2
             style:
               top: 58%
               left: 80%
           - type: state-icon              # laundry light
             tap_action:
               action: toggle
-            entity: light.laundry
+            entity: light.laundry_2
             style:
               top: 54%
               left: 65%

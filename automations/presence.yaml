@@ -109,13 +109,13 @@
     - service: light.turn_on
       entity_id: 
         - light.front_light
-        - light.front_hall
+        - light.front_hall_2
         - light.Kitchen
     - delay: '00:10:00'
     - service: light.turn_off
       entity_id: 
         - light.front_light
-        - light.front_hall
+        - light.front_hall_2
         - light.kitchen
     - service: homeassistant.turn_on
       entity_id: 

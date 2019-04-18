@@ -3,55 +3,57 @@
 ################################################################
 
 individual_lights:
-    - light.toilet_2
-    - light.study_2
-    - light.stacis_lamp
-    - light.stacis_light
+    - light.toilet
+    - light.study
+    - light.staci_s_lamp
+    - light.staci_s_light
     - light.lounge_lamp
     - light.lounge_light
     - light.living_1
     - light.living_2
+    - light.living_3
+    - light.living_4
     - light.laundry
     - light.kitchen_1
     - light.kitchen_2
     - light.kitchen_3
     - light.kitchen_4
-    - light.garage_2
-    - light.front_hall_2
+    - light.garage
+    - light.front_hall
     - light.front_garage
     - light.front_door
-    - light.ensuite_spot #spot
-    - light.ensuite_light #normal
+    - light.ensuite #spot
+    - light.ensuite_2 #normal
     - light.dining_1
     - light.dining_2
-    - light.delias_lamp
-    - light.bathroom_2
+    - light.delia_s_lamp
+    - light.bathroom
     - light.back_hall
     - light.master_lightstrip
     - light.lounge_lightstrip
 
 all_lights:
-    - light.kitchen         #kitchen_1, _2, _3, _4
-    - light.laundry_2       #laundry
-    - light.stacis          #stacis_lamp, _light
-    - light.study           #study_2
-    - light.toilet          #toilet_2
-    - light.lounge_room     #lounge_lamp, _light
-    - light.living_room     #living_1, _2
-    - light.girls_hall      #back_hall
-    - light.garage          #garage_2
-    - light.front_light     #front_door, front_garage
-    - light.front_hall      #front_hall_2
-    - light.ensuite         #ensuite_spot, ensuite_light
-    - light.dining          #dining_1, _2
+    - light.dining          #dining_1, _2, _3, _4
+    - light.toilet_2        #toilet
     - light.delias          #delias_lamp
-    - light.bathroom        #bathroom_2
+    - light.front_light     #front_door, front_garage
+    - light.lounge_room     #lounge_lamp, _light
+    - light.stacis          #stacis_lamp, _light
+    - light.bathroom_2      #bathroom
+    - light.girls_hall      #back_hall
+    - light.front_hall_2    #front_hall
+    - light.study_2         #study
+    - light.ensuite_3       #ensuite, ensuite_2 #spot, light
+    - light.laundry_2       #laundry
+    - light.living_room     #living_1, _2, _3, _4
+    - light.kitchen         #kitchen_1, _2, _3, _4
+    - light.garage_2        #garage
     - light.lounge_tv       #lounge_lightstrip
     - light.master_bedroom  #master_lightstrip
 
 ensuite:
-    - light.ensuite_spot #spot
-    - light.ensuite_light #normal
+    - light.ensuite #spot
+    - light.ensuite_2 #normal
 
 kitchen_prep_lights:
     - light.kitchen_2
@@ -71,10 +73,10 @@ family_lights:
     - light.living_room
     - light.lounge_room
     - light.girls_hall
-    - light.front_hall
-    - light.study
+    - light.front_hall_2
+    - light.study_2
     - light.laundry_2
-    - light.garage
+    - light.garage_2
     # - light.lounge_lightstrip
     # not toilet
     # not delias
@@ -84,11 +86,11 @@ family_lights:
     # not bedroom
 
 wetroom_lights:
-    - light.laundry_2       #laundry_2
-    - light.toilet          #toilet_2
-    - light.ensuite         #ensuite_spot, ensuite_2
-    - light.bathroom        #bathroom_2
-    - light.garage          #garage_2
+    - light.laundry_2         #laundry_2
+    - light.toilet_2          #toilet_2
+    - light.ensuite_3         #ensuite_spot, ensuite_2
+    - light.bathroom_2        #bathroom_2
+    - light.garage_2          #garage_2
 
 ################################################################
 # Presence

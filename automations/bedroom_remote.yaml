@@ -20,7 +20,7 @@
       to: '2_click'
   action:
     - service: light.toggle
-      entity_id: light.ensuite
+      entity_id: light.ensuite_3
       
 - alias: bed_remote_toggle_lightstrip
   trigger:
@@ -57,7 +57,7 @@
       entity_id: 
         - group.family_lights
         - light.master_lightstrip
-        - light.ensuite
+        - light.ensuite_3
         - remote.harmony_hub
     - service: homeassistant.turn_on
       entity_id: 

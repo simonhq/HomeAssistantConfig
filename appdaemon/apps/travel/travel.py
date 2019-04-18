@@ -3,20 +3,12 @@
 
 # Version 2 - March 2019
 
-
 import appdaemon.plugins.hass.hassapi as hass
 import time
+import globals
 
 class Travel_Messages(hass.Hass):
 
-    stnotify = "notify/push_staci"
-    snotify = "notify/push_simon"
-    mnotify = "notify/push_megan"
-    dnotify = "notify/push_delia"      
-    hnotify = "notify/push_hassio"
-    hangify = "notify/hang_home"
-    
-    mess_platform = "Hangouts"
     away_flag = "off"
 
     s_loc = "home"
@@ -38,6 +30,10 @@ class Travel_Messages(hass.Hass):
     e_mess = " minutes away via "
 
     def initialize(self):
+
+        # bring in the messaging module
+        self.notifier = self.get_app('messaging')
+
         # car connection messages
         self.listen_state(self.con_car, "binary_sensor.drive_meg")
         self.listen_state(self.con_car, "binary_sensor.drive_simon")
@@ -156,15 +152,9 @@ class Travel_Messages(hass.Hass):
                     self.turn_off('input_boolean.presence_holiday')
                     self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
                         
-            #send the message
-            if self.sendmess != "":
-                if self.mess_platform == "Pushbullet":
-                    self.call_service(self.mnotify,message=self.sendmess)
-                    self.call_service(self.snotify,message=self.sendmess)
-                    self.call_service(self.dnotify,message=self.sendmess)
-                    self.call_service(self.stnotify,message=self.sendmess)
-                elif self.mess_platform == "Hangouts":
-                    self.call_service(self.hangify,message=self.sendmess)
+        #send the message
+        if self.sendmess != "":
+            self.notifier.notify(self.sendmess)
 
     ###
     #   watches the connection to the car and send the appropriate message
@@ -217,13 +207,7 @@ class Travel_Messages(hass.Hass):
                 
             #send the message
             if self.sendmess != "":
-                if self.mess_platform == "Pushbullet":
-                    self.call_service(self.mnotify,message=self.sendmess)
-                    self.call_service(self.snotify,message=self.sendmess)
-                    self.call_service(self.dnotify,message=self.sendmess)
-                    self.call_service(self.stnotify,message=self.sendmess)
-                elif self.mess_platform == "Hangouts":
-                    self.call_service(self.hangify,message=self.sendmess)
+                self.notifier.notify(self.sendmess)
 
 
     ###
@@ -264,15 +248,9 @@ class Travel_Messages(hass.Hass):
             self.set_state("input_select.trav_megan", state="Walk")
 
 
+        #send the message
         if self.sendmess != "":
-            # send any messages from the different 
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.sendmess)
-                self.call_service(self.snotify,message=self.sendmess)
-                self.call_service(self.dnotify,message=self.sendmess)
-                self.call_service(self.stnotify,message=self.sendmess)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.sendmess)
+            self.notifier.notify(self.sendmess)
         
 
     def sim_trav(self, entity, attribute, old, new, kwargs):
@@ -310,15 +288,9 @@ class Travel_Messages(hass.Hass):
             self.set_state("input_select.trav_simon", state="Walk")
 
 
+        #send the message
         if self.sendmess != "":
-            # send any messages from the different 
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.sendmess)
-                self.call_service(self.snotify,message=self.sendmess)
-                self.call_service(self.dnotify,message=self.sendmess)
-                self.call_service(self.stnotify,message=self.sendmess)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.sendmess)
+            self.notifier.notify(self.sendmess)
       
 
     def sta_trav(self, entity, attribute, old, new, kwargs):
@@ -356,15 +328,9 @@ class Travel_Messages(hass.Hass):
             self.set_state("input_select.trav_staci", state="Walk")
         
 
+        #send the message
         if self.sendmess != "":
-            # send any messages from the different 
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.sendmess)
-                self.call_service(self.snotify,message=self.sendmess)
-                self.call_service(self.dnotify,message=self.sendmess)
-                self.call_service(self.stnotify,message=self.sendmess)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.sendmess)
+            self.notifier.notify(self.sendmess)
 
 
     def del_trav(self, entity, attribute, old, new, kwargs):
@@ -402,15 +368,9 @@ class Travel_Messages(hass.Hass):
             self.set_state("input_select.trav_delia", state="Walk")
         
 
+        #send the message
         if self.sendmess != "":
-            # send any messages from the different 
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.mnotify,message=self.sendmess)
-                self.call_service(self.snotify,message=self.sendmess)
-                self.call_service(self.dnotify,message=self.sendmess)
-                self.call_service(self.stnotify,message=self.sendmess)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hangify,message=self.sendmess)
+            self.notifier.notify(self.sendmess)
         
 
     ###

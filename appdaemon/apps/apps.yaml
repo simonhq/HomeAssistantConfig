@@ -1,0 +1,78 @@
+#################################################################
+## Global
+#################################################################
+global_modules:
+  - secrets
+  - globals
+#  - messenger
+
+#---
+#hello_world:
+#  module: hello
+#  class: HelloWorld
+
+messaging:
+  module: messenger
+  class: Messenger
+  channel: secret_discord_channel_id
+  userA: secret_discord_tag_simon
+  userB: secret_discord_tag_megan
+  userC: secret_discord_tag_staci
+  userD: secret_discord_tag_delia
+  global_dependencies:
+    - globals
+    - secrets
+
+general-messages:
+  module: notifiers-general
+  class: General_Messages
+  dependencies: 
+    - messaging
+  global_dependencies:
+    - globals
+    - secrets
+
+transport-messages:
+  module: notifiers-bus
+  class: Transport_Messages
+  dependencies: 
+    - messaging
+  global_dependencies:
+    - globals
+    - secrets
+
+travel:
+  module: travel
+  class: Travel_Messages
+  dependencies: 
+    - messaging
+  global_dependencies:
+    - globals
+    - secrets
+
+# turn back on in September - update
+#climate:
+#  module: climate
+#  class: Climate_Control
+
+front-lock:
+  module: locks
+  class: DoorLock
+  select_name: "fdoor"
+  lock_id: secret_flock_id
+  k_user: secret_kevo_email
+  k_pass: secret_kevo_pass
+  global_dependencies:
+    - globals
+    - secrets
+  
+garage-lock:
+  module: locks
+  class: DoorLock
+  select_name: "gdoor"
+  lock_id: secret_glock_id
+  k_user: secret_kevo_email 
+  k_pass: secret_kevo_pass
+  global_dependencies:
+    - globals
+    - secrets 

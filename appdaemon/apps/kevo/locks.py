@@ -3,14 +3,25 @@ import appdaemon.plugins.hass.hassapi as hass
 import datetime
 import random
 from pykevoplus import KevoLock
+import globals
 
 class DoorLock(hass.Hass):
 
+    lock = ""
+    kuser = ""
+    kpass = ""
+    sname = ""
+
     def initialize(self):
-             
+            
         #create and set instance variables
-        self.a_lock = KevoLock.FromLockID(self.args["lock_id"], self.args["k_user"], self.args["k_pass"])
-        self.select_name = 'input_boolean.' + self.args["select_name"]
+        self.lock = globals.get_arg(self.args, "lock_id")
+        self.kuser = globals.get_arg(self.args, "k_user")
+        self.kpass = globals.get_arg(self.args, "k_pass")
+        self.sname = globals.get_arg(self.args, "select_name")
+
+        self.a_lock = KevoLock.FromLockID(self.lock, self.kuser, self.kpass)
+        self.select_name = 'input_boolean.' + self.sname
 
         # locked = on , unlocked = off
 
@@ -18,7 +29,7 @@ class DoorLock(hass.Hass):
         self.listen_state(self.changer,  self.select_name)
         ti_now = datetime.datetime.now()
         r_next = random.randint(4,9)
-        self.log("Update " + self.args["select_name"] + " every " + str(r_next) + " minutes")
+        self.log("Update " + self.sname + " every " + str(r_next) + " minutes")
         self.run_every(self.lock_status, ti_now, r_next * 60)
                   
     def changer(self, entity, attribute, old, new, kwargs):

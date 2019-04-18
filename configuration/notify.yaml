@@ -27,6 +27,19 @@
   default_conversations:
     - id: !secret hangout_id
 
+#- platform: discord
+#  name: discord_thompson
+#  token: !secret discord_token
+
+- platform: rest
+  name: discord_webhook
+  method: POST
+  message_param_name: content
+  title_param_name: username
+  data:
+    username: Home Assistant
+  resource: !secret discord_webhook
+
 - name: email_dd
   platform: smtp
   server: smtp.gmail.com

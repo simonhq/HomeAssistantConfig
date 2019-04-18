@@ -203,6 +203,7 @@ cooking:
 message_flag:
   name: Message Platform
   options:
+    - Discord
     - Hangouts
     - Pushbullet
   initial: Hangouts
