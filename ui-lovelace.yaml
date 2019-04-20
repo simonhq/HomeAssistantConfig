@@ -1097,10 +1097,10 @@ views:
                               #- binary_sensor.samwash
                               #- binary_sensor.samdry
                               - binary_sensor.samwash_sw
-                              - sensor.washing_machine_washer_machine_state
-                              - sensor.washing_machine_washer_mode
-                              - sensor.washing_machine_washer_job_state
-                              - sensor.washing_machine_washer_completion_time
+                              - sensor.washer_samsung_washer_machine_state
+                              - sensor.washer_samsung_washer_mode
+                              - sensor.washer_samsung_washer_job_state
+                              - sensor.washer_samsung_washer_completion_time
                               - binary_sensor.samdry_sw
                               - sensor.tumble_dryer_dryer_machine_state
                               - sensor.tumble_dryer_dryer_mode

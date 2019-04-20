@@ -49,21 +49,18 @@ class Travel_Messages(hass.Hass):
         # delia car or walkbus
         self.listen_state(self.del_trav, "binary_sensor.delia_car")
         self.listen_state(self.del_trav, "binary_sensor.delia_walkbus")
-        #set messaging platform
-        self.listen_state(self.mess_flag, "input_select.message_flag")
+        
 
         # tasker proximity code - trial
         self.listen_state(self.arr_task, "input_boolean.simon_outback_home")
         self.listen_state(self.arr_task, "input_boolean.megan_outback_home")
-        self.listen_state(self.arr_task, "proximity.home_meg")
-        self.listen_state(self.arr_task, "proximity.home_simon")
         #these maybe needed if the girls starting driving - not implemented now
         #self.listen_state(self.arr_task, "input_boolean.staci_outback_home")
         #self.listen_state(self.arr_task, "input_boolean.delia_outback_home")
 
         # ha proximity code - doesn't work consistently due to gps
-        #self.listen_state(self.arr_prox, "proximity.home_meg")
-        #self.listen_state(self.arr_prox, "proximity.home_simon")
+        self.listen_state(self.arr_prox, "proximity.home_meg")
+        self.listen_state(self.arr_prox, "proximity.home_simon")
         #these maybe needed if the girls starting driving - not implemented now
         #self.listen_state(self.sta_prox, "proximity.home_staci")
         #self.listen_state(self.del_prox, "proximity.home_delia")
@@ -103,17 +100,56 @@ class Travel_Messages(hass.Hass):
             self.set_state("input_select.delia_fan_flag", state="Transition") #set to transition to ensure in correct state
             self.set_state("input_select.delia_fan_flag", state="Off")
 
+
     ###
-    #   This sets the correct messaging platform
+    #   This sets the proximity through the proximity platform
     ###
     
-    def mess_flag(self, entity, attribute, old, new, kwargs):
-        self.mess_platform = new
-
+    def arr_prox(self, entity, attribute, old, new, kwargs):
+        
+        self.sendmess = ""
+        
+        if new != "not_set":
+            # leaving/arriving canberra region
+            if entity == "proximity.home_simon":
+                if self.get_state("input_select.trav_simon") == "Car":
+                    if int(self.get_state("proximity.home_simon")) <= 1:
+                        if self.get_state("sensor.s_travel_direction") == "towards":
+                            # proximity under 1 kilometre, and arriving by car - open garage door
+                            self.call_service("cover/open_cover", entity_id = "cover.near_garage_door")
+                            self.sendmess = "Opening the Garage Door for Simon arriving by car (Proximity)"
+                    #holiday
+                    elif int(self.get_state("proximity.home_simon")) > 50:
+                        if self.get_state("input_boolean.presence_holiday") == 'off':
+                            self.turn_on('input_boolean.presence_holiday')
+                            self.sendmess = "Car is going outside Canberra Region, messages around driving disabled"
+                    #coming home from holiday
+                    elif int(self.get_state("proximity.home_simon")) < 50:
+                        if self.get_state("input_boolean.presence_holiday") == 'on':
+                            self.turn_off('input_boolean.presence_holiday')
+                            self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
+            elif entity == "proximity.home_meg":
+                if self.get_state("input_select.trav_megan") == "Car":
+                    if int(self.get_state("proximity.home_meg")) <= 1:
+                        if self.get_state("sensor.m_travel_direction") == "towards":
+                            # proximity under 1 kilometre, and arriving by car - open garage door
+                            self.call_service("cover/open_cover", entity_id = "cover.near_garage_door")
+                            self.sendmess = "Opening the Garage Door for Megan arriving by car (Proximity)"
+                    #holiday
+                    elif int(self.get_state("proximity.home_meg")) > 50:
+                        if self.get_state("input_boolean.presence_holiday") == 'off':
+                            self.turn_on('input_boolean.presence_holiday')
+                            self.sendmess = "Car is going outside Canberra Region, messages around driving disabled"
+                    #coming home from holiday
+                    elif int(self.get_state("proximity.home_meg")) < 50:
+                        if self.get_state("input_boolean.presence_holiday") == 'on':
+                            self.turn_off('input_boolean.presence_holiday')
+                            self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
+            
     ###
     #   watches the tasker proximity for Simon & Megan and if they are in the car, open the garage door
     ###
-
+    
     def arr_task(self, entity, attribute, old, new, kwargs):
  
         self.sendmess = ""
@@ -122,35 +158,11 @@ class Travel_Messages(hass.Hass):
         if entity == "input_boolean.simon_outback_home" and new == "on": #simon coming home via tasker
             if self.get_state("binary_sensor.drive_simon") == "on" and self.get_state("input_boolean.outback_just") == "off": #is driving and not just started the car
                 self.call_service("cover/open_cover", entity_id = "cover.near_garage_door")
-                self.sendmess = "Opening the Garage Door for Simon arriving by car (Tasker Proximity)"
+                self.sendmess = "Opening the Garage Door for Simon arriving by car (Tasker/Proximity)"
         elif entity == "input_boolean.megan_outback_home" and new == "on": #simon coming home via tasker
             if self.get_state("binary_sensor.drive_meg") == "on" and self.get_state("input_boolean.outback_just") == "off": #is driving and not just started the car
                 self.call_service("cover/open_cover", entity_id = "cover.near_garage_door")
-                self.sendmess = "Opening the Garage Door for Megan arriving by car (Tasker Proximity)"
-
-        # leaving/arriving canberra region
-        elif entity == "proximity.home_simon":
-            #holiday
-            if int(self.get_state("proximity.home_simon")) > 50:
-                if self.get_state("input_boolean.presence_holiday") == 'off':
-                    self.turn_on('input_boolean.presence_holiday')
-                    self.sendmess = "Car is going outside Canberra Region, messages around driving disabled"
-            #coming home from holiday
-            elif int(self.get_state("proximity.home_simon")) < 50:
-                if self.get_state("input_boolean.presence_holiday") == 'on':
-                    self.turn_off('input_boolean.presence_holiday')
-                    self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
-        elif entity == "proximity.home_meg":
-            #holiday
-            if int(self.get_state("proximity.home_meg")) > 50:
-                if self.get_state("input_boolean.presence_holiday") == 'off':
-                    self.turn_on('input_boolean.presence_holiday')
-                    self.sendmess = "Car is going outside Canberra Region, messages around driving disabled"
-            #coming home from holiday
-            elif int(self.get_state("proximity.home_meg")) < 50:
-                if self.get_state("input_boolean.presence_holiday") == 'on':
-                    self.turn_off('input_boolean.presence_holiday')
-                    self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
+                self.sendmess = "Opening the Garage Door for Megan arriving by car (Tasker/Proximity)"
                         
         #send the message
         if self.sendmess != "":
@@ -216,7 +228,7 @@ class Travel_Messages(hass.Hass):
     def meg_trav(self, entity, attribute, old, new, kwargs):
         
         self.sendmess = ""
-        
+
         ### Showing as just arrived home
         if self.get_state("input_select.trav_megan") != 'Home' and self.get_state("person.megan") == 'home' and self.get_state('binary_sensor.drive_meg') == 'off':
             # if both of these are true then Meg must have just arrived home (as the sensors are only true when not_home)
@@ -243,15 +255,20 @@ class Travel_Messages(hass.Hass):
 
         ### Showing walking or catching the bus, nothing specific here now 
         elif self.get_state("binary_sensor.megan_walkbus") == 'on':
-
-            # set Megan to being walking
-            self.set_state("input_select.trav_megan", state="Walk")
-
+            
+            #wait for a time to ensure not yet at home when you disconnect from the car
+            self.handle = self.run_in(self.meg_walk, 180, **kwargs)
 
         #send the message
         if self.sendmess != "":
             self.notifier.notify(self.sendmess)
         
+    def meg_walk(self, entity, attribute, old, new, kwargs):
+
+        if self.get_state("input_select.trav_megan") != 'Home' and self.get_state("binary_sensor.megan_walkbus") == 'on':
+            # set Megan to being walking
+            self.set_state("input_select.trav_megan", state="Walk")
+
 
     def sim_trav(self, entity, attribute, old, new, kwargs):
         
@@ -284,14 +301,18 @@ class Travel_Messages(hass.Hass):
         ### Showing walking or catching the bus, nothing specific here now 
         elif self.get_state("binary_sensor.simon_walkbus") == 'on':
 
-            # set Simon to being walking
-            self.set_state("input_select.trav_simon", state="Walk")
-
+             #wait for a time to ensure not yet at home when you disconnect from the car
+            self.handle = self.run_in(self.sim_walk, 180, **kwargs)
 
         #send the message
         if self.sendmess != "":
             self.notifier.notify(self.sendmess)
       
+    def sim_walk(self, entity, attribute, old, new, kwargs):
+
+        if self.get_state("input_select.trav_simon") != 'Home' and self.get_state("binary_sensor.simon_walkbus") == 'on':
+            # set Simon to being walking
+            self.set_state("input_select.trav_simon", state="Walk")
 
     def sta_trav(self, entity, attribute, old, new, kwargs):
         
@@ -367,66 +388,12 @@ class Travel_Messages(hass.Hass):
             # set Delia to being walking
             self.set_state("input_select.trav_delia", state="Walk")
         
-
         #send the message
         if self.sendmess != "":
             self.notifier.notify(self.sendmess)
         
 
-    ###
-    #   watches the proximity for Simon & Megan and if they are in the car, open the garage door
-    ###
-
-    # def arr_prox(self, entity, attribute, old, new, kwargs):
- 
-    #     self.sendmess = ""
-
-    #     if new != "not_set":
-    #         if entity == "proximity.home_meg":
-    #             if self.get_state("input_select.trav_megan") == "Car":
-    #                 #coming home
-    #                 if int(self.get_state("proximity.home_meg")) <= 1:
-    #                     if self.get_state("sensor.m_travel_direction") == "towards":
-    #                         # proximity under 1 kilometre, and arriving by car - open garage door
-    #                         self.call_service("cover/open_cover", entity_id = "cover.near_garage_door")
-    #                         self.sendmess = "Opening the Garage Door for Megan arriving by car (Proximity)"
-    #                 #holiday
-    #                 elif int(self.get_state("proximity.home_meg")) > 50:
-    #                     if self.get_state("input_boolean.presence_holiday") == 'off':
-    #                         self.turn_on('input_boolean.presence_holiday')
-    #                         self.sendmess = "Car is going outside Canberra Region, messages around driving disabled"
-    #                 #coming home from holiday
-    #                 elif int(self.get_state("proximity.home_meg")) < 50:
-    #                     if self.get_state("input_boolean.presence_holiday") == 'on':
-    #                         self.turn_off('input_boolean.presence_holiday')
-    #                         self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
-    #         elif entity == "proximity.home_simon":
-    #             if self.get_state("input_select.trav_simon") == "Car":
-    #                 if int(self.get_state("proximity.home_simon")) <= 1:
-    #                     if self.get_state("sensor.s_travel_direction") == "towards":
-    #                         # proximity under 1 kilometre, and arriving by car - open garage door
-    #                         self.call_service("cover/open_cover", entity_id = "cover.near_garage_door")
-    #                         self.sendmess = "Opening the Garage Door for Simon arriving by car (Proximity)"
-    #                 #holiday
-    #                 elif int(self.get_state("proximity.home_simon")) > 50:
-    #                     if self.get_state("input_boolean.presence_holiday") == 'off':
-    #                         self.turn_on('input_boolean.presence_holiday')
-    #                         self.sendmess = "Car is going outside Canberra Region, messages around driving disabled"
-    #                 #coming home from holiday
-    #                 elif int(self.get_state("proximity.home_simon")) < 50:
-    #                     if self.get_state("input_boolean.presence_holiday") == 'on':
-    #                         self.turn_off('input_boolean.presence_holiday')
-    #                         self.sendmess = "Car has returned to the Canberra Region, messages around driving enabled"
-                        
-    #         #send the message
-    #         if self.sendmess != "":
-    #             if self.mess_platform == "Pushbullet":
-    #                 self.call_service(self.mnotify,message=self.sendmess)
-    #                 self.call_service(self.snotify,message=self.sendmess)
-    #                 self.call_service(self.dnotify,message=self.sendmess)
-    #                 self.call_service(self.stnotify,message=self.sendmess)
-    #             elif self.mess_platform == "Hangouts":
-    #                 self.call_service(self.hangify,message=self.sendmess)        
+    
 
 
 
