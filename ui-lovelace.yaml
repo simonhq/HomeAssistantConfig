@@ -147,6 +147,7 @@ views:
           - sun.sun
           - sensor.inside_now
           - sensor.bom_tuggeranong_isabella_plains_aws_feels_like_c
+          - input_boolean.fdoor
       - type: entity-filter
         entities:
           - binary_sensor.climate_optimal
@@ -169,10 +170,12 @@ views:
       - type: glance
         title: Next Bus
         entities:
-          - sensor.home_to_tugg_hour
-          - sensor.grove_to_tugg_hour
-          - sensor.home_to_city_hour
-          
+          - sensor.home_to_tugg_79_ej_format
+          - sensor.home_to_tugg_79_is_format
+          - sensor.home_to_tugg_78_is_format
+          - sensor.home_to_city_r5_out_format
+          - sensor.tugg_to_city_r4_format
+                    
       - type: entity-filter
         entities:
           #hubs
@@ -234,18 +237,6 @@ views:
               - sensor.dark_sky_daily_summary
               - sensor.season
               - sun.sun
-          - type: entities
-            title: Bus Times
-            entities:
-              - sensor.home_to_tugg_hour
-              - sensor.home_to_tugg_2_hour
-              - sensor.home_to_tugg_3_hour
-              - sensor.grove_to_tugg_hour
-              - sensor.grove_to_tugg_2_hour
-              - sensor.grove_to_tugg_3_hour
-              - sensor.home_to_city_hour
-              - sensor.home_to_city_2_hour
-              - sensor.home_to_city_3_hour
                   
       - id: 5f87f8c177fb449ba1ad6bfea6c93bef  # Automatically created id
         type: vertical-stack
@@ -1490,15 +1481,16 @@ views:
                 card:
                   type: entities
                   entities:
-                    - sensor.home_to_tugg_hour
-                    - sensor.home_to_tugg_2_hour
-                    - sensor.home_to_tugg_3_hour
-                    - sensor.grove_to_tugg_hour
-                    - sensor.grove_to_tugg_2_hour
-                    - sensor.grove_to_tugg_3_hour
-                    - sensor.home_to_city_hour
-                    - sensor.home_to_city_2_hour
-                    - sensor.home_to_city_3_hour
+                    - sensor.home_to_tugg_79_ej_format
+                    - sensor.home_to_tugg_79_ej_2_format
+                    - sensor.home_to_tugg_79_is_format
+                    - sensor.home_to_tugg_79_is_2_format
+                    - sensor.home_to_tugg_78_is_format
+                    - sensor.home_to_tugg_78_is_2_format
+                    - sensor.home_to_city_r5_out_format
+                    - sensor.home_to_city_r5_out_2_format
+                    - sensor.tugg_to_city_r4_format
+                    - sensor.tugg_to_city_r4_2_format
                 style:
                   background-color: rgba(0,0,0,1.0) #black background
                   border-radius: 10px 10px 10px 10px #rounded top/bottom left/right corners
@@ -1853,7 +1845,6 @@ views:
           - automation.calendar_morning_mode_on
           - automation.calendar_tv_off
           - automation.calendar_tv_on
-
 
 #################################################################################### floorplan
   - icon: mdi:home-circle

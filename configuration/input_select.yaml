@@ -206,7 +206,7 @@ message_flag:
     - Discord
     - Hangouts
     - Pushbullet
-  initial: Hangouts
+  initial: Discord
   icon: mdi:message
 
 ###################################

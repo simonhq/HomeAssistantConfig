@@ -31,8 +31,8 @@
 #  name: discord_thompson
 #  token: !secret discord_token
 
-- platform: rest
-  name: discord_webhook
+- name: discord_webhook
+  platform: rest
   method: POST
   message_param_name: content
   title_param_name: username

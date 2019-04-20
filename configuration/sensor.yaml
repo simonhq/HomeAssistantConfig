@@ -631,361 +631,240 @@
 # Buses
 #################################################################################################
 
-# from ellerston & johnson to tugg
-# - platform: gtfs
-#   name: bus_to_tugg_ej
-#   offset: 300 # 5 minute delay 
-#   origin: 1075
-#   destination: 13
-#   scan_interval: 60 # update each minute
-#   data: action.zip
+# 79 to tugg
+- platform: gtfs
+  name: home_to_tugg_79_ej
+  offset: 300 # 5min
+  origin: 1075 #e&j
+  destination: 13 #tugg arr
+  scan_interval: 60 #1min
+  data: action.zip
 
-# - platform: gtfs
-#   name: bus_to_tugg_ej_2
-#   offset: 300 # 5 minute delay 
-#   origin: 1075
-#   destination: 13
-#   scan_interval: 60 # update each minute
-#   data: action.zip
-#   position: 2
+- platform: gtfs
+  name: home_to_tugg_79_is
+  offset: 600 # 10min
+  origin: 1007 #isashops far
+  destination: 13 #tugg arr
+  scan_interval: 60 #1min
+  data: action.zip
 
-# - platform: gtfs
-#   name: bus_to_tugg_ej_3
-#   offset: 300 # 5 minute delay 
-#   origin: 1075
-#   destination: 13
-#   scan_interval: 60 # update each minute
-#   data: action.zip
-#   position: 3
+- platform: gtfs
+  name: home_to_tugg_79_ej_2
+  offset: 300 # 5min
+  origin: 1075 #e&j
+  destination: 13 #tugg arr
+  scan_interval: 60 #1min
+  data: action.zip
+  position: 2
 
-# #65 to tugger
-# - platform: gtfs
-#   name: bus_to_tugg_dg
-#   offset: 300 # 5 minute delay 
-#   origin: 1014
-#   destination: 13
-#   scan_interval: 60 # update each minute
-#   data: action.zip
+- platform: gtfs
+  name: home_to_tugg_79_is_2
+  offset: 600 # 10min
+  origin: 1007 #isashops far
+  destination: 13 #tugg arr
+  scan_interval: 60 #1min
+  data: action.zip
+  position: 2
 
-# - platform: gtfs
-#   name: bus_to_tugg_dg_2
-#   offset: 300 # 5 minute delay 
-#   origin: 1014
-#   destination: 13
-#   scan_interval: 60 # update each minute
-#   data: action.zip
-#   position: 2
+# 78 to tugg
+- platform: gtfs
+  name: home_to_tugg_78_is
+  offset: 600 # 10min
+  origin: 1008 #isashops near
+  destination: 13 #tugg arr
+  scan_interval: 60 #1min
+  data: action.zip
 
-# - platform: gtfs
-#   name: bus_to_tugg_dg_3
-#   offset: 300 # 5 minute delay 
-#   origin: 1014
-#   destination: 13
-#   scan_interval: 60 # update each minute
-#   data: action.zip
-#   position: 3
+- platform: gtfs
+  name: home_to_tugg_78_is_2
+  offset: 600 # 10min
+  origin: 1008 #isashops near
+  destination: 13 #tugg arr
+  scan_interval: 60 #1min
+  data: action.zip
+  position: 2
 
-# # from ellerston & johnson to city
-# - platform: gtfs
-#   name: bus_to_city_ej
-#   offset: 300 # 5 minute delay 
-#   origin: 1076
-#   destination: 3404
-#   scan_interval: 60 # update each minute
-#   data: action.zip
+# R5 north
+- platform: gtfs
+  name: home_to_city_r5_out
+  offset: 600 # 10min
+  origin: 1078 #outrim near
+  destination: 2709 #woden north
+  scan_interval: 60 #1min
+  data: action.zip
 
-# - platform: gtfs
-#   name: bus_to_city_ej_2
-#   offset: 300 # 5 minute delay 
-#   origin: 1076
-#   destination: 3404
-#   scan_interval: 60 # update each minute
-#   data: action.zip
-#   position: 2
+# R5 north
+- platform: gtfs
+  name: home_to_city_r5_out_2
+  offset: 600 # 10min
+  origin: 1078 #outrim near
+  destination: 2709 #woden north
+  scan_interval: 60 #1min
+  data: action.zip
+  position: 2
 
-# - platform: gtfs
-#   name: bus_to_city_ej_3
-#   offset: 300 # 5 minute delay 
-#   origin: 1076
-#   destination: 3404
-#   scan_interval: 60 # update each minute
-#   data: action.zip
-#   position: 3
+# R4 north
+- platform: gtfs
+  name: tugg_to_city_r4
+  offset: 1200 # 20min
+  origin: 1808 #tugg pt8
+  destination: 2709 #woden north
+  scan_interval: 60 #1min
+  data: action.zip
 
-#format bus sensors
+- platform: gtfs
+  name: tugg_to_city_r4_2
+  offset: 1200 # 20min
+  origin: 1808 #tugg pt8
+  destination: 2709 #woden north
+  scan_interval: 60 #1min
+  data: action.zip
+  position: 2
 
-# - platform: template
-#   sensors:
-# #block
-#     home_to_tugg_countdown:
-#       friendly_name: (E&J) to Tuggeranong
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_tugg_ej') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_tugg_2_countdown:
-#       friendly_name: (E&J) to Tuggeranong 2
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_tugg_ej_2') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_tugg_3_countdown:
-#       friendly_name: (E&J) to Tuggeranong 3
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_tugg_ej_3') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_tugg_hour:
-#       friendly_name: (E&J) to Tuggeranong
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_tugg_ej', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_tugg_ej', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_tugg_2_hour:
-#       friendly_name: (E&J) to Tugeranong (Next)
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_tugg_ej_2', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_tugg_ej_2', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_tugg_3_hour:
-#       friendly_name: (E&J) to Tuggeranong (After)
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_tugg_ej_3', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_tugg_ej_3', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-# #block
-#     home_to_city_countdown:
-#       friendly_name: (E&J) to City
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_city_ej') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_city_2_countdown:
-#       friendly_name: (E&J) to City 2
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_city_ej_2') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_city_3_countdown:
-#       friendly_name: (E&J) to City 3
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_city_ej_3') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_city_hour:
-#       friendly_name: (E&J) to City 
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_city_ej', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_city_ej', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_city_2_hour:
-#       friendly_name: (E&J) to City (Next) 
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_city_ej_2', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_city_ej_2', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     home_to_city_3_hour:
-#       friendly_name: (E&J) to City (After) 
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_city_ej_3', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_city_ej_3', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-# #block
-#     grove_to_tugg_countdown:
-#       friendly_name: (E&G) to Tugg
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_tugg_dg') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     grove_to_tugg_2_countdown:
-#       friendly_name: (E&G) to Tugg 2
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_tugg_dg_2') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     grove_to_tugg_3_countdown:
-#       friendly_name: (E&G) to Tugg 3
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set countdown = states('sensor.bus_to_tugg_dg_3') | int(-1) %}
-#         {% if countdown > 60 %}
-#           {% set hours = (countdown / 60) | int %}
-#           {% set minutes = countdown % 60 %}
-#           {% if minutes < 10 %}
-#             {% set minutes = '0' ~ minutes %}
-#           {% endif %}
-#           {{hours}}:{{minutes}}
-#         {% elif countdown >= 0 %}
-#           {{countdown}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     grove_to_tugg_hour:
-#       friendly_name: (E&G) to Tugg
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_tugg_dg', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_tugg_dg', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     grove_to_tugg_2_hour:
-#       friendly_name: (E&G) to Tugg (Next) 
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_tugg_dg_2', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_tugg_dg_2', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
-#     grove_to_tugg_3_hour:
-#       friendly_name: (E&G) to Tugg (After) 
-#       icon_template: mdi:bus
-#       value_template: >-
-#         {% set departure = state_attr('sensor.bus_to_tugg_dg_3', 'Origin Stop Departure Time') %}
-#         {% if departure != None %}
-#           {% set route = state_attr('sensor.bus_to_tugg_dg_3', 'Route Short Name') %}
-#           {% set departure = departure.split(' ') %}
-#           {% set hms = departure[1].split(':') %}
-#            {{ route }} at {{hms[0]}}:{{hms[1]}}
-#         {% else %}
-#           unknown
-#         {% endif %}
+#################################################################################################
+# Buses - formatted sensors
+#################################################################################################
+
+- platform: template
+  sensors:
+    #bus 1
+    home_to_tugg_79_ej_format:
+      friendly_name: Ell & Johnson (T)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_tugg_79_ej', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_tugg_79_ej', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_79_is_format:
+      friendly_name: Isa School
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_tugg_79_is', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_tugg_79_is', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    #bus 2
+    home_to_tugg_79_ej_2_format:
+      friendly_name: Ell & Johnson (T)(next)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_tugg_79_ej_2', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_tugg_79_ej_2', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+    home_to_tugg_79_is_2_format:
+      friendly_name: Isa School (next)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_tugg_79_is_2', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_tugg_79_is_2', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+
+    # home_to_tugg_78_is
+    home_to_tugg_78_is_format:
+      friendly_name: Isa Shops
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_tugg_78_is', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_tugg_78_is', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+      #bus 2
+    home_to_tugg_78_is_2_format:
+      friendly_name: Isa Shops (next)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_tugg_78_is_2', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_tugg_78_is_2', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+
+    # home_to_city_r5_out
+    home_to_city_r5_out_format:
+      friendly_name: Outtrim Av 
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_city_r5_out', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_city_r5_out', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+      #bus 2
+    home_to_city_r5_out_2_format:
+      friendly_name: Outtrim Av (next)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.home_to_city_r5_out_2', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.home_to_city_r5_out_2', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+
+    # tugg_to_city_r4
+    tugg_to_city_r4_format:
+      friendly_name: Tugg pt8
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.tugg_to_city_r4', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.tugg_to_city_r4', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}
+      #bus 2
+    tugg_to_city_r4_2_format:
+      friendly_name: Tugg pt8 (next)
+      icon_template: mdi:bus
+      value_template: >-
+        {% set departure = state_attr('sensor.tugg_to_city_r4_2', 'origin_stop_departure_time') %}
+        {% if departure != None %}
+          {% set route = state_attr('sensor.tugg_to_city_r4_2', 'route_route_short_name') %}
+          {% set departure = departure.split(' ') %}
+          {% set hms = departure[1].split(':') %}
+           {{ route }} at {{hms[0]}}:{{hms[1]}}
+        {% else %}
+          unknown
+        {% endif %}

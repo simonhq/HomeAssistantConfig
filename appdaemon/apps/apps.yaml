@@ -4,12 +4,6 @@
 global_modules:
   - secrets
   - globals
-#  - messenger
-
-#---
-#hello_world:
-#  module: hello
-#  class: HelloWorld
 
 messaging:
   module: messenger
@@ -23,6 +17,17 @@ messaging:
     - globals
     - secrets
 
+# calendars
+daily-messages:
+  module: notifiers
+  class: CalendarNotifier
+  dependencies: 
+    - messaging
+  global_dependencies:
+    - globals
+    - secrets
+
+# alerts
 general-messages:
   module: notifiers-general
   class: General_Messages
@@ -32,6 +37,7 @@ general-messages:
     - globals
     - secrets
 
+# bus messages
 transport-messages:
   module: notifiers-bus
   class: Transport_Messages
@@ -41,6 +47,7 @@ transport-messages:
     - globals
     - secrets
 
+# car
 travel:
   module: travel
   class: Travel_Messages

@@ -5,6 +5,7 @@
 
 import appdaemon.plugins.hass.hassapi as hass
 import time
+import globals
 
 class CalendarNotifier(hass.Hass):
     
@@ -17,16 +18,6 @@ class CalendarNotifier(hass.Hass):
     cleanerc = 1
     # month counts to calc offsets
     months = [0,31,28,31,30,31,30,31,31,30,31,30,31]
-
-    # how to send messages
-    stnotify = "notify/push_staci"
-    snotify = "notify/push_simon"
-    mnotify = "notify/push_megan"
-    dnotify = "notify/push_delia"
-    enotify = "notify/email_dd"
-    hnotify = "notify/hang_home"
-
-    mess_platform = "Hangouts"
     
     # messages
     bmessage = "Bin pick up is tomorrow, can it be put out please, Thanks!"
@@ -39,43 +30,18 @@ class CalendarNotifier(hass.Hass):
     omessage = ""
     mmessage = ""
     dtitle = ""
-    dmessage = """
-    Hi all,
-
-    I am the Thompson-HQ Home Assistant and I would like to help organise your next D&D Session.
-    I can't do much yet, but at least I can get you communicating!
-
-    Who is available?
-    
-    Player      |   THA     |   Siobhan |   Martino |   Michael |   Wenche  |   Brian   |   Megan   |   Simon   |
-    Avaiable    |   Y           
-    Venue Pref  |   O                     
-    Campaign    |   Ma
-    Food Pref   |   Other
-
-    Venues (SM Siobhan & Martino's, WB Wenche & Brian's, KM Ksenia & Michael's, MS Megan & Simon's, O Online)
-    Campaign (Pz Path to Zox, Dp Demon Pits, Ho Hobbitses, Am Amnesia, Ot games, Ma The Matrix)
-    Foods (Pizza, Turkish, Thai, Chicken&Chips, Other) 
-    
-    Hopefully this finds you well, and good luck for your adventures!
-
-    Yours in automation,
-
-    Thompson-HQ Home Assistant :)"""
 
     def initialize(self):
+
+        # bring in the messaging module
+        self.notifier = self.get_app('messaging')
+
         #cooking
         self.listen_state(self.cook_flag, "sensor.cook_calendar")
-        #set messaging platform
-        self.listen_state(self.mess_flag, "input_select.message_flag")
         #messaging
         self.listen_state(self.messages, "input_boolean.send_message", new = "on")
-        #self.listen_state(self.testcook, "input_boolean.send_message", new = "on")
         
-
-    def mess_flag(self, entity, attribute, old, new, kwargs):
-        self.mess_platform = self.get_state("input_select.message_flag")
-    
+   
     def cook_flag(self, entity, attribute, old, new, kwargs):
         v = self.get_state("sensor.cook_calendar")
         #self.log(v)
@@ -94,9 +60,6 @@ class CalendarNotifier(hass.Hass):
         elif cook == "Go" or cook == "go":
             self.set_state("input_select.cooking", state="Going Out")
     
-    def testcook(self, entity, attribute, old, new, kwargs):
-        self.cook_flag(entity, attribute, old, new, kwargs)
-
     def messages(self, entity, attribute, old, new, kwargs):
 
         dayw = time.strftime("%a")
@@ -138,10 +101,8 @@ class CalendarNotifier(hass.Hass):
         self.buildmorning()
         self.messager("Morning")
 
-        #self.log("turning off")
         #set the check flag back off after sending messages
         self.turn_off("input_boolean.send_message")
-        #self.log("turned off")
 
     # split the sensor to get the day, day month values
     # Thu 01/04 
@@ -162,20 +123,16 @@ class CalendarNotifier(hass.Hass):
         day = list(calstr)
         wday = day[7] + day[8]
         return int(wday)
-
-    def test(self):
-        self.buildmorning()
-        self.call_service(self.snotify,message=self.mmessage)
-
+    
     def buildmorning(self):
         self.mmessage = "Good Morning, \n\n"
         self.mmessage += self.omessage
         self.mmessage += "Cooking Tonight: " + self.get_state("input_select.cooking") + "\n\n"        
         self.mmessage += "Weather today: \n"
-        self.mmessage += "Min/Max: " + self.get_state("sensor.dark_sky_overnight_low_temperature_0") + "/" + self.get_state("sensor.dark_sky_daytime_high_temperature_0") + "\n"
-        self.mmessage += "Chance of Rain: " + self.get_state("sensor.dark_sky_precip_probability") + "\n"
-        self.mmessage += "Windspeed: " + self.get_state("sensor.dark_sky_wind_speed") + "\n"
-        self.mmessage += "UV Index: " + self.get_state("sensor.dark_sky_uv_index") + "\n"
+        self.mmessage += "Min/Max: " + self.get_state("sensor.dark_sky_overnight_low_temperature_0d") + "/" + self.get_state("sensor.dark_sky_daytime_high_temperature_0d") + "\n"
+        self.mmessage += "Chance of Rain: " + self.get_state("sensor.dark_sky_precip_probability_0d") + "\n"
+        self.mmessage += "Windspeed: " + self.get_state("sensor.dark_sky_wind_speed_0d") + "\n"
+        self.mmessage += "UV Index: " + self.get_state("sensor.dark_sky_uv_index_0d") + "\n"
         self.mmessage += "\nHave a great day"
         #self.log(self.mmessage)
 
@@ -216,19 +173,11 @@ class CalendarNotifier(hass.Hass):
         
         if mtype == "DD":
             self.log("dandd message")
-            self.call_service(self.snotify,message="D&D message sent")
-            self.call_service(self.enotify,title=self.dtitle,message=self.dmessage)
+            self.notifier.notify(self.dtitle, True)
         elif mtype == "Morning":
             self.log(self.mmessage)
-            #self.call_service("hangouts/send_message",target=[{ "name": "Home" }] ,message=[{ "text": self.mmessage }])
-            if self.mess_platform == "Pushbullet":
-                self.call_service(self.snotify,message=self.mmessage)
-                self.call_service(self.mnotify,message=self.mmessage)
-                self.call_service(self.stnotify,message=self.mmessage)
-                self.call_service(self.dnotify,message=self.mmessage)
-            elif self.mess_platform == "Hangouts":
-                self.call_service(self.hnotify,message=self.mmessage)
+            self.notifier.notify(self.mmessage)
         else:
             self.log("Unknown Message Call")
-            self.call_service(self.snotify,message="Unknown Message Call")
+            self.notifier.notify("Unknown Message Call")
 

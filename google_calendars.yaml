@@ -60,6 +60,13 @@
     name: Holidays in Australia
     track: true
 
+#- cal_id: addressbook#contacts@group.v.calendar.google.com
+#  entities:
+#  - device_id: contacts
+#    ignore_availability: true
+#    name: Contacts
+#    track: true
+
 - cal_id: addressbook#contacts@group.v.calendar.google.com
   entities:
   - device_id: contacts
